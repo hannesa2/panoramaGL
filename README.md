@@ -2,7 +2,7 @@
 
 PanoramaGL library was the first open source library in the world to see panoramic views on Android. This is a gradle built adaptation, along with other changes and updates.
 
-Temporal docs at the [original google code wiki](https://code.google.com/p/panoramagl-android/wiki/UserGuide#Introduction)
+Temporal docs about panorama object and json protocol the [original google code wiki](https://code.google.com/p/panoramagl-android/wiki/UserGuide#Introduction) and [here the new usage](#usage)
 
 The supported features in version 0.2 beta are:
 * SDK 2.0 to 5.+.
@@ -21,3 +21,76 @@ The supported features in version 0.2 beta are:
 * Creation of virtual tours using the JSON protocol or with programming.
 * Transitions between panoramas.
 * Support for events.
+*
+
+##Usage
+
+Create a `PLManager`object and add the bindings to the activity lifecycle methods:
+````
+    private PLManager plManager;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        plManager = new PLManager(this);
+        plManager.onCreate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        plManager.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        plManager.onPause();
+        super.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        plManager.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return plManager.onTouchEvent(event);
+    }
+````
+Next set the view, before calling `plManager.onCreate`:
+````
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        plManager = new PLManager(this);
+        plManager.setContentView(R.layout.activity_main);
+        plManager.onCreate();
+    }
+````
+
+Finally add the panorama you want, for example;
+````
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        plManager = new PLManager(this);
+        plManager.setContentView(R.layout.activity_main);
+        plManager.onCreate();
+
+        PLSphericalPanorama panorama = new PLSphericalPanorama();
+        panorama.getCamera().lookAt(30.0f, 90.0f);
+
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.raw.sighisoara_sphere), false));
+        plManager.setPanorama(panorama);
+    }
+````
+
+
+
+
+##ToDo
+* Separate View, ViewController, TouchController and SensorController
+
+##Done
+* Activity removed as the base extended class. Now it can be used with AppCompatActivity or others.
