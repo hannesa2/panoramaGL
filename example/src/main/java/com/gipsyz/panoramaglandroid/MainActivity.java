@@ -4,13 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.panoramagl.PLImage;
 import com.panoramagl.PLManager;
 import com.panoramagl.PLSphericalPanorama;
-import com.panoramagl.PLView;
 import com.panoramagl.utils.PLUtils;
 
 public class MainActivity extends AppCompatActivity {
