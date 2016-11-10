@@ -137,7 +137,8 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
 	private ProgressBar mProgressBar;
 	
 	private PLViewListener mListener;
-	
+	private boolean mIsZoomEnabled;
+
 	/**init methods*/
 	
 	protected void initializeValues()
@@ -185,6 +186,8 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
 		mCurrentDeviceOrientation = UIDeviceOrientation.UIDeviceOrientationPortrait;
 		
 		mFileDownloaderManager = new PLFileDownloaderManager();
+
+		mIsZoomEnabled = true;
 		
 		this.reset();
 		
@@ -833,7 +836,7 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
 	
 	protected boolean calculateFov(List<UITouch> touches)
 	{
-		if(touches.size() == 2)
+		if(touches.size() == 2 && isZoomEnabled())
 		{
 			mAuxiliarStartPoint.setValues(touches.get(0).locationInView(mGLSurfaceView));
 			mAuxiliarEndPoint.setValues(touches.get(1).locationInView(mGLSurfaceView));
@@ -879,7 +882,7 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
 			if(eventType == PLTouchEventType.PLTouchEventTypeBegan)
 				this.executeResetAction(touches);
 		}
-		else if(touchCount == 2)
+		else if(touchCount == 2 && isZoomEnabled())
 		{
 			boolean isNotCancelable = true;
 			if(mListener != null)
@@ -1752,7 +1755,15 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
         	this.setPanorama(null);
 	    }
 	}
-	
+
+	public boolean isZoomEnabled() {
+		return mIsZoomEnabled;
+	}
+
+	public void setZoomEnabled(boolean enabled) {
+		this.mIsZoomEnabled = enabled;
+	}
+
 	/**dealloc methods*/
 	
 	@Override

@@ -21,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
         plManager.setContentView(R.layout.activity_main);
         plManager.onCreate();
 
+        plManager.setAccelerometerEnabled(false);
+        plManager.setInertiaEnabled(false);
+        plManager.setZoomEnabled(false);
+        
         PLSphericalPanorama panorama = new PLSphericalPanorama();
-        panorama.getCamera().lookAt(30.0f, 90.0f);
+        panorama.getCamera().lookAtAndZoomFactor(5.f, 0f, 0.8f, false);
 
-        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.raw.sighisoara_sphere), false));
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.raw.row), false));
         plManager.setPanorama(panorama);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(getString(R.string.app_name));
 
     }
 

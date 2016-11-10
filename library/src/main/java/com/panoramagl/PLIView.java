@@ -176,4 +176,8 @@ public interface PLIView
 	/**clear methods*/
 	
 	void clear();
+
+	/**zoom enabled**/
+	boolean isZoomEnabled();
+	void setZoomEnabled(boolean enabled);
 }

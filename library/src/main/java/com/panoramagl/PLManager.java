@@ -27,6 +27,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -139,6 +140,7 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	private ProgressBar mProgressBar;
 	
 	private PLViewListener mListener;
+	private boolean mIsZoomEnabled;
 
 	public PLManager(Activity activity) {
 		this.activity = activity;
@@ -190,6 +192,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 		mCurrentDeviceOrientation = UIDeviceOrientation.UIDeviceOrientationPortrait;
 		
 		mFileDownloaderManager = new PLFileDownloaderManager();
+
+		mIsZoomEnabled = true;
 		
 		this.reset();
 		
@@ -745,7 +749,7 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	/**fov methods*/
 	
 	protected boolean calculateFov(List<UITouch> touches) {
-		if(touches.size() == 2) {
+		if(touches.size() == 2 && isZoomEnabled()) {
 			mAuxiliarStartPoint.setValues(touches.get(0).locationInView(mGLSurfaceView));
 			mAuxiliarEndPoint.setValues(touches.get(1).locationInView(mGLSurfaceView));
 			
@@ -788,7 +792,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 			if(eventType == PLTouchEventType.PLTouchEventTypeBegan)
 				this.executeResetAction(touches);
 		}
-		else if(touchCount == 2) {
+		else if(touchCount == 2 && isZoomEnabled()) {
+			Log.e("EEE", "touch2");
 			boolean isNotCancelable = true;
 			if(mListener != null)
 				isNotCancelable = mListener.onShouldBeginZooming(this);
@@ -1608,7 +1613,15 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
         	this.setPanorama(null);
 	    }
 	}
-	
+
+	public boolean isZoomEnabled() {
+		return mIsZoomEnabled;
+	}
+
+	public void setZoomEnabled(boolean enabled) {
+		this.mIsZoomEnabled = enabled;
+	}
+
 	/**dealloc methods*/
 	
 	public void onDestroy() {
