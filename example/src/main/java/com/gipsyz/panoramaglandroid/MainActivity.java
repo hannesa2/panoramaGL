@@ -2,7 +2,6 @@ package com.gipsyz.panoramaglandroid;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 
 import com.panoramagl.PLImage;
@@ -28,10 +27,8 @@ public class MainActivity extends AppCompatActivity {
         PLSphericalPanorama panorama = new PLSphericalPanorama();
         panorama.getCamera().lookAtAndZoomFactor(5.f, 0f, 0.8f, false);
 
-        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.raw.row), false));
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.raw.sighisoara_sphere), false));
         plManager.setPanorama(panorama);
-
-
     }
 
     @Override
