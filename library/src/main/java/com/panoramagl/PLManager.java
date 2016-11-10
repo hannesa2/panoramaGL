@@ -793,7 +793,6 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 				this.executeResetAction(touches);
 		}
 		else if(touchCount == 2 && isZoomEnabled()) {
-			Log.e("EEE", "touch2");
 			boolean isNotCancelable = true;
 			if(mListener != null)
 				isNotCancelable = mListener.onShouldBeginZooming(this);
