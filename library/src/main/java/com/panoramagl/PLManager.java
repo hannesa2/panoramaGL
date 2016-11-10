@@ -27,7 +27,6 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -70,7 +69,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListener {
 
 	private Activity activity;
-	private int layoutId;
+	private ViewGroup viewContainer;
 
 	/**member variables*/
 	
@@ -291,7 +290,7 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	        		});
 	            	mGLSurfaceView = new PLSurfaceView(getActivity(), mRenderer);
 	            	mPanorama = panorama;
-					activity.setContentView(this.onGLSurfaceViewCreated(mGLSurfaceView));
+					this.onGLSurfaceViewCreated(mGLSurfaceView);
 	            }
 		    }
 		    else
@@ -1890,8 +1889,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 		return this.onContentViewCreated(mContentLayout);
 	}
 
-	public void setContentView(int layoutId){
-		this.layoutId = layoutId;
+	public void setContentView(ViewGroup viewContainer){
+		this.viewContainer = viewContainer;
 	}
 	
 	/**
@@ -1901,12 +1900,10 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	 * @return root content view that Activity will use
      */
 	public View onContentViewCreated(View contentView) {
-		//Load layout
-		ViewGroup mainView = (ViewGroup)activity.getLayoutInflater().inflate(layoutId, null);
 		//Add 360 view
-		mainView.addView(contentView, 0);
+		viewContainer.addView(contentView, 0);
 		//Return root content view
-		return mainView;
+		return viewContainer;
 	}
 	
 	/**
