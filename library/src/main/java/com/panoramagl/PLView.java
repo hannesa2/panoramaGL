@@ -1936,8 +1936,7 @@ public class PLView extends Activity implements PLIView, SensorEventListener, On
 	
 	/**android: property methods*/
 	
-	@Override
-	public Activity getActivity()
+	public Activity getContext()
 	{
 		return this;
 	}

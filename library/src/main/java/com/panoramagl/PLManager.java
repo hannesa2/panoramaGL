@@ -17,7 +17,6 @@
 
 package com.panoramagl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
@@ -27,6 +26,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -34,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -68,7 +69,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListener {
 
-	private Activity activity;
+	private Context context;
 	private ViewGroup viewContainer;
 
 	/**member variables*/
@@ -141,8 +142,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	private PLViewListener mListener;
 	private boolean mIsZoomEnabled;
 
-	public PLManager(Activity activity) {
-		this.activity = activity;
+	public PLManager(Context context) {
+		this.context = context;
 	}
 
 	/**init methods*/
@@ -260,7 +261,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	        			public void rendererFirstChanged(GL10 gl, PLIRenderer render, int width, int height)
 	        			{
 	        				mGLContext = gl;
-	        				getActivity().runOnUiThread(new Runnable() {
+
+	        				new Handler(context.getMainLooper()).post(new Runnable() {
 								@Override
 								public void run() {
 									onGLContextCreated(mGLContext);
@@ -288,7 +290,7 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	        				}
 	        			}
 	        		});
-	            	mGLSurfaceView = new PLSurfaceView(getActivity(), mRenderer);
+	            	mGLSurfaceView = new PLSurfaceView(getContext(), mRenderer);
 	            	mPanorama = panorama;
 					this.onGLSurfaceViewCreated(mGLSurfaceView);
 	            }
@@ -1777,9 +1779,8 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	
 	/**android: property methods*/
 	
-	@Override
-	public Activity getActivity() {
-		return activity;
+	public Context getContext() {
+		return context;
 	}
 	
 	@Override
@@ -1802,8 +1803,9 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	
 	@Override
 	public CGSize getSize() {
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		final DisplayMetrics displayMetrics = new DisplayMetrics();
-		activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		display.getMetrics(displayMetrics);
 		return mTempSize.setValues(displayMetrics.widthPixels, displayMetrics.heightPixels);
 	}
 	
@@ -1830,9 +1832,9 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
     public void onCreate() {
         try
         {
-        	mSensorManager = (SensorManager)activity.getSystemService(Context.SENSOR_SERVICE);
+        	mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         	mGestureDetector = new GestureDetector (
-				activity,
+					context,
 				new SimpleOnGestureListener()
 				{
 					@Override
@@ -1877,12 +1879,12 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 	protected View onGLSurfaceViewCreated(GLSurfaceView glSurfaceView) {
 		for(int i = 0; i < kMaxTouches; i++)
 			mInternalTouches.add(new UITouch(glSurfaceView, new CGPoint(0.0f, 0.0f)));
-		mContentLayout = new RelativeLayout(activity);
+		mContentLayout = new RelativeLayout(context);
 		mContentLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		mContentLayout.addView(glSurfaceView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		LayoutParams progressBarLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		progressBarLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		mProgressBar = new ProgressBar(activity);
+		mProgressBar = new ProgressBar(context);
 		mProgressBar.setIndeterminate(true);
 		mProgressBar.setVisibility(View.GONE);
 		mContentLayout.addView(mProgressBar, progressBarLayoutParams);
@@ -1967,11 +1969,12 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 				}
 				break;
 			case Sensor.TYPE_ORIENTATION:
+				Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 				UIDeviceOrientation newOrientation = mCurrentDeviceOrientation;
-				switch(activity.getResources().getConfiguration().orientation)
+				switch(context.getResources().getConfiguration().orientation)
 				{
 					case Configuration.ORIENTATION_PORTRAIT:
-						switch(activity.getWindowManager().getDefaultDisplay().getOrientation())
+						switch(display.getOrientation())
 		            	{
 			            	case Surface.ROTATION_0:
 			            	case Surface.ROTATION_90:
@@ -1984,7 +1987,7 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
 		            	}
 						break;
 					case Configuration.ORIENTATION_LANDSCAPE:
-						switch(activity.getWindowManager().getDefaultDisplay().getOrientation())
+						switch(display.getOrientation())
 		            	{
 			            	case Surface.ROTATION_0:
 			            	case Surface.ROTATION_90:

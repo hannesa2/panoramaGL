@@ -18,7 +18,7 @@
 
 package com.panoramagl;
 
-import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 import com.panoramagl.downloaders.PLIFileDownloaderManager;
@@ -139,7 +139,7 @@ public interface PLIView
 	PLViewListener getListener();
 	void setListener(PLViewListener listener);
 	
-	Activity getActivity();
+	Context getContext();
 	GL10 getGLContext();
 	GLSurfaceView getGLSurfaceView();
 	CGSize getSize();

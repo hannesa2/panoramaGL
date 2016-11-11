@@ -18,6 +18,8 @@
 
 package com.panoramagl;
 
+import android.os.Handler;
+
 import com.panoramagl.computation.PLIntersection;
 import com.panoramagl.computation.PLVector3;
 import com.panoramagl.enumerations.PLSceneElementTouchStatus;
@@ -481,17 +483,17 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
 	
 	protected void performSceneElementOverEvent(PLIView view, PLISceneElement element, CGPoint screenPoint, PLPosition scene3DPoint)
 	{
-		view.getActivity().runOnUiThread(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOver));
+		new Handler(view.getContext().getMainLooper()).post(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOver));
 	}
 	
 	protected void performSceneElementClickEvent(PLIView view, PLISceneElement element, CGPoint screenPoint, PLPosition scene3DPoint)
 	{
-		view.getActivity().runOnUiThread(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusDown));
+		new Handler(view.getContext().getMainLooper()).post(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusDown));
 	}
 	
 	protected void performSceneElementOutEvent(PLIView view, PLISceneElement element, CGPoint screenPoint, PLPosition scene3DPoint)
 	{
-		view.getActivity().runOnUiThread(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOut));
+		new Handler(view.getContext().getMainLooper()).post(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOut));
 	}
 	
 	/**PLIReleaseView methods*/

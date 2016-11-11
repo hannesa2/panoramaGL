@@ -19,6 +19,7 @@
 package com.panoramagl.loaders;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
 
 import com.panoramagl.PLBlankPanorama;
 import com.panoramagl.PLConstants;
@@ -185,14 +186,14 @@ public class PLJSONLoader extends PLLoaderBase
 	
 	protected PLIImage getLocalImage(String url, PLTextureColorFormat colorFormat)
 	{
-		Bitmap bitmap = PLUtils.getBitmap(mView.getActivity().getApplicationContext(), url, colorFormat);
+		Bitmap bitmap = PLUtils.getBitmap(mView.getContext().getApplicationContext(), url, colorFormat);
 		return (bitmap != null ? new PLImage(bitmap, false) : null);
 	}
 	
 	protected PLIImage getLocalImageAsynchronously(String url, PLTextureColorFormat colorFormat)
 	{
 		PLIImage result = new PLImage();
-		mView.getDownloadManager().add(new PLLocalFileDownloader(mView.getActivity().getApplicationContext(), url, new PLImageFileDownloaderListener(result, colorFormat)));
+		mView.getDownloadManager().add(new PLLocalFileDownloader(mView.getContext().getApplicationContext(), url, new PLImageFileDownloaderListener(result, colorFormat)));
 		return result;
 	}
 	
@@ -207,7 +208,7 @@ public class PLJSONLoader extends PLLoaderBase
 				if(this.isHTTPURL(mURL))
 					new PLHTTPFileDownloader(mURL, listener).downloadAsynchronously();
 				else
-					new PLLocalFileDownloader(mView.getActivity().getApplicationContext(), mURL, listener).downloadAsynchronously();
+					new PLLocalFileDownloader(mView.getContext().getApplicationContext(), mURL, listener).downloadAsynchronously();
 			}
 			else if(mJSONData != null)
 				new Thread(new PLDataRunnable(listener, mURL, mJSONData, System.currentTimeMillis())).start();
@@ -442,7 +443,7 @@ public class PLJSONLoader extends PLLoaderBase
 	        	throw new RuntimeException("images property not exists");
 	        if(mIsPreloadingImages)
 	        	mView.getDownloadManager().start();
-	        mView.getActivity().runOnUiThread
+	        new Handler(mView.getContext().getMainLooper()).post
 	        (
 	        	new Runnable()
 	        	{
@@ -736,7 +737,7 @@ public class PLJSONLoader extends PLLoaderBase
 	{
 		if(runOnUiThread)
 		{
-			mView.getActivity().runOnUiThread
+			new Handler(mView.getContext().getMainLooper()).post
 			(
 				new Runnable()
 				{
@@ -766,7 +767,7 @@ public class PLJSONLoader extends PLLoaderBase
 	{
 		if(runOnUiThread)
 		{
-			mView.getActivity().runOnUiThread
+			new Handler(mView.getContext().getMainLooper()).post
 			(
 				new Runnable()
 				{
@@ -794,7 +795,7 @@ public class PLJSONLoader extends PLLoaderBase
 	
 	protected void didError(final Throwable e)
 	{
-		mView.getActivity().runOnUiThread
+		new Handler(mView.getContext().getMainLooper()).post
 		(
 			new Runnable()
 			{
