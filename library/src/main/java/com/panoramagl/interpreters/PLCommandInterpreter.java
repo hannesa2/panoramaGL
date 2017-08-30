@@ -18,6 +18,8 @@
 
 package com.panoramagl.interpreters;
 
+import android.os.Handler;
+
 import com.panoramagl.PLConstants;
 import com.panoramagl.PLICamera;
 import com.panoramagl.PLIView;
@@ -98,7 +100,7 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
 				if(fx.equals("load"))
 				{
 					tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeString.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeFunction.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional);
-					mView.getActivity().runOnUiThread(new PLCommandRunnable(mView, tokenInfo));
+					new Handler(mView.getContext().getMainLooper()).post(new PLCommandRunnable(mView, tokenInfo));
 				}
 				else if(fx.equals("lookAt"))
 				{
