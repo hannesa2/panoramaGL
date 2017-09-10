@@ -911,7 +911,7 @@ public class PLJSONLoader extends PLLoaderBase
 			super();
 			mPanorama = panorama;
 			mColorFormat = colorFormat;
-			mIndex = 0;
+			mIndex = index;
 		}
 		
 		/**PLFileDownloaderListener methods*/
