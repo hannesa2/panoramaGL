@@ -20,56 +20,57 @@ package com.panoramagl.opengl;
 
 import java.lang.reflect.Method;
 
-public class GLUquadric
-{
-	/**member variables*/
-	
-  	public int normals, textureCoords, orientation, drawStyle;
-  	public Method errorCallback;
-  	
-  	/**init methods*/
-  	
-  	public GLUquadric()
-  	{
-  		this(0, 0, 0, 0, null);
-  	}
-  	
-  	public GLUquadric(int normals, int textureCoords, int orientation, int drawStyle)
-  	{
-  		this(normals, textureCoords, orientation, drawStyle, null);
-  	}
-  	
-  	public GLUquadric(int normals, int textureCoords, int orientation, int drawStyle, Method errorCallback)
-  	{
-  		super();
-  		this.normals = normals;
-  		this.textureCoords = textureCoords;
-  		this.orientation = orientation;
-  		this.drawStyle = drawStyle;
-  		this.errorCallback = errorCallback;
-  	}
-  	
-  	/**equals methods*/
-  	
-  	public boolean equals(GLUquadric value)
-  	{
-  		return !(normals != value.normals || textureCoords != value.textureCoords || orientation != value.orientation || drawStyle != value.drawStyle);
-  	}
-  	
-  	@Override 
-  	public boolean equals(Object o)
-  	{
-  		if(o instanceof GLUquadric)
-  			return this.equals((GLUquadric)o);
-  		return false;
-  	}
-  	
-  	/**dealloc methods*/
-  	
-  	@Override
-  	protected void finalize() throws Throwable
-  	{
-  		this.errorCallback = null;
-  		super.finalize();
-  	}
+public class GLUquadric {
+    /**
+     * member variables
+     */
+
+    public int normals, textureCoords, orientation, drawStyle;
+    public Method errorCallback;
+
+    /**
+     * init methods
+     */
+
+    public GLUquadric() {
+        this(0, 0, 0, 0, null);
+    }
+
+    public GLUquadric(int normals, int textureCoords, int orientation, int drawStyle) {
+        this(normals, textureCoords, orientation, drawStyle, null);
+    }
+
+    public GLUquadric(int normals, int textureCoords, int orientation, int drawStyle, Method errorCallback) {
+        super();
+        this.normals = normals;
+        this.textureCoords = textureCoords;
+        this.orientation = orientation;
+        this.drawStyle = drawStyle;
+        this.errorCallback = errorCallback;
+    }
+
+    /**
+     * equals methods
+     */
+
+    public boolean equals(GLUquadric value) {
+        return !(normals != value.normals || textureCoords != value.textureCoords || orientation != value.orientation || drawStyle != value.drawStyle);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof GLUquadric)
+            return this.equals((GLUquadric) o);
+        return false;
+    }
+
+    /**
+     * dealloc methods
+     */
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.errorCallback = null;
+        super.finalize();
+    }
 }

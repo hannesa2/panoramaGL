@@ -18,10 +18,9 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLSceneElementTouchStatus
-{
-	PLSceneElementTouchStatusOut,
-	PLSceneElementTouchStatusOver,
-	PLSceneElementTouchStatusMove,
-	PLSceneElementTouchStatusDown,
+public enum PLSceneElementTouchStatus {
+    PLSceneElementTouchStatusOut,
+    PLSceneElementTouchStatusOver,
+    PLSceneElementTouchStatusMove,
+    PLSceneElementTouchStatusDown,
 }

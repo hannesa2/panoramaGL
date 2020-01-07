@@ -22,32 +22,38 @@ import com.panoramagl.enumerations.PLTextureColorFormat;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public interface PLITexture
-{
-	/**property methods*/
-	
-	PLIImage getImage();
-	
-	int getTextureId(GL10 gl);
-	
-	int getWidth();
-	
-	int getHeight();
-	
-	boolean isValid();
-	
-	boolean isRecycled();
-	
-	boolean isRecycledByParent();
-	void setRecycledByParent(boolean isRecycledByParent);
-	
-	PLTextureColorFormat getColorFormat();
-	void setColorFormat(PLTextureColorFormat colorFormat);
-	
-	PLTextureListener getListener();
-	void setListener(PLTextureListener listener);
-	
-	/**recycle methods*/
-	
-	void recycle();
+public interface PLITexture {
+    /**
+     * property methods
+     */
+
+    PLIImage getImage();
+
+    int getTextureId(GL10 gl);
+
+    int getWidth();
+
+    int getHeight();
+
+    boolean isValid();
+
+    boolean isRecycled();
+
+    boolean isRecycledByParent();
+
+    void setRecycledByParent(boolean isRecycledByParent);
+
+    PLTextureColorFormat getColorFormat();
+
+    void setColorFormat(PLTextureColorFormat colorFormat);
+
+    PLTextureListener getListener();
+
+    void setListener(PLTextureListener listener);
+
+    /**
+     * recycle methods
+     */
+
+    void recycle();
 }

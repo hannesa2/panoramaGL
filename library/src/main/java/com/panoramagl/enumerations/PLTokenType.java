@@ -18,20 +18,19 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLTokenType
-{
-	PLTokenTypeFunction,
-	PLTokenTypeOpenBracket,
-	PLTokenTypeParameterSeparator,
-	PLTokenTypeCloseBracket,
-	PLTokenTypePlusOrMinus,
-	PLTokenTypeMultOrDivide,
-	PLTokenTypeBoolean,
-	PLTokenTypeNumber,
-	PLTokenTypeString,
-	PLTokenTypeConst,
-	PLTokenTypeVariable,
-	PLTokenTypeEOS,
-	PLTokenTypeEOL;
-	public static final int PLTokenTypeOptional = 10000;
+public enum PLTokenType {
+    PLTokenTypeFunction,
+    PLTokenTypeOpenBracket,
+    PLTokenTypeParameterSeparator,
+    PLTokenTypeCloseBracket,
+    PLTokenTypePlusOrMinus,
+    PLTokenTypeMultOrDivide,
+    PLTokenTypeBoolean,
+    PLTokenTypeNumber,
+    PLTokenTypeString,
+    PLTokenTypeConst,
+    PLTokenTypeVariable,
+    PLTokenTypeEOS,
+    PLTokenTypeEOL;
+    public static final int PLTokenTypeOptional = 10000;
 }

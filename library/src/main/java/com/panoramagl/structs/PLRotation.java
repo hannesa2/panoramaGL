@@ -18,101 +18,99 @@
 
 package com.panoramagl.structs;
 
-public class PLRotation implements PLIStruct<PLRotation>
-{
-	/**member variables*/
-	
-	public float pitch, yaw, roll;
-	
-	/**init methods*/
-	
-	public PLRotation()
-	{
-		this(0.0f, 0.0f, 0.0f);
-	}
-	
-	public PLRotation(PLRotation rotation)
-	{
-		this(rotation.pitch, rotation.yaw, rotation.roll);
-	}
-	
-	public PLRotation(float pitch, float yaw, float roll)
-	{
-		super();
-		this.pitch = pitch;
-		this.yaw = yaw;
-		this.roll = roll;
-	}
-	
-	public static PLRotation PLRotationMake()
-	{
-		return new PLRotation();
-	}
-	
-	public static PLRotation PLRotationMake(PLRotation rotation)
-	{
-		return new PLRotation(rotation);
-	}
-	
-	public static PLRotation PLRotationMake(float pitch, float yaw, float roll)
-	{
-		return new PLRotation(pitch, yaw, roll);
-	}
-	
-	/**reset methods*/
-	
-	@Override
-	public boolean isResetted()
-	{
-		return (pitch == 0.0f && yaw == 0.0f && roll == 0.0f);
-	}
-	
-	@Override
-	public PLRotation reset()
-	{
-		pitch = yaw = roll = 0.0f;
-		return this;
-	}
-	
-	/**set methods*/
-	
-	@Override
-	public PLRotation setValues(PLRotation rotation)
-	{
-		pitch = rotation.pitch;
-		yaw = rotation.yaw;
-		roll = rotation.roll;
-		return this;
-	}
-	
-	public PLRotation setValues(float pitch, float yaw, float roll)
-	{
-		this.pitch = pitch;
-		this.yaw = yaw;
-		this.roll = roll;
-		return this;
-	}
-	
-	/**clone methods*/
-	
-	@Override
-	public PLRotation clone()
-	{
-		return new PLRotation(pitch, yaw, roll);
-	}
-	
-	/**native methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o != null && o instanceof PLRotation)
-		{
-			if(this == o)
-				return true;
-			PLRotation rotation = (PLRotation)o;
-			return (pitch == rotation.pitch && yaw == rotation.yaw && roll == rotation.roll);
-		}
-		return false;
-	}
+public class PLRotation implements PLIStruct<PLRotation> {
+    /**
+     * member variables
+     */
+
+    public float pitch, yaw, roll;
+
+    /**
+     * init methods
+     */
+
+    public PLRotation() {
+        this(0.0f, 0.0f, 0.0f);
+    }
+
+    public PLRotation(PLRotation rotation) {
+        this(rotation.pitch, rotation.yaw, rotation.roll);
+    }
+
+    public PLRotation(float pitch, float yaw, float roll) {
+        super();
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
+    }
+
+    public static PLRotation PLRotationMake() {
+        return new PLRotation();
+    }
+
+    public static PLRotation PLRotationMake(PLRotation rotation) {
+        return new PLRotation(rotation);
+    }
+
+    public static PLRotation PLRotationMake(float pitch, float yaw, float roll) {
+        return new PLRotation(pitch, yaw, roll);
+    }
+
+    /**
+     * reset methods
+     */
+
+    @Override
+    public boolean isResetted() {
+        return (pitch == 0.0f && yaw == 0.0f && roll == 0.0f);
+    }
+
+    @Override
+    public PLRotation reset() {
+        pitch = yaw = roll = 0.0f;
+        return this;
+    }
+
+    /**
+     * set methods
+     */
+
+    @Override
+    public PLRotation setValues(PLRotation rotation) {
+        pitch = rotation.pitch;
+        yaw = rotation.yaw;
+        roll = rotation.roll;
+        return this;
+    }
+
+    public PLRotation setValues(float pitch, float yaw, float roll) {
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
+        return this;
+    }
+
+    /**
+     * clone methods
+     */
+
+    @Override
+    public PLRotation clone() {
+        return new PLRotation(pitch, yaw, roll);
+    }
+
+    /**
+     * native methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof PLRotation) {
+            if (this == o)
+                return true;
+            PLRotation rotation = (PLRotation) o;
+            return (pitch == rotation.pitch && yaw == rotation.yaw && roll == rotation.roll);
+        }
+        return false;
+    }
 }

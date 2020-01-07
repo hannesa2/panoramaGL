@@ -20,12 +20,16 @@ package com.panoramagl.transitions;
 
 import com.panoramagl.listeners.PLRemovableListener;
 
-public interface PLTransitionListener extends PLRemovableListener
-{
-	/**event methods*/
-	
-	void didBeginTransition(PLITransition transition);
-	void didProcessTransition(PLITransition transition, int progressPercentage);
-	void didStopTransition(PLITransition transition, int progressPercentage);
-	void didEndTransition(PLITransition transition);
+public interface PLTransitionListener extends PLRemovableListener {
+    /**
+     * event methods
+     */
+
+    void didBeginTransition(PLITransition transition);
+
+    void didProcessTransition(PLITransition transition, int progressPercentage);
+
+    void didStopTransition(PLITransition transition, int progressPercentage);
+
+    void didEndTransition(PLITransition transition);
 }

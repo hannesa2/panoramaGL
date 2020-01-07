@@ -20,6 +20,5 @@ package com.panoramagl.transitions;
 
 import com.panoramagl.listeners.PLIListenerManager;
 
-public interface PLITransitionListenerManager extends PLIListenerManager<PLTransitionListener>, PLTransitionListener
-{
+public interface PLITransitionListenerManager extends PLIListenerManager<PLTransitionListener>, PLTransitionListener {
 }

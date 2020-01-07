@@ -20,25 +20,25 @@ package com.panoramagl.interpreters;
 
 import com.panoramagl.enumerations.PLTokenType;
 
-public class PLCommandTokenizer extends PLTokenizer
-{
-	/**init methods*/
-	
-	@Override
-	protected void initializeValues()
-	{
-		super.initializeValues();
-		this.addToken(PLTokenType.PLTokenTypeFunction, "load|BLEND|lookAtAndZoom|lookAt|zoom|fov|null");
-		this.addToken(PLTokenType.PLTokenTypeString, "'[^\"\'\n\r]*'");
-		this.addToken(PLTokenType.PLTokenTypeOpenBracket, "\\(");
-		this.addToken(PLTokenType.PLTokenTypeParameterSeparator, ",");
-		this.addToken(PLTokenType.PLTokenTypeCloseBracket, "\\)");
-		this.addToken(PLTokenType.PLTokenTypePlusOrMinus, "\\+|-");
-		this.addToken(PLTokenType.PLTokenTypeMultOrDivide, "\\*|/");
-		this.addToken(PLTokenType.PLTokenTypeBoolean, "true|false");
-		this.addToken(PLTokenType.PLTokenTypeNumber, "[0-9]+(.[0-9]+)?");
-		this.addToken(PLTokenType.PLTokenTypeConst, "[A-Z][A-Z0-9_]*");
-		this.addToken(PLTokenType.PLTokenTypeVariable, "[a-zA-Z][a-zA-Z0-9_]*");
-		this.addToken(PLTokenType.PLTokenTypeEOS, ";");
-	}
+public class PLCommandTokenizer extends PLTokenizer {
+    /**
+     * init methods
+     */
+
+    @Override
+    protected void initializeValues() {
+        super.initializeValues();
+        this.addToken(PLTokenType.PLTokenTypeFunction, "load|BLEND|lookAtAndZoom|lookAt|zoom|fov|null");
+        this.addToken(PLTokenType.PLTokenTypeString, "'[^\"\'\n\r]*'");
+        this.addToken(PLTokenType.PLTokenTypeOpenBracket, "\\(");
+        this.addToken(PLTokenType.PLTokenTypeParameterSeparator, ",");
+        this.addToken(PLTokenType.PLTokenTypeCloseBracket, "\\)");
+        this.addToken(PLTokenType.PLTokenTypePlusOrMinus, "\\+|-");
+        this.addToken(PLTokenType.PLTokenTypeMultOrDivide, "\\*|/");
+        this.addToken(PLTokenType.PLTokenTypeBoolean, "true|false");
+        this.addToken(PLTokenType.PLTokenTypeNumber, "[0-9]+(.[0-9]+)?");
+        this.addToken(PLTokenType.PLTokenTypeConst, "[A-Z][A-Z0-9_]*");
+        this.addToken(PLTokenType.PLTokenTypeVariable, "[a-zA-Z][a-zA-Z0-9_]*");
+        this.addToken(PLTokenType.PLTokenTypeEOS, ";");
+    }
 }

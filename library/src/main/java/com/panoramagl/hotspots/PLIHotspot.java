@@ -21,37 +21,48 @@ package com.panoramagl.hotspots;
 import com.panoramagl.PLISceneElement;
 import com.panoramagl.structs.PLRect;
 
-public interface PLIHotspot extends PLISceneElement
-{
-	/**property methods*/
-	
-	float getAtv();
-	void setAtv(float atv);
-	
-	float getAth();
-	void setAth(float ath);
-	
-	float getWidth();
-	void setWidth(float width);
-	
-	float getHeight();
-	void setHeight(float height);
-	
-	String getOnClick();
-	void setOnClick(String onClick);
-	
-	float getOverAlpha();
-	void setOverAlpha(float overAlpha);
-	
-	float getDefaultOverAlpha();
-	void setDefaultOverAlpha(float defaultOverAlpha);
-	
-	PLRect getRect();
-	void getRect(PLRect rect);
-	
-	/**layout methods*/
-	
-	void setSize(float width, float height);
-	
-	void setLayout(float pitch, float yaw, float width, float height);
+public interface PLIHotspot extends PLISceneElement {
+    /**
+     * property methods
+     */
+
+    float getAtv();
+
+    void setAtv(float atv);
+
+    float getAth();
+
+    void setAth(float ath);
+
+    float getWidth();
+
+    void setWidth(float width);
+
+    float getHeight();
+
+    void setHeight(float height);
+
+    String getOnClick();
+
+    void setOnClick(String onClick);
+
+    float getOverAlpha();
+
+    void setOverAlpha(float overAlpha);
+
+    float getDefaultOverAlpha();
+
+    void setDefaultOverAlpha(float defaultOverAlpha);
+
+    PLRect getRect();
+
+    void getRect(PLRect rect);
+
+    /**
+     * layout methods
+     */
+
+    void setSize(float width, float height);
+
+    void setLayout(float pitch, float yaw, float width, float height);
 }

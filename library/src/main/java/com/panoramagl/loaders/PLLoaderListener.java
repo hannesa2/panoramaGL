@@ -18,12 +18,16 @@
 
 package com.panoramagl.loaders;
 
-public interface PLLoaderListener
-{
-	/**event methods*/
-	
-	void didBegin(PLILoader loader);
-	void didComplete(PLILoader loader);
-	void didStop(PLILoader loader);
-	void didError(PLILoader loader, String error);
+public interface PLLoaderListener {
+    /**
+     * event methods
+     */
+
+    void didBegin(PLILoader loader);
+
+    void didComplete(PLILoader loader);
+
+    void didStop(PLILoader loader);
+
+    void didError(PLILoader loader, String error);
 }

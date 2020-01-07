@@ -18,105 +18,103 @@
 
 package com.panoramagl.structs;
 
-public class PLRGBA implements PLIStruct<PLRGBA>
-{
-	/**member variables*/
-	
-	public float red, green, blue, alpha;
-	
-	/**init methods*/
-	
-	public PLRGBA()
-	{
-		this(0.0f, 0.0f, 0.0f, 1.0f);
-	}
-	
-	public PLRGBA(PLRGBA rgba)
-	{
-		this(rgba.red, rgba.green, rgba.blue, rgba.alpha);
-	}
-	
-	public PLRGBA(float red, float green, float blue, float alpha)
-	{
-		super();
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-		this.alpha = alpha;
-	}
-	
-	public static PLRGBA PLRGBAMake()
-	{
-		return new PLRGBA();
-	}
-	
-	public static PLRGBA PLRGBAMake(PLRGBA rgba)
-	{
-		return new PLRGBA(rgba);
-	}
-	
-	public static PLRGBA PLRGBAMake(float red, float green, float blue, float alpha)
-	{
-		return new PLRGBA(red, green, blue, alpha);
-	}
-	
-	/**reset methods*/
-	
-	@Override
-	public boolean isResetted()
-	{
-		return (red == 0.0f && green == 0.0f && blue == 0.0f && alpha == 1.0f);
-	}
-	
-	@Override
-	public PLRGBA reset()
-	{
-		red = green = blue = 0.0f;
-		alpha = 1.0f;
-		return this;
-	}
-	
-	/**set methods*/
-	
-	@Override
-	public PLRGBA setValues(PLRGBA rgba)
-	{
-		red = rgba.red;
-		green = rgba.green;
-		blue = rgba.blue;
-		alpha = rgba.alpha;
-		return this;
-	}
-	
-	public PLRGBA setValues(float red, float green, float blue, float alpha)
-	{
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-		this.alpha = alpha;
-		return this;
-	}
-	
-	/**clone methods*/
-	
-	@Override
-	public PLRGBA clone()
-	{
-		return new PLRGBA(red, green, blue, alpha);
-	}
-	
-	/**native methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o != null && o instanceof PLRGBA)
-		{
-			if(this == o)
-				return true;
-			PLRGBA rgba = (PLRGBA)o;
-			return (red == rgba.red && green == rgba.green && blue == rgba.blue && alpha == rgba.alpha);
-		}
-		return false;
-	}
+public class PLRGBA implements PLIStruct<PLRGBA> {
+    /**
+     * member variables
+     */
+
+    public float red, green, blue, alpha;
+
+    /**
+     * init methods
+     */
+
+    public PLRGBA() {
+        this(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    public PLRGBA(PLRGBA rgba) {
+        this(rgba.red, rgba.green, rgba.blue, rgba.alpha);
+    }
+
+    public PLRGBA(float red, float green, float blue, float alpha) {
+        super();
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+    }
+
+    public static PLRGBA PLRGBAMake() {
+        return new PLRGBA();
+    }
+
+    public static PLRGBA PLRGBAMake(PLRGBA rgba) {
+        return new PLRGBA(rgba);
+    }
+
+    public static PLRGBA PLRGBAMake(float red, float green, float blue, float alpha) {
+        return new PLRGBA(red, green, blue, alpha);
+    }
+
+    /**
+     * reset methods
+     */
+
+    @Override
+    public boolean isResetted() {
+        return (red == 0.0f && green == 0.0f && blue == 0.0f && alpha == 1.0f);
+    }
+
+    @Override
+    public PLRGBA reset() {
+        red = green = blue = 0.0f;
+        alpha = 1.0f;
+        return this;
+    }
+
+    /**
+     * set methods
+     */
+
+    @Override
+    public PLRGBA setValues(PLRGBA rgba) {
+        red = rgba.red;
+        green = rgba.green;
+        blue = rgba.blue;
+        alpha = rgba.alpha;
+        return this;
+    }
+
+    public PLRGBA setValues(float red, float green, float blue, float alpha) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+        return this;
+    }
+
+    /**
+     * clone methods
+     */
+
+    @Override
+    public PLRGBA clone() {
+        return new PLRGBA(red, green, blue, alpha);
+    }
+
+    /**
+     * native methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof PLRGBA) {
+            if (this == o)
+                return true;
+            PLRGBA rgba = (PLRGBA) o;
+            return (red == rgba.red && green == rgba.green && blue == rgba.blue && alpha == rgba.alpha);
+        }
+        return false;
+    }
 }

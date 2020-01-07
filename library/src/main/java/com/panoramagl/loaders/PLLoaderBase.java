@@ -20,57 +20,57 @@ package com.panoramagl.loaders;
 
 import com.panoramagl.PLObjectBase;
 
-public abstract class PLLoaderBase extends PLObjectBase implements PLILoader
-{
-	/**member variables*/
-	
-	private PLLoaderListener mInternalListener, mListener;
-	
-	/**init methods**/
-	
-	public PLLoaderBase()
-	{
-		super();
-	}
-	
-	@Override
-	protected void initializeValues()
-	{
-		mInternalListener = mListener = null;
-	}
-	
-	/**property methods*/
-	
-	@Override
-	public PLLoaderListener getInternalListener()
-	{
-		return mInternalListener;
-	}
-	
-	@Override
-	public void setInternalListener(PLLoaderListener listener)
-	{
-		mInternalListener = listener;
-	}
-	
-	@Override
-	public PLLoaderListener getListener()
-	{
-		return mListener;
-	}
-	
-	@Override
-	public void setListener(PLLoaderListener listener)
-	{
-		mListener = listener;
-	}
-	
-	/**dealloc methods*/
-	
-	@Override
-	protected void finalize() throws Throwable
-	{
-		mInternalListener = mListener = null;
-		super.finalize();
-	}
+public abstract class PLLoaderBase extends PLObjectBase implements PLILoader {
+    /**
+     * member variables
+     */
+
+    private PLLoaderListener mInternalListener, mListener;
+
+    /**
+     * init methods
+     **/
+
+    public PLLoaderBase() {
+        super();
+    }
+
+    @Override
+    protected void initializeValues() {
+        mInternalListener = mListener = null;
+    }
+
+    /**
+     * property methods
+     */
+
+    @Override
+    public PLLoaderListener getInternalListener() {
+        return mInternalListener;
+    }
+
+    @Override
+    public void setInternalListener(PLLoaderListener listener) {
+        mInternalListener = listener;
+    }
+
+    @Override
+    public PLLoaderListener getListener() {
+        return mListener;
+    }
+
+    @Override
+    public void setListener(PLLoaderListener listener) {
+        mListener = listener;
+    }
+
+    /**
+     * dealloc methods
+     */
+
+    @Override
+    protected void finalize() throws Throwable {
+        mInternalListener = mListener = null;
+        super.finalize();
+    }
 }

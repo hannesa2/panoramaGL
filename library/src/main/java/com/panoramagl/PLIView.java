@@ -32,152 +32,203 @@ import com.panoramagl.transitions.PLITransition;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public interface PLIView
-{
-	/**reset methods*/
-	
-	boolean reset();
-	boolean reset(boolean resetCamera);
-	
-	/**property methods*/
-	
-	PLIPanorama getPanorama();
-	void setPanorama(PLIPanorama panorama);
-	
-	CGRect getRenderingViewport();
-	
-	CGSize getRenderingSize();
-	
-	boolean isRendererCreated();
-	
-	boolean isValidForCameraAnimation();
-	
-	PLICamera getCamera();
-	void setCamera(PLICamera camera);
-	
-	float getAnimationInterval();
-	void setAnimationInterval(float animationInterval);
-	
-	int getAnimationFrameInterval();
-	void setAnimationFrameInterval(int animationFrameInterval);
-	
-	boolean isAnimating();
-	
-	CGPoint getStartPoint();
-	void setStartPoint(CGPoint startPoint);
-	
-	CGPoint getEndPoint();
-	void setEndPoint(CGPoint endPoint);
-	
-	boolean isValidForFov();
-	
-	boolean isAccelerometerEnabled();
-	void setAccelerometerEnabled(boolean isAccelerometerEnabled);
-	
-	boolean isAccelerometerLeftRightEnabled();
-	void setAccelerometerLeftRightEnabled(boolean isAccelerometerLeftRightEnabled);
-	
-	boolean isAccelerometerUpDownEnabled();
-	void setAccelerometerUpDownEnabled(boolean isAccelerometerUpDownEnabled);
-	
-	float getAccelerometerInterval();
-	void setAccelerometerInterval(float accelerometerInterval);
-	
-	float getAccelerometerSensitivity();
-	void setAccelerometerSensitivity(float accelerometerSensitivity);
-	
-	boolean isValidForSensorialRotation();
-	
-	boolean isValidForScrolling();
-	
-	boolean isScrollingEnabled();
-	void setScrollingEnabled(boolean isScrollingEnabled);
-	
-	int getMinDistanceToEnableScrolling();
-	void setMinDistanceToEnableScrolling(int minDistanceToEnableScrolling);
-	
-	int getMinDistanceToEnableDrawing();
-	void setMinDistanceToEnableDrawing(int minDistanceToEnableDrawing);
-	
-	boolean isValidForInertia();
-	
-	boolean isInertiaEnabled();
-	void setInertiaEnabled(boolean isInertiaEnabled);
-	
-	float getInertiaInterval();
-	void setInertiaInterval(float inertiaInterval);
-	
-	boolean isResetEnabled();
-	void setResetEnabled(boolean isResetEnabled);
-	
-	boolean isShakeResetEnabled();
-	void setShakeResetEnabled(boolean isShakeResetEnabled);
-	
-	int getNumberOfTouchesForReset();
-	void setNumberOfTouchesForReset(int numberOfTouchesForReset);
-	
-	float getShakeThreshold();
-	void setShakeThreshold(float shakeThreshold);
-	
-	boolean isValidForTransition();
-	
-	PLITransition getCurrentTransition();
-	
-	boolean isValidForTouch();
-	
-	PLTouchStatus getTouchStatus();
-	
-	UIDeviceOrientation getCurrentDeviceOrientation();
-	
-	PLIFileDownloaderManager getDownloadManager();
-	
-	boolean isProgressBarVisible();
-	
-	boolean isLocked();
-	void setLocked(boolean isLocked);
-	
-	PLViewListener getListener();
-	void setListener(PLViewListener listener);
-	
-	Context getContext();
-	GL10 getGLContext();
-	GLSurfaceView getGLSurfaceView();
-	CGSize getSize();
-	
-	/**animation methods*/
-	
-	boolean startAnimation();
-	boolean stopAnimation();
-	
-	/**sensorial rotation methods*/
-	
-	boolean startSensorialRotation();
-	boolean stopSensorialRotation();
-	
-	boolean updateInitialSensorialRotation();
-	
-	/**transition methods*/
-	
-	boolean startTransition(PLITransition transition, PLIPanorama newPanorama);
-	boolean stopTransition();
-	
-	/**progress-bar methods*/
-	
-	boolean showProgressBar();
-	boolean hideProgressBar();
-	
-	/**load methods*/
-	
-	void load(PLILoader loader);
-	void load(PLILoader loader, boolean showProgressBar);
-	void load(PLILoader loader, boolean showProgressBar, PLITransition transition);
-	void load(PLILoader loader, boolean showProgressBar, PLITransition transition, float initialPitch, float initialYaw);
-	
-	/**clear methods*/
-	
-	void clear();
+public interface PLIView {
+    /**
+     * reset methods
+     */
 
-	/**zoom enabled**/
-	boolean isZoomEnabled();
-	void setZoomEnabled(boolean enabled);
+    boolean reset();
+
+    boolean reset(boolean resetCamera);
+
+    /**
+     * property methods
+     */
+
+    PLIPanorama getPanorama();
+
+    void setPanorama(PLIPanorama panorama);
+
+    CGRect getRenderingViewport();
+
+    CGSize getRenderingSize();
+
+    boolean isRendererCreated();
+
+    boolean isValidForCameraAnimation();
+
+    PLICamera getCamera();
+
+    void setCamera(PLICamera camera);
+
+    float getAnimationInterval();
+
+    void setAnimationInterval(float animationInterval);
+
+    int getAnimationFrameInterval();
+
+    void setAnimationFrameInterval(int animationFrameInterval);
+
+    boolean isAnimating();
+
+    CGPoint getStartPoint();
+
+    void setStartPoint(CGPoint startPoint);
+
+    CGPoint getEndPoint();
+
+    void setEndPoint(CGPoint endPoint);
+
+    boolean isValidForFov();
+
+    boolean isAccelerometerEnabled();
+
+    void setAccelerometerEnabled(boolean isAccelerometerEnabled);
+
+    boolean isAccelerometerLeftRightEnabled();
+
+    void setAccelerometerLeftRightEnabled(boolean isAccelerometerLeftRightEnabled);
+
+    boolean isAccelerometerUpDownEnabled();
+
+    void setAccelerometerUpDownEnabled(boolean isAccelerometerUpDownEnabled);
+
+    float getAccelerometerInterval();
+
+    void setAccelerometerInterval(float accelerometerInterval);
+
+    float getAccelerometerSensitivity();
+
+    void setAccelerometerSensitivity(float accelerometerSensitivity);
+
+    boolean isValidForSensorialRotation();
+
+    boolean isValidForScrolling();
+
+    boolean isScrollingEnabled();
+
+    void setScrollingEnabled(boolean isScrollingEnabled);
+
+    int getMinDistanceToEnableScrolling();
+
+    void setMinDistanceToEnableScrolling(int minDistanceToEnableScrolling);
+
+    int getMinDistanceToEnableDrawing();
+
+    void setMinDistanceToEnableDrawing(int minDistanceToEnableDrawing);
+
+    boolean isValidForInertia();
+
+    boolean isInertiaEnabled();
+
+    void setInertiaEnabled(boolean isInertiaEnabled);
+
+    float getInertiaInterval();
+
+    void setInertiaInterval(float inertiaInterval);
+
+    boolean isResetEnabled();
+
+    void setResetEnabled(boolean isResetEnabled);
+
+    boolean isShakeResetEnabled();
+
+    void setShakeResetEnabled(boolean isShakeResetEnabled);
+
+    int getNumberOfTouchesForReset();
+
+    void setNumberOfTouchesForReset(int numberOfTouchesForReset);
+
+    float getShakeThreshold();
+
+    void setShakeThreshold(float shakeThreshold);
+
+    boolean isValidForTransition();
+
+    PLITransition getCurrentTransition();
+
+    boolean isValidForTouch();
+
+    PLTouchStatus getTouchStatus();
+
+    UIDeviceOrientation getCurrentDeviceOrientation();
+
+    PLIFileDownloaderManager getDownloadManager();
+
+    boolean isProgressBarVisible();
+
+    boolean isLocked();
+
+    void setLocked(boolean isLocked);
+
+    PLViewListener getListener();
+
+    void setListener(PLViewListener listener);
+
+    Context getContext();
+
+    GL10 getGLContext();
+
+    GLSurfaceView getGLSurfaceView();
+
+    CGSize getSize();
+
+    /**
+     * animation methods
+     */
+
+    boolean startAnimation();
+
+    boolean stopAnimation();
+
+    /**
+     * sensorial rotation methods
+     */
+
+    boolean startSensorialRotation();
+
+    boolean stopSensorialRotation();
+
+    boolean updateInitialSensorialRotation();
+
+    /**
+     * transition methods
+     */
+
+    boolean startTransition(PLITransition transition, PLIPanorama newPanorama);
+
+    boolean stopTransition();
+
+    /**
+     * progress-bar methods
+     */
+
+    boolean showProgressBar();
+
+    boolean hideProgressBar();
+
+    /**
+     * load methods
+     */
+
+    void load(PLILoader loader);
+
+    void load(PLILoader loader, boolean showProgressBar);
+
+    void load(PLILoader loader, boolean showProgressBar, PLITransition transition);
+
+    void load(PLILoader loader, boolean showProgressBar, PLITransition transition, float initialPitch, float initialYaw);
+
+    /**
+     * clear methods
+     */
+
+    void clear();
+
+    /**
+     * zoom enabled
+     **/
+    boolean isZoomEnabled();
+
+    void setZoomEnabled(boolean enabled);
 }

@@ -20,11 +20,12 @@ package com.panoramagl.interpreters;
 
 import com.panoramagl.enumerations.PLTokenType;
 
-public interface PLIToken
-{
-	/**property methods*/
-	
-	PLTokenType getType();
-	
-	String getSequence();
+public interface PLIToken {
+    /**
+     * property methods
+     */
+
+    PLTokenType getType();
+
+    String getSequence();
 }

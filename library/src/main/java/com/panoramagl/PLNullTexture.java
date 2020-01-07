@@ -22,90 +22,81 @@ import com.panoramagl.enumerations.PLTextureColorFormat;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class PLNullTexture implements PLITexture
-{
-	/**init methods*/
-	
-	public PLNullTexture()
-	{
-		super();
-	}
-	
-	/**property methods*/
-	
-	@Override
-	public PLIImage getImage()
-	{
-		return null;
-	}
-	
-	@Override
-	public int getTextureId(GL10 gl)
-	{
-		return 0;
-	}
-	
-	@Override
-	public int getWidth()
-	{
-		return 0;
-	}
-	
-	@Override
-	public int getHeight()
-	{
-		return 0;
-	}
-	
-	@Override
-	public boolean isValid()
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean isRecycled()
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean isRecycledByParent()
-	{
-		return true;
-	}
-	
-	@Override
-	public void setRecycledByParent(boolean isRecycledByParent)
-	{
-	}
-	
-	@Override
-	public PLTextureColorFormat getColorFormat()
-	{
-		return PLTextureColorFormat.PLTextureColorFormatUnknown;
-	}
-	
-	@Override
-	public void setColorFormat(PLTextureColorFormat colorFormat)
-	{
-	}
-	
-	@Override
-	public PLTextureListener getListener()
-	{
-		return null;
-	}
-	
-	@Override
-	public void setListener(PLTextureListener listener)
-	{
-	}
-	
-	/**recycle methods*/
-	
-	@Override
-	public void recycle()
-	{
-	}
+public class PLNullTexture implements PLITexture {
+    /**
+     * init methods
+     */
+
+    public PLNullTexture() {
+        super();
+    }
+
+    /**
+     * property methods
+     */
+
+    @Override
+    public PLIImage getImage() {
+        return null;
+    }
+
+    @Override
+    public int getTextureId(GL10 gl) {
+        return 0;
+    }
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
+    @Override
+    public boolean isValid() {
+        return false;
+    }
+
+    @Override
+    public boolean isRecycled() {
+        return true;
+    }
+
+    @Override
+    public boolean isRecycledByParent() {
+        return true;
+    }
+
+    @Override
+    public void setRecycledByParent(boolean isRecycledByParent) {
+    }
+
+    @Override
+    public PLTextureColorFormat getColorFormat() {
+        return PLTextureColorFormat.PLTextureColorFormatUnknown;
+    }
+
+    @Override
+    public void setColorFormat(PLTextureColorFormat colorFormat) {
+    }
+
+    @Override
+    public PLTextureListener getListener() {
+        return null;
+    }
+
+    @Override
+    public void setListener(PLTextureListener listener) {
+    }
+
+    /**
+     * recycle methods
+     */
+
+    @Override
+    public void recycle() {
+    }
 }

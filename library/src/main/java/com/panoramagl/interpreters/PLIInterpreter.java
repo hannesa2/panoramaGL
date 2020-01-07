@@ -20,9 +20,10 @@ package com.panoramagl.interpreters;
 
 import com.panoramagl.PLIView;
 
-public interface PLIInterpreter
-{
-	/**interpret methods*/
-	
-	boolean interpret(PLIView view, String text);
+public interface PLIInterpreter {
+    /**
+     * interpret methods
+     */
+
+    boolean interpret(PLIView view, String text);
 }

@@ -18,9 +18,8 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLCameraAnimationType
-{
-	PLCameraAnimationTypeNone,
-	PLCameraAnimationTypeFov,
-	PLCameraAnimationTypeLookAt
+public enum PLCameraAnimationType {
+    PLCameraAnimationTypeNone,
+    PLCameraAnimationTypeFov,
+    PLCameraAnimationTypeLookAt
 }

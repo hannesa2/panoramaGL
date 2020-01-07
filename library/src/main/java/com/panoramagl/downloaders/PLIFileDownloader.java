@@ -18,27 +18,36 @@
 
 package com.panoramagl.downloaders;
 
-public interface PLIFileDownloader
-{
-	/**property methods*/
-	
-	String getURL();
-	PLIFileDownloader setURL(String url);
-	
-	boolean isRunning();
-	
-	int getMaxAttempts();
-	PLIFileDownloader setMaxAttempts(int maxAttemps);
-	
-	PLFileDownloaderListener getListener();
-	PLIFileDownloader setListener(PLFileDownloaderListener listener);
-	
-	/**download methods*/
-	
-	byte[] download();
-	boolean downloadAsynchronously();
-	
-	/**stop methods*/
-	
-	boolean stop();
+public interface PLIFileDownloader {
+    /**
+     * property methods
+     */
+
+    String getURL();
+
+    PLIFileDownloader setURL(String url);
+
+    boolean isRunning();
+
+    int getMaxAttempts();
+
+    PLIFileDownloader setMaxAttempts(int maxAttemps);
+
+    PLFileDownloaderListener getListener();
+
+    PLIFileDownloader setListener(PLFileDownloaderListener listener);
+
+    /**
+     * download methods
+     */
+
+    byte[] download();
+
+    boolean downloadAsynchronously();
+
+    /**
+     * stop methods
+     */
+
+    boolean stop();
 }

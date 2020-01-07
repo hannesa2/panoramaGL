@@ -18,18 +18,24 @@
 
 package com.panoramagl.structs;
 
-public interface PLIStruct<T>
-{
-	/**reset methods*/
-	
-	boolean isResetted();
-	T reset();
-	
-	/**set methods*/
-	
-	T setValues(T object);
-	
-	/**clone methods*/
-	
-	T clone();
+public interface PLIStruct<T> {
+    /**
+     * reset methods
+     */
+
+    boolean isResetted();
+
+    T reset();
+
+    /**
+     * set methods
+     */
+
+    T setValues(T object);
+
+    /**
+     * clone methods
+     */
+
+    T clone();
 }

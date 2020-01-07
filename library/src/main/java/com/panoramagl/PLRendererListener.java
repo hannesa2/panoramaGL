@@ -20,12 +20,16 @@ package com.panoramagl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public interface PLRendererListener
-{
-	/**event methods*/
-	
-	void rendererCreated(PLIRenderer render);
-	void rendererChanged(PLIRenderer render, int width, int height);
-	void rendererFirstChanged(GL10 gl, PLIRenderer render, int width, int height);
-	void rendererDestroyed(PLIRenderer render);
+public interface PLRendererListener {
+    /**
+     * event methods
+     */
+
+    void rendererCreated(PLIRenderer render);
+
+    void rendererChanged(PLIRenderer render, int width, int height);
+
+    void rendererFirstChanged(GL10 gl, PLIRenderer render, int width, int height);
+
+    void rendererDestroyed(PLIRenderer render);
 }

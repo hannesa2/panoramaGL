@@ -19,12 +19,12 @@
 package com.panoramagl.downloaders;
 
 @SuppressWarnings("serial")
-public class PLRequestInvalidatedException extends RuntimeException
-{
-	/**init methods*/
-	
-	public PLRequestInvalidatedException(String url)
-	{
-		super(String.format("Request to %s was invalidated", url));
-	}
+public class PLRequestInvalidatedException extends RuntimeException {
+    /**
+     * init methods
+     */
+
+    public PLRequestInvalidatedException(String url) {
+        super(String.format("Request to %s was invalidated", url));
+    }
 }

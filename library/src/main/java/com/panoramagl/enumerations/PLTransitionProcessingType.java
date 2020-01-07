@@ -18,10 +18,9 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLTransitionProcessingType
-{
-	PLTransitionProcessingTypeWaiting,
-	PLTransitionProcessingTypeBegin,
-	PLTransitionProcessingTypeRunning,
-	PLTransitionProcessingTypeEnd
+public enum PLTransitionProcessingType {
+    PLTransitionProcessingTypeWaiting,
+    PLTransitionProcessingTypeBegin,
+    PLTransitionProcessingTypeRunning,
+    PLTransitionProcessingTypeEnd
 }

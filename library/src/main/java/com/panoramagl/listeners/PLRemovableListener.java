@@ -18,9 +18,10 @@
 
 package com.panoramagl.listeners;
 
-public interface PLRemovableListener
-{
-	/**property methods*/
-	
-	boolean isRemovableListener();
+public interface PLRemovableListener {
+    /**
+     * property methods
+     */
+
+    boolean isRemovableListener();
 }

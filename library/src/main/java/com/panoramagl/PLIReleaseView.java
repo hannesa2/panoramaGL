@@ -18,9 +18,10 @@
 
 package com.panoramagl;
 
-public interface PLIReleaseView
-{
-	/**release methods*/
-	
-	void releaseView();
+public interface PLIReleaseView {
+    /**
+     * release methods
+     */
+
+    void releaseView();
 }

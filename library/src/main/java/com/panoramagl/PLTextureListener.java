@@ -18,9 +18,10 @@
 
 package com.panoramagl;
 
-public interface PLTextureListener
-{
-	/**event methods*/
-	
-	void didLoad(PLITexture texture);
+public interface PLTextureListener {
+    /**
+     * event methods
+     */
+
+    void didLoad(PLITexture texture);
 }

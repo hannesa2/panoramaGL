@@ -18,9 +18,8 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLOpenGLVersion
-{
-	PLOpenGLVersion1_0,
-	PLOpenGLVersion1_1,
-	PLOpenGLVersion2_0,
+public enum PLOpenGLVersion {
+    PLOpenGLVersion1_0,
+    PLOpenGLVersion1_1,
+    PLOpenGLVersion2_0,
 }

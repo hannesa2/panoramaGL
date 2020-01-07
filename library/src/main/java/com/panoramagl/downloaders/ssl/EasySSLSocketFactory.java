@@ -37,64 +37,61 @@ import javax.net.ssl.TrustManager;
 /**
  * This socket factory will create ssl socket that accepts self signed
  * certificate
- * 
+ *
  * @author olamy
  * @version $Id: EasySSLSocketFactory.java 765355 2009-04-15 20:59:07Z evenisse
- *          $
+ * $
  * @since 1.2.3
  */
 
-public class EasySSLSocketFactory implements ProtocolSocketFactory
-{
+public class EasySSLSocketFactory implements ProtocolSocketFactory {
     private SSLContext sslcontext = null;
 
-    private static SSLContext createEasySSLContext() throws IOException
-    {
-            try {
-                    SSLContext context = SSLContext.getInstance("TLS");
-                    context.init(null, new TrustManager[] { new EasyX509TrustManager(
-                                    null) }, null);
-                    return context;
-            } catch (Throwable e) {
-                    throw new IOException(e.getMessage());
-            }
+    private static SSLContext createEasySSLContext() throws IOException {
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, new TrustManager[]{new EasyX509TrustManager(
+                    null)}, null);
+            return context;
+        } catch (Throwable e) {
+            throw new IOException(e.getMessage());
+        }
     }
 
-    private SSLContext getSSLContext() throws IOException
-    {
-            if (this.sslcontext == null) {
-                    this.sslcontext = createEasySSLContext();
-            }
-            return this.sslcontext;
+    private SSLContext getSSLContext() throws IOException {
+        if (this.sslcontext == null) {
+            this.sslcontext = createEasySSLContext();
+        }
+        return this.sslcontext;
     }
 
     /**
      * @see org.apache.http.conn.scheme.SocketFactory#connectSocket(Socket,
-     *      String, int, InetAddress, int,
-     *      HttpParams)
+     * String, int, InetAddress, int,
+     * HttpParams)
      */
     public Socket connectSocket(Socket sock, String host, int port,
-                    InetAddress localAddress, int localPort, HttpParams params)
-                    throws IOException, UnknownHostException, ConnectTimeoutException {
-            int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
-            int soTimeout = HttpConnectionParams.getSoTimeout(params);
+                                InetAddress localAddress, int localPort, HttpParams params)
+            throws IOException, UnknownHostException, ConnectTimeoutException {
+        int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
+        int soTimeout = HttpConnectionParams.getSoTimeout(params);
 
-            InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
-            SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock : createSocket());
+        InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
+        SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock : createSocket());
 
-            if ((localAddress != null) || (localPort > 0)) {
-                    // we need to bind explicitly
-                    if (localPort < 0) {
-                            localPort = 0; // indicates "any"
-                    }
-                    InetSocketAddress isa = new InetSocketAddress(localAddress,
-                                    localPort);
-                    sslsock.bind(isa);
+        if ((localAddress != null) || (localPort > 0)) {
+            // we need to bind explicitly
+            if (localPort < 0) {
+                localPort = 0; // indicates "any"
             }
+            InetSocketAddress isa = new InetSocketAddress(localAddress,
+                    localPort);
+            sslsock.bind(isa);
+        }
 
-            sslsock.connect(remoteAddress, connTimeout);
-            sslsock.setSoTimeout(soTimeout);
-            return sslsock;
+        sslsock.connect(remoteAddress, connTimeout);
+        sslsock.setSoTimeout(soTimeout);
+        return sslsock;
 
     }
 
@@ -102,23 +99,23 @@ public class EasySSLSocketFactory implements ProtocolSocketFactory
      * @see org.apache.http.conn.scheme.SocketFactory#createSocket()
      */
     public Socket createSocket() throws IOException {
-            return getSSLContext().getSocketFactory().createSocket();
+        return getSSLContext().getSocketFactory().createSocket();
     }
 
     /**
      * @see org.apache.http.conn.scheme.SocketFactory#isSecure(Socket)
      */
     public boolean isSecure(Socket socket) throws IllegalArgumentException {
-            return true;
+        return true;
     }
 
     /**
      * @see org.apache.http.conn.scheme.LayeredSocketFactory#createSocket(Socket,
-     *      String, int, boolean)
+     * String, int, boolean)
      */
     public Socket createSocket(Socket socket, String host, int port,
-                    boolean autoClose) throws IOException, UnknownHostException {
-    return getSSLContext().getSocketFactory().createSocket(socket, host, port, autoClose);
+                               boolean autoClose) throws IOException, UnknownHostException {
+        return getSSLContext().getSocketFactory().createSocket(socket, host, port, autoClose);
     }
 
     // -------------------------------------------------------------------
@@ -128,32 +125,32 @@ public class EasySSLSocketFactory implements ProtocolSocketFactory
     // -------------------------------------------------------------------
 
     public boolean equals(Object obj) {
-            return ((obj != null) && obj.getClass().equals(
-                            EasySSLSocketFactory.class));
+        return ((obj != null) && obj.getClass().equals(
+                EasySSLSocketFactory.class));
     }
 
     public int hashCode() {
-            return EasySSLSocketFactory.class.hashCode();
+        return EasySSLSocketFactory.class.hashCode();
     }
 
-	@Override
-	public Socket createSocket(String arg0, int arg1) throws IOException,
-			UnknownHostException {
-		return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
-	}
+    @Override
+    public Socket createSocket(String arg0, int arg1) throws IOException,
+            UnknownHostException {
+        return getSSLContext().getSocketFactory().createSocket(arg0, arg1);
+    }
 
-	@Override
-	public Socket createSocket(String arg0, int arg1, InetAddress arg2,
-			int arg3) throws IOException, UnknownHostException {
-		return getSSLContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
-	}
+    @Override
+    public Socket createSocket(String arg0, int arg1, InetAddress arg2,
+                               int arg3) throws IOException, UnknownHostException {
+        return getSSLContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
+    }
 
-	@Override
-	public Socket createSocket(String arg0, int arg1, InetAddress arg2,
-			int arg3,
-			org.apache.commons.httpclient.params.HttpConnectionParams arg4)
-			throws IOException, UnknownHostException,
-			org.apache.commons.httpclient.ConnectTimeoutException {
-		return getSSLContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
-	}
+    @Override
+    public Socket createSocket(String arg0, int arg1, InetAddress arg2,
+                               int arg3,
+                               org.apache.commons.httpclient.params.HttpConnectionParams arg4)
+            throws IOException, UnknownHostException,
+            org.apache.commons.httpclient.ConnectTimeoutException {
+        return getSSLContext().getSocketFactory().createSocket(arg0, arg1, arg2, arg3);
+    }
 }

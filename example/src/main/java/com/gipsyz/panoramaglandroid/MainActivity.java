@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
 
     private PLManager plManager;
     private int currentIndex = -1;
-    private int[] resourceIds = new int[]{ R.raw.sighisoara_sphere, R.raw.sighisoara_sphere_2};
+    private int[] resourceIds = new int[]{R.raw.sighisoara_sphere, R.raw.sighisoara_sphere_2};
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch(v.getId()) {
+            switch (v.getId()) {
                 case R.id.button_1:
                     changePanorama(0);
                     break;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         plManager = new PLManager(this);
-        plManager.setContentView((ViewGroup)findViewById(R.id.content_view));
+        plManager.setContentView((ViewGroup) findViewById(R.id.content_view));
         plManager.onCreate();
 
         plManager.setAccelerometerEnabled(false);
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         plManager.onPause();
         super.onPause();
     }
+
     @Override
     protected void onDestroy() {
         plManager.onDestroy();
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changePanorama(int index) {
-        if(currentIndex == index) return;
+        if (currentIndex == index) return;
 
         PLSphericalPanorama panorama = new PLSphericalPanorama();
         panorama.setImage(new PLImage(PLUtils.getBitmap(this, resourceIds[index]), false));
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         float yaw = 0f;
         float zoomFactor = 0.8f;
 
-        if(currentIndex != -1) {
+        if (currentIndex != -1) {
             PLICamera camera = plManager.getPanorama().getCamera();
             pitch = camera.getPitch();
             yaw = camera.getYaw();

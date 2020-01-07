@@ -18,13 +18,12 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLTouchStatus
-{
-	PLTouchStatusNone,
-	PLTouchStatusBegan,
-	PLTouchStatusMoved,
-	PLTouchStatusEnded,
-	PLTouchStatusFirstSingleTapCount,
-	PLTouchStatusSingleTapCount,
-	PLTouchStatusDoubleTapCount,
+public enum PLTouchStatus {
+    PLTouchStatusNone,
+    PLTouchStatusBegan,
+    PLTouchStatusMoved,
+    PLTouchStatusEnded,
+    PLTouchStatusFirstSingleTapCount,
+    PLTouchStatusSingleTapCount,
+    PLTouchStatusDoubleTapCount,
 }

@@ -23,96 +23,94 @@ import android.view.View;
 import com.panoramagl.PLIReleaseView;
 import com.panoramagl.ios.structs.CGPoint;
 
-public class UITouch implements PLIReleaseView
-{
-	/**member variables*/
-	
-	private int mTapCount;
-	private View mView;
-	private CGPoint mPosition;
-	
-	/**property methods*/
-	
-	public int getTapCount()
-	{
-		return mTapCount;
-	}
-	
-	public void setTapCount(int tapCount)
-	{
-		if(tapCount > 0)
-			mTapCount = tapCount;
-	}
-	
-	public View getView()
-	{
-		return mView;
-	}
-	
-	public void setView(View view)
-	{
-		mView = view;
-	}
-	
-	public CGPoint getPosition()
-	{
-		return mPosition;
-	}
-	
-	public void setPosition(CGPoint point)
-	{
-		if(point != null)
-			mPosition.setValues(point);
-	}
-	
-	public void setPosition(float x, float y)
-	{
-		mPosition.x = x;
-		mPosition.y = y;
-	}
-	
-	/**init methods*/
-	
-	public UITouch(View view)
-	{
-		this(view, CGPoint.CGPointMake(0.0f, 0.0f), 1);
-	}
-	
-	public UITouch(View view, CGPoint position)
-	{
-		this(view, position, 1);
-	}
-	
-	public UITouch(View view, CGPoint position, int tapCount)
-	{
-		super();
-		mView = view;
-		mPosition = CGPoint.CGPointMake(position);
-		mTapCount = tapCount;
-	}
-	
-	/**location methods*/
-	
-	public CGPoint locationInView(View view)
-	{
-		return mPosition;
-	}
-	
-	/**PLIReleaseView methods*/
-	
-	@Override
-	public void releaseView()
-	{
-		mView = null;
-	}
-	
-	/**dealloc methods*/
-	
-	@Override
-	protected void finalize() throws Throwable
-	{
-		mView = null;
-		mPosition = null;
-		super.finalize();
-	}
+public class UITouch implements PLIReleaseView {
+    /**
+     * member variables
+     */
+
+    private int mTapCount;
+    private View mView;
+    private CGPoint mPosition;
+
+    /**
+     * property methods
+     */
+
+    public int getTapCount() {
+        return mTapCount;
+    }
+
+    public void setTapCount(int tapCount) {
+        if (tapCount > 0)
+            mTapCount = tapCount;
+    }
+
+    public View getView() {
+        return mView;
+    }
+
+    public void setView(View view) {
+        mView = view;
+    }
+
+    public CGPoint getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(CGPoint point) {
+        if (point != null)
+            mPosition.setValues(point);
+    }
+
+    public void setPosition(float x, float y) {
+        mPosition.x = x;
+        mPosition.y = y;
+    }
+
+    /**
+     * init methods
+     */
+
+    public UITouch(View view) {
+        this(view, CGPoint.CGPointMake(0.0f, 0.0f), 1);
+    }
+
+    public UITouch(View view, CGPoint position) {
+        this(view, position, 1);
+    }
+
+    public UITouch(View view, CGPoint position, int tapCount) {
+        super();
+        mView = view;
+        mPosition = CGPoint.CGPointMake(position);
+        mTapCount = tapCount;
+    }
+
+    /**
+     * location methods
+     */
+
+    public CGPoint locationInView(View view) {
+        return mPosition;
+    }
+
+    /**
+     * PLIReleaseView methods
+     */
+
+    @Override
+    public void releaseView() {
+        mView = null;
+    }
+
+    /**
+     * dealloc methods
+     */
+
+    @Override
+    protected void finalize() throws Throwable {
+        mView = null;
+        mPosition = null;
+        super.finalize();
+    }
 }

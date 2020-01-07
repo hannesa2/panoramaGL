@@ -26,9 +26,10 @@ import javax.microedition.khronos.opengles.GL10Ext;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
-public interface IGLWrapper extends GL, GL10, GL10Ext, GL11, GL11Ext
-{
-	/**property methods*/
-	
-	GLSurfaceView getGLSurfaceView();
+public interface IGLWrapper extends GL, GL10, GL10Ext, GL11, GL11Ext {
+    /**
+     * property methods
+     */
+
+    GLSurfaceView getGLSurfaceView();
 }

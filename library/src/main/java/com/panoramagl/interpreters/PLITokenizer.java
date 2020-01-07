@@ -22,15 +22,18 @@ import com.panoramagl.enumerations.PLTokenType;
 
 import java.util.List;
 
-public interface PLITokenizer
-{
-	/**property methods*/
-	
-	List<PLIToken> getTokens();
-	
-	/**token methods*/
-	
-	void addToken(PLTokenType tokenType, String regex);
-	
-	void tokenize(String input);
+public interface PLITokenizer {
+    /**
+     * property methods
+     */
+
+    List<PLIToken> getTokens();
+
+    /**
+     * token methods
+     */
+
+    void addToken(PLTokenType tokenType, String regex);
+
+    void tokenize(String input);
 }

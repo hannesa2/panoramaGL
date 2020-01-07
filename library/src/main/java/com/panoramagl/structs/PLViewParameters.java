@@ -18,91 +18,92 @@
 
 package com.panoramagl.structs;
 
-public class PLViewParameters implements PLIStruct<PLViewParameters>
-{
-	/**member variables*/
-	
-	public boolean reset, scrolling, inertia, accelerometer, sensorialRotation;
-	
-	/**init methods*/
-	
-	public PLViewParameters()
-	{
-		super();
-		this.reset();
-	}
-	
-	public PLViewParameters(PLViewParameters parameters)
-	{
-		super();
-		this.setValues(parameters);
-	}
-	
-	public static PLViewParameters PLViewParametersMake()
-	{
-		return new PLViewParameters();
-	}
-	
-	public static PLViewParameters PLViewParametersMake(PLViewParameters parameters)
-	{
-		return new PLViewParameters(parameters);
-	}
-	
-	/**reset methods*/
-	
-	@Override
-	public boolean isResetted()
-	{
-		return (!reset && !scrolling && !inertia && !accelerometer && !sensorialRotation);
-	}
-	
-	@Override
-	public PLViewParameters reset()
-	{
-		reset = scrolling = inertia = accelerometer = sensorialRotation = false;
-		return this;
-	}
-	
-	/**set methods*/
-	
-	@Override
-	public PLViewParameters setValues(PLViewParameters parameters)
-	{
-		reset = parameters.reset;
-		scrolling = parameters.scrolling;
-		inertia = parameters.inertia;
-		accelerometer = parameters.accelerometer;
-		sensorialRotation = parameters.sensorialRotation;
-		return this;
-	}
-	
-	/**clone methods*/
-	
-	@Override
-	public PLViewParameters clone()
-	{
-		return new PLViewParameters(this);
-	}
-	
-	/**native methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o != null && o instanceof PLViewParameters)
-		{
-			if(this == o)
-				return true;
-			PLViewParameters parameters = (PLViewParameters)o;
-			return
-			(
-				reset == parameters.reset && 
-				scrolling == parameters.scrolling && 
-				inertia == parameters.inertia && 
-				accelerometer == parameters.accelerometer && 
-				sensorialRotation == parameters.sensorialRotation
-			);
-		}
-		return false;
-	}
+public class PLViewParameters implements PLIStruct<PLViewParameters> {
+    /**
+     * member variables
+     */
+
+    public boolean reset, scrolling, inertia, accelerometer, sensorialRotation;
+
+    /**
+     * init methods
+     */
+
+    public PLViewParameters() {
+        super();
+        this.reset();
+    }
+
+    public PLViewParameters(PLViewParameters parameters) {
+        super();
+        this.setValues(parameters);
+    }
+
+    public static PLViewParameters PLViewParametersMake() {
+        return new PLViewParameters();
+    }
+
+    public static PLViewParameters PLViewParametersMake(PLViewParameters parameters) {
+        return new PLViewParameters(parameters);
+    }
+
+    /**
+     * reset methods
+     */
+
+    @Override
+    public boolean isResetted() {
+        return (!reset && !scrolling && !inertia && !accelerometer && !sensorialRotation);
+    }
+
+    @Override
+    public PLViewParameters reset() {
+        reset = scrolling = inertia = accelerometer = sensorialRotation = false;
+        return this;
+    }
+
+    /**
+     * set methods
+     */
+
+    @Override
+    public PLViewParameters setValues(PLViewParameters parameters) {
+        reset = parameters.reset;
+        scrolling = parameters.scrolling;
+        inertia = parameters.inertia;
+        accelerometer = parameters.accelerometer;
+        sensorialRotation = parameters.sensorialRotation;
+        return this;
+    }
+
+    /**
+     * clone methods
+     */
+
+    @Override
+    public PLViewParameters clone() {
+        return new PLViewParameters(this);
+    }
+
+    /**
+     * native methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof PLViewParameters) {
+            if (this == o)
+                return true;
+            PLViewParameters parameters = (PLViewParameters) o;
+            return
+                    (
+                            reset == parameters.reset &&
+                                    scrolling == parameters.scrolling &&
+                                    inertia == parameters.inertia &&
+                                    accelerometer == parameters.accelerometer &&
+                                    sensorialRotation == parameters.sensorialRotation
+                    );
+        }
+        return false;
+    }
 }

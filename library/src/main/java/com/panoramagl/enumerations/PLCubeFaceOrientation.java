@@ -18,12 +18,11 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLCubeFaceOrientation
-{
-	PLCubeFaceOrientationFront,
-	PLCubeFaceOrientationBack,
-	PLCubeFaceOrientationLeft,
-	PLCubeFaceOrientationRight,
-	PLCubeFaceOrientationUp,
-	PLCubeFaceOrientationDown,
+public enum PLCubeFaceOrientation {
+    PLCubeFaceOrientationFront,
+    PLCubeFaceOrientationBack,
+    PLCubeFaceOrientationLeft,
+    PLCubeFaceOrientationRight,
+    PLCubeFaceOrientationUp,
+    PLCubeFaceOrientationDown,
 }
