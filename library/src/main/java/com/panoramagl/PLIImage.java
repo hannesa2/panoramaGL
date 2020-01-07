@@ -25,70 +25,96 @@ import com.panoramagl.ios.structs.CGSize;
 
 import java.nio.ByteBuffer;
 
-public interface PLIImage
-{
-	/**property methods*/
-	
-	int getWidth();
-	
-	int getHeight();
-	
-	CGSize getSize();
-	
-	CGRect getRect();
-	
-	int getCount();
-	
-	Bitmap getBitmap();
-	
-	ByteBuffer getBits();
-	
-	boolean isValid();
-	
-	boolean isRecycled();
-	
-	boolean isLoaded();
-	
-	/**operation methods*/
-	
-	boolean equals(PLIImage image);
-	
-	PLIImage assign(Bitmap bitmap, boolean copy);
-	PLIImage assign(PLIImage image, boolean copy);
-	PLIImage assign(byte[] buffer, boolean copy);
-	
-	/**crop methods*/
-	
-	PLIImage crop(CGRect rect);
-	PLIImage crop(int x, int y, int width, int height);
-	
-	/**scale methods*/
-	
-	PLIImage scale(CGSize size);
-	PLIImage scale(int width, int height);
-	
-	/**rotate methods*/
-	
-	PLIImage rotate(int angle);
-	PLIImage rotate(float degrees, float px, float py);
-	
-	/**mirror methods*/
-	
-	PLIImage mirrorHorizontally();
-	PLIImage mirrorVertically();
-	PLIImage mirror(boolean horizontally, boolean vertically);
-	
-	/**sub-image methods*/
-	
-	Bitmap getSubImage(CGRect rect);
-	Bitmap getSubImage(int x, int y, int width, int height);
-	
-	/**recycle methods*/
-	
-	void recycle();
-	
-	/**clone methods*/
-	
-	Bitmap cloneBitmap();
-	PLIImage clone();
+public interface PLIImage {
+    /**
+     * property methods
+     */
+
+    int getWidth();
+
+    int getHeight();
+
+    CGSize getSize();
+
+    CGRect getRect();
+
+    int getCount();
+
+    Bitmap getBitmap();
+
+    ByteBuffer getBits();
+
+    boolean isValid();
+
+    boolean isRecycled();
+
+    boolean isLoaded();
+
+    /**
+     * operation methods
+     */
+
+    boolean equals(PLIImage image);
+
+    PLIImage assign(Bitmap bitmap, boolean copy);
+
+    PLIImage assign(PLIImage image, boolean copy);
+
+    PLIImage assign(byte[] buffer, boolean copy);
+
+    /**
+     * crop methods
+     */
+
+    PLIImage crop(CGRect rect);
+
+    PLIImage crop(int x, int y, int width, int height);
+
+    /**
+     * scale methods
+     */
+
+    PLIImage scale(CGSize size);
+
+    PLIImage scale(int width, int height);
+
+    /**
+     * rotate methods
+     */
+
+    PLIImage rotate(int angle);
+
+    PLIImage rotate(float degrees, float px, float py);
+
+    /**
+     * mirror methods
+     */
+
+    PLIImage mirrorHorizontally();
+
+    PLIImage mirrorVertically();
+
+    PLIImage mirror(boolean horizontally, boolean vertically);
+
+    /**
+     * sub-image methods
+     */
+
+    Bitmap getSubImage(CGRect rect);
+
+    Bitmap getSubImage(int x, int y, int width, int height);
+
+    /**
+     * recycle methods
+     */
+
+    void recycle();
+
+    /**
+     * clone methods
+     */
+
+    Bitmap cloneBitmap();
+
+    PLIImage clone();
 }

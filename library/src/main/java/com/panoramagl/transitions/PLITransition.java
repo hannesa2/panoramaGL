@@ -23,35 +23,44 @@ import com.panoramagl.PLIPanorama;
 import com.panoramagl.PLIReleaseView;
 import com.panoramagl.PLIView;
 
-public interface PLITransition extends PLIReleaseView
-{
-	/**property methods*/
-	
-	PLIView getView();
-	
-	PLIPanorama getCurrentPanorama();
-	PLICamera getCurrentPanoramaCamera();
-	
-	PLIPanorama getNewPanorama();
-	PLICamera getNewPanoramaCamera();
-	
-	float getInterval();
-	void setInterval(float interval);
-	
-	int getProgressPercentage();
-	
-	boolean isRunning();
-	
-	boolean isValid();
-	
-	PLTransitionListener getInternalListener();
-	void setInternalListener(PLTransitionListener listener);
-	
-	PLITransitionListenerManager getListeners();
-	
-	/**control methods*/
-	
-	boolean start(PLIView view, PLIPanorama newPanorama);
-	boolean stop();
-	boolean end();
+public interface PLITransition extends PLIReleaseView {
+    /**
+     * property methods
+     */
+
+    PLIView getView();
+
+    PLIPanorama getCurrentPanorama();
+
+    PLICamera getCurrentPanoramaCamera();
+
+    PLIPanorama getNewPanorama();
+
+    PLICamera getNewPanoramaCamera();
+
+    float getInterval();
+
+    void setInterval(float interval);
+
+    int getProgressPercentage();
+
+    boolean isRunning();
+
+    boolean isValid();
+
+    PLTransitionListener getInternalListener();
+
+    void setInternalListener(PLTransitionListener listener);
+
+    PLITransitionListenerManager getListeners();
+
+    /**
+     * control methods
+     */
+
+    boolean start(PLIView view, PLIPanorama newPanorama);
+
+    boolean stop();
+
+    boolean end();
 }

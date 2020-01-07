@@ -18,15 +18,18 @@
 
 package com.panoramagl;
 
-public interface PLIQuadricPanorama extends PLIPanorama
-{
-	/**property methods*/
-	
-	int getPreviewDivs();
-	void setPreviewDivs(int previewDivs);
-	
-	int getDivs();
-	void setDivs(int divs);
-	
-	void setImage(PLIImage image);
+public interface PLIQuadricPanorama extends PLIPanorama {
+    /**
+     * property methods
+     */
+
+    int getPreviewDivs();
+
+    void setPreviewDivs(int previewDivs);
+
+    int getDivs();
+
+    void setDivs(int divs);
+
+    void setImage(PLIImage image);
 }

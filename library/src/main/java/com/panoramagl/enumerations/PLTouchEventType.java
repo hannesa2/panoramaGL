@@ -18,9 +18,8 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLTouchEventType
-{
-	PLTouchEventTypeBegan,
-	PLTouchEventTypeMoved,
-	PLTouchEventTypeEnded,
+public enum PLTouchEventType {
+    PLTouchEventTypeBegan,
+    PLTouchEventTypeMoved,
+    PLTouchEventTypeEnded,
 }

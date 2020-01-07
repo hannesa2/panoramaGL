@@ -22,70 +22,63 @@ import com.panoramagl.listeners.PLListenerManagerBase;
 
 import java.util.List;
 
-public class PLTransitionListenerManager extends PLListenerManagerBase<PLTransitionListener> implements PLITransitionListenerManager
-{
-	/**init methods*/
-	
-	public PLTransitionListenerManager()
-	{
-		super();
-	}
-	
-	/**PLTransitionListener methods*/
-	
-	@Override
-	public boolean isRemovableListener()
-	{
-		return false;
-	}
-	
-	@Override
-	public void didBeginTransition(PLITransition transition)
-	{
-		List<PLTransitionListener> listeners = this.getListeners();
-		for(int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
-			listeners.get(i).didBeginTransition(transition);
-	}
-	
-	@Override
-	public void didProcessTransition(PLITransition transition, int progressPercentage)
-	{
-		List<PLTransitionListener> listeners = this.getListeners();
-		for(int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
-			listeners.get(i).didProcessTransition(transition, progressPercentage);
-	}
-	
-	@Override
-	public void didStopTransition(PLITransition transition, int progressPercentage)
-	{
-		List<PLTransitionListener> listeners = this.getListeners();
-		for(int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
-		{
-			PLTransitionListener listener = listeners.get(i);
-			listener.didStopTransition(transition, progressPercentage);
-			if(listener.isRemovableListener())
-			{
-				this.remove(listener);
-				listenersLength--;
-				i--;
-			}
-		}
-	}
-	
-	@Override
-	public void didEndTransition(PLITransition transition)
-	{
-		List<PLTransitionListener> listeners = this.getListeners();
-		for(int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
-		{
-			PLTransitionListener listener = listeners.get(i);
-			listener.didEndTransition(transition);
-			if(listener.isRemovableListener())
-			{
-				this.remove(listener);
-				listenersLength--;
-				i--;
-			}
-		}
-	}
+public class PLTransitionListenerManager extends PLListenerManagerBase<PLTransitionListener> implements PLITransitionListenerManager {
+    /**
+     * init methods
+     */
+
+    public PLTransitionListenerManager() {
+        super();
+    }
+
+    /**
+     * PLTransitionListener methods
+     */
+
+    @Override
+    public boolean isRemovableListener() {
+        return false;
+    }
+
+    @Override
+    public void didBeginTransition(PLITransition transition) {
+        List<PLTransitionListener> listeners = this.getListeners();
+        for (int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
+            listeners.get(i).didBeginTransition(transition);
+    }
+
+    @Override
+    public void didProcessTransition(PLITransition transition, int progressPercentage) {
+        List<PLTransitionListener> listeners = this.getListeners();
+        for (int i = 0, listenersLength = listeners.size(); i < listenersLength; i++)
+            listeners.get(i).didProcessTransition(transition, progressPercentage);
+    }
+
+    @Override
+    public void didStopTransition(PLITransition transition, int progressPercentage) {
+        List<PLTransitionListener> listeners = this.getListeners();
+        for (int i = 0, listenersLength = listeners.size(); i < listenersLength; i++) {
+            PLTransitionListener listener = listeners.get(i);
+            listener.didStopTransition(transition, progressPercentage);
+            if (listener.isRemovableListener()) {
+                this.remove(listener);
+                listenersLength--;
+                i--;
+            }
+        }
+    }
+
+    @Override
+    public void didEndTransition(PLITransition transition) {
+        List<PLTransitionListener> listeners = this.getListeners();
+        for (int i = 0, listenersLength = listeners.size(); i < listenersLength; i++) {
+            PLTransitionListener listener = listeners.get(i);
+            listener.didEndTransition(transition);
+            if (listener.isRemovableListener()) {
+                this.remove(listener);
+                listenersLength--;
+                i--;
+            }
+        }
+    }
 }

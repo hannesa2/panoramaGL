@@ -20,31 +20,48 @@ package com.panoramagl.interpreters;
 
 import java.util.List;
 
-public interface PLITokenInfo
-{
-	/**property methods*/
-	
-	String getName();
-	void setName(String name);
-	
-	List<Object> getValues();
-	void setValues(List<Object> values);
-	
-	/**value methods*/
-	
-	boolean hasValue(int index);
-	Object getValue(int index);
-	String getString(int index);
-	boolean getBoolean(int index);
-	int getInt(int index);
-	float getFloat(int index);
-	double getDouble(int index);
-	PLITokenInfo getTokenInfo(int index);
-	
-	int valuesLength();
-	boolean addValue(Object value);
-	boolean insertValue(Object value, int index);
-	boolean removeValue(Object value);
-	Object removeValueAtIndex(int index);
-	boolean removeAllValues();
+public interface PLITokenInfo {
+    /**
+     * property methods
+     */
+
+    String getName();
+
+    void setName(String name);
+
+    List<Object> getValues();
+
+    void setValues(List<Object> values);
+
+    /**
+     * value methods
+     */
+
+    boolean hasValue(int index);
+
+    Object getValue(int index);
+
+    String getString(int index);
+
+    boolean getBoolean(int index);
+
+    int getInt(int index);
+
+    float getFloat(int index);
+
+    double getDouble(int index);
+
+    PLITokenInfo getTokenInfo(int index);
+
+    int valuesLength();
+
+    boolean addValue(Object value);
+
+    boolean insertValue(Object value, int index);
+
+    boolean removeValue(Object value);
+
+    Object removeValueAtIndex(int index);
+
+    boolean removeAllValues();
 }

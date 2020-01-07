@@ -18,10 +18,9 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLTextureColorFormat
-{
-	PLTextureColorFormatUnknown,
-	PLTextureColorFormatRGBA8888,
-	PLTextureColorFormatRGB565,
-	PLTextureColorFormatRGBA4444,
+public enum PLTextureColorFormat {
+    PLTextureColorFormatUnknown,
+    PLTextureColorFormatRGBA8888,
+    PLTextureColorFormatRGB565,
+    PLTextureColorFormatRGBA4444,
 }

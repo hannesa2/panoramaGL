@@ -18,98 +18,96 @@
 
 package com.panoramagl.structs;
 
-public class PLRange implements PLIStruct<PLRange>
-{
-	/**member variables*/
-	
-	public float min, max;
-	
-	/**init methods*/
-	
-	public PLRange()
-	{
-		this(0.0f, 0.0f);
-	}
-	
-	public PLRange(PLRange range)
-	{
-		this(range.min, range.max);
-	}
-	
-	public PLRange(float min, float max)
-	{
-		super();
-		this.min = min;
-		this.max = max;
-	}
-	
-	public static PLRange PLRangeMake()
-	{
-		return new PLRange();
-	}
-	
-	public static PLRange PLRangeMake(PLRange range)
-	{
-		return new PLRange(range.min, range.max);
-	}
-	
-	public static PLRange PLRangeMake(float min, float max)
-	{
-		return new PLRange(min, max);
-	}
-	
-	/**reset methods*/
-	
-	@Override
-	public boolean isResetted()
-	{
-		return (min == 0.0f && max == 0.0f);
-	}
-	
-	@Override
-	public PLRange reset()
-	{
-		min = max = 0.0f;
-		return this;
-	}
-	
-	/**set methods*/
-	
-	@Override
-	public PLRange setValues(PLRange range)
-	{
-		min = range.min;
-		max = range.max;
-		return this;
-	}
-	
-	public PLRange setValues(float min, float max)
-	{
-		this.min = min;
-		this.max = max;
-		return this;
-	}
-	
-	/**clone methods*/
-	
-	@Override
-	public PLRange clone()
-	{
-		return new PLRange(min, max);
-	}
-	
-	/**native methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o != null && o instanceof PLRange)
-		{
-			if(this == o)
-				return true;
-			PLRange range = (PLRange)o;
-			return (min == range.min && max == range.max);
-		}
-		return false;
-	}
+public class PLRange implements PLIStruct<PLRange> {
+    /**
+     * member variables
+     */
+
+    public float min, max;
+
+    /**
+     * init methods
+     */
+
+    public PLRange() {
+        this(0.0f, 0.0f);
+    }
+
+    public PLRange(PLRange range) {
+        this(range.min, range.max);
+    }
+
+    public PLRange(float min, float max) {
+        super();
+        this.min = min;
+        this.max = max;
+    }
+
+    public static PLRange PLRangeMake() {
+        return new PLRange();
+    }
+
+    public static PLRange PLRangeMake(PLRange range) {
+        return new PLRange(range.min, range.max);
+    }
+
+    public static PLRange PLRangeMake(float min, float max) {
+        return new PLRange(min, max);
+    }
+
+    /**
+     * reset methods
+     */
+
+    @Override
+    public boolean isResetted() {
+        return (min == 0.0f && max == 0.0f);
+    }
+
+    @Override
+    public PLRange reset() {
+        min = max = 0.0f;
+        return this;
+    }
+
+    /**
+     * set methods
+     */
+
+    @Override
+    public PLRange setValues(PLRange range) {
+        min = range.min;
+        max = range.max;
+        return this;
+    }
+
+    public PLRange setValues(float min, float max) {
+        this.min = min;
+        this.max = max;
+        return this;
+    }
+
+    /**
+     * clone methods
+     */
+
+    @Override
+    public PLRange clone() {
+        return new PLRange(min, max);
+    }
+
+    /**
+     * native methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof PLRange) {
+            if (this == o)
+                return true;
+            PLRange range = (PLRange) o;
+            return (min == range.min && max == range.max);
+        }
+        return false;
+    }
 }

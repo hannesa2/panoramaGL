@@ -18,13 +18,18 @@
 
 package com.panoramagl.listeners;
 
-public interface PLIListenerManager<T>
-{
-	/**listener methods*/
-	
-	int length();
-	boolean add(T listener);
-	boolean insert(T listener, int index);
-	boolean remove(T listener);
-	boolean removeAll();
+public interface PLIListenerManager<T> {
+    /**
+     * listener methods
+     */
+
+    int length();
+
+    boolean add(T listener);
+
+    boolean insert(T listener, int index);
+
+    boolean remove(T listener);
+
+    boolean removeAll();
 }

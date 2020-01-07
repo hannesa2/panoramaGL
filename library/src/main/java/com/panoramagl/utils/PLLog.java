@@ -20,41 +20,38 @@ package com.panoramagl.utils;
 
 import android.util.Log;
 
-public class PLLog
-{
-	/**constants*/
-	
-	private static final String kPanoramaGLTag = "PanoramaGL - ";
-	
-	/**log methods*/
-	
-	public static void debug(String tag, String msg)
-	{
-		Log.d(kPanoramaGLTag + tag, msg);
-	}
-	
-	public static void debug(String tag, Throwable e)
-	{
-		Log.d(kPanoramaGLTag + tag, "", e);
-	}
-	
-	public static void debug(String tag, String format, Object ... args)
-	{
-		Log.d(kPanoramaGLTag + tag, String.format(format, args));
-	}
-	
-	public static void error(String tag, String msg)
-	{
-		Log.e(kPanoramaGLTag + tag, msg);
-	}
-	
-	public static void error(String tag, Throwable e)
-	{
-		Log.e(kPanoramaGLTag + tag, "", e);
-	}
-	
-	public static void error(String tag, String format, Object ... args)
-	{
-		Log.e(kPanoramaGLTag + tag, String.format(format, args));
-	}
+public class PLLog {
+    /**
+     * constants
+     */
+
+    private static final String kPanoramaGLTag = "PanoramaGL - ";
+
+    /**
+     * log methods
+     */
+
+    public static void debug(String tag, String msg) {
+        Log.d(kPanoramaGLTag + tag, msg);
+    }
+
+    public static void debug(String tag, Throwable e) {
+        Log.d(kPanoramaGLTag + tag, "", e);
+    }
+
+    public static void debug(String tag, String format, Object... args) {
+        Log.d(kPanoramaGLTag + tag, String.format(format, args));
+    }
+
+    public static void error(String tag, String msg) {
+        Log.e(kPanoramaGLTag + tag, msg);
+    }
+
+    public static void error(String tag, Throwable e) {
+        Log.e(kPanoramaGLTag + tag, "", e);
+    }
+
+    public static void error(String tag, String format, Object... args) {
+        Log.e(kPanoramaGLTag + tag, String.format(format, args));
+    }
 }

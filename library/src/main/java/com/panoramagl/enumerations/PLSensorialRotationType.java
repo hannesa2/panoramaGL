@@ -18,9 +18,8 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLSensorialRotationType
-{
-	PLSensorialRotationTypeUnknow,
-	PLSensorialRotationTypeGyroscope,
-	PLSensorialRotationTypeAccelerometerAndMagnetometer,
+public enum PLSensorialRotationType {
+    PLSensorialRotationTypeUnknow,
+    PLSensorialRotationTypeGyroscope,
+    PLSensorialRotationTypeAccelerometerAndMagnetometer,
 }

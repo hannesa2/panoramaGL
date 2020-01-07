@@ -18,11 +18,10 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLPanoramaType
-{
-	PLPanoramaTypeUnknow,
-	PLPanoramaTypeCubic,
-	PLPanoramaTypeSpherical,
-	PLPanoramaTypeSpherical2,
-	PLPanoramaTypeCylindrical,
+public enum PLPanoramaType {
+    PLPanoramaTypeUnknow,
+    PLPanoramaTypeCubic,
+    PLPanoramaTypeSpherical,
+    PLPanoramaTypeSpherical2,
+    PLPanoramaTypeCylindrical,
 }

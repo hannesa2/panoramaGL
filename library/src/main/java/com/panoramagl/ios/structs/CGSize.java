@@ -20,110 +20,106 @@ package com.panoramagl.ios.structs;
 
 import com.panoramagl.structs.PLIStruct;
 
-public class CGSize implements PLIStruct<CGSize>
-{
-	/**member variables*/
-	
-	public int width, height;
-	
-	/**init methods*/
-	
-	public CGSize()
-	{
-		this(0, 0);
-	}
-	
-	public CGSize(CGSize size)
-	{
-		this(size.width, size.height);
-	}
-	
-	public CGSize(int width, int height)
-	{
-		super();
-		this.width = width;
-		this.height = height;
-	}
-	
-	public static CGSize CGSizeMake()
-	{
-		return new CGSize();
-	}
-	
-	public static CGSize CGSizeMake(CGSize size)
-	{
-		return new CGSize(size);
-	}
-	
-	public static CGSize CGSizeMake(int width, int height)
-	{
-		return new CGSize(width, height);
-	}
-	
-	public static CGSize CGSizeMake(float width, float height)
-	{
-		return new CGSize((int)width, (int)height);
-	}
-	
-	/**reset methods*/
-	
-	@Override
-	public boolean isResetted()
-	{
-		return (width == 0 && height == 0);
-	}
-	
-	@Override
-	public CGSize reset()
-	{
-		width = height = 0;
-		return this;
-	}
-	
-	/**set methods*/
-	
-	@Override
-	public CGSize setValues(CGSize size)
-	{
-		width = size.width;
-		height = size.height;
-		return this;
-	}
-	
-	public CGSize setValues(int width, int height)
-	{
-		this.width = width;
-		this.height = height;
-		return this;
-	}
-	
-	public CGSize setValues(float width, float height)
-	{
-		this.width = (int)width;
-		this.height = (int)height;
-		return this;
-	}
-	
-	/**clone methods*/
-	
-	@Override
-	public CGSize clone()
-	{
-		return new CGSize(width, height);
-	}
-	
-	/**native methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		if(o != null && o instanceof CGSize)
-		{
-			if(this == o)
-				return true;
-			CGSize size = (CGSize)o;
-			return (width == size.width && height == size.height);
-		}
-		return false;
-	}
+public class CGSize implements PLIStruct<CGSize> {
+    /**
+     * member variables
+     */
+
+    public int width, height;
+
+    /**
+     * init methods
+     */
+
+    public CGSize() {
+        this(0, 0);
+    }
+
+    public CGSize(CGSize size) {
+        this(size.width, size.height);
+    }
+
+    public CGSize(int width, int height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+
+    public static CGSize CGSizeMake() {
+        return new CGSize();
+    }
+
+    public static CGSize CGSizeMake(CGSize size) {
+        return new CGSize(size);
+    }
+
+    public static CGSize CGSizeMake(int width, int height) {
+        return new CGSize(width, height);
+    }
+
+    public static CGSize CGSizeMake(float width, float height) {
+        return new CGSize((int) width, (int) height);
+    }
+
+    /**
+     * reset methods
+     */
+
+    @Override
+    public boolean isResetted() {
+        return (width == 0 && height == 0);
+    }
+
+    @Override
+    public CGSize reset() {
+        width = height = 0;
+        return this;
+    }
+
+    /**
+     * set methods
+     */
+
+    @Override
+    public CGSize setValues(CGSize size) {
+        width = size.width;
+        height = size.height;
+        return this;
+    }
+
+    public CGSize setValues(int width, int height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
+
+    public CGSize setValues(float width, float height) {
+        this.width = (int) width;
+        this.height = (int) height;
+        return this;
+    }
+
+    /**
+     * clone methods
+     */
+
+    @Override
+    public CGSize clone() {
+        return new CGSize(width, height);
+    }
+
+    /**
+     * native methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof CGSize) {
+            if (this == o)
+                return true;
+            CGSize size = (CGSize) o;
+            return (width == size.width && height == size.height);
+        }
+        return false;
+    }
 }

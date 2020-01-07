@@ -22,47 +22,70 @@ import com.panoramagl.enumerations.PLSceneElementTouchStatus;
 
 import java.util.List;
 
-public interface PLISceneElement extends PLIRenderableElement
-{
-	/**property methods*/
-	
-	long getIdentifier();
-	void setIdentifier(long identifier);
-	
-	boolean isCollisionEnabled();
-	void setCollisionEnabled(boolean isCollisionEnabled);
-	
-	boolean isRecycledByParent();
-	void setRecycledByParent(boolean isRecycledByParent);
-	
-	float[] getVertexs();
-	
-	PLSceneElementTouchStatus getTouchStatus();
-	
-	/**texture methods*/
-	
-	int texturesLength();
-	List<PLITexture> getTextures(List<PLITexture> textures);
-	PLITexture getTexture(int index);
-	boolean addTexture(PLITexture texture);
-	boolean insertTexture(PLITexture texture, int index);
-	boolean removeTexture(PLITexture texture);
-	PLITexture removeTextureAtIndex(int index);
-	boolean removeAllTextures();
-	
-	/**image methods*/
-	
-	boolean addImage(PLIImage image);
-	
-	/**interaction methods*/
-	
-	boolean lockInteraction();
-	boolean unlockInteraction();
-	
-	/**touch methods*/
-	
-	boolean touchOver(Object sender);
-	boolean touchMove(Object sender);
-	boolean touchOut(Object sender);
-	boolean touchDown(Object sender);
+public interface PLISceneElement extends PLIRenderableElement {
+    /**
+     * property methods
+     */
+
+    long getIdentifier();
+
+    void setIdentifier(long identifier);
+
+    boolean isCollisionEnabled();
+
+    void setCollisionEnabled(boolean isCollisionEnabled);
+
+    boolean isRecycledByParent();
+
+    void setRecycledByParent(boolean isRecycledByParent);
+
+    float[] getVertexs();
+
+    PLSceneElementTouchStatus getTouchStatus();
+
+    /**
+     * texture methods
+     */
+
+    int texturesLength();
+
+    List<PLITexture> getTextures(List<PLITexture> textures);
+
+    PLITexture getTexture(int index);
+
+    boolean addTexture(PLITexture texture);
+
+    boolean insertTexture(PLITexture texture, int index);
+
+    boolean removeTexture(PLITexture texture);
+
+    PLITexture removeTextureAtIndex(int index);
+
+    boolean removeAllTextures();
+
+    /**
+     * image methods
+     */
+
+    boolean addImage(PLIImage image);
+
+    /**
+     * interaction methods
+     */
+
+    boolean lockInteraction();
+
+    boolean unlockInteraction();
+
+    /**
+     * touch methods
+     */
+
+    boolean touchOver(Object sender);
+
+    boolean touchMove(Object sender);
+
+    boolean touchOut(Object sender);
+
+    boolean touchDown(Object sender);
 }

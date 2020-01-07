@@ -18,8 +18,7 @@
 
 package com.panoramagl.ios.enumerations;
 
-public enum EAGLRenderingAPI
-{
-	kEAGLRenderingAPIOpenGLES1,
-	kEAGLRenderingAPIOpenGLES2,
+public enum EAGLRenderingAPI {
+    kEAGLRenderingAPIOpenGLES1,
+    kEAGLRenderingAPIOpenGLES2,
 }

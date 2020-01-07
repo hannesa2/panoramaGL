@@ -20,22 +20,28 @@ package com.panoramagl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public interface PLIRenderableElement extends PLIObject
-{
-	/**property methods*/
-	
-	boolean isVisible();
-	void setVisible(boolean isVisible);
-	
-	boolean isValid();
-	
-	boolean isRendering();
-	
-	/**clear methods*/
-	
-	void clear();
-	
-	/**render methods*/
-	
-	boolean render(GL10 gl, PLIRenderer renderer);
+public interface PLIRenderableElement extends PLIObject {
+    /**
+     * property methods
+     */
+
+    boolean isVisible();
+
+    void setVisible(boolean isVisible);
+
+    boolean isValid();
+
+    boolean isRendering();
+
+    /**
+     * clear methods
+     */
+
+    void clear();
+
+    /**
+     * render methods
+     */
+
+    boolean render(GL10 gl, PLIRenderer renderer);
 }

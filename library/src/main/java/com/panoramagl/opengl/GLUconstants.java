@@ -18,35 +18,44 @@
 
 package com.panoramagl.opengl;
 
-public class GLUconstants
-{
-	/**error code constants*/
-	
-	public static final int GLU_INVALID_ENUM =                 	100900;
-	public static final int GLU_INVALID_VALUE =                 100901;
-	public static final int GLU_OUT_OF_MEMORY =                 100902;
-	public static final int GLU_INCOMPATIBLE_GL_VERSION =       100903;
-	public static final int GLU_INVALID_OPERATION =             100904;
-	
-	/**quadric draw style constants*/
-	
-	public static final int GLU_POINT =                         100010;
-	public static final int GLU_LINE =                          100011;
-	public static final int GLU_FILL =                          100012;
-	public static final int GLU_SILHOUETTE =                   	100013;
-	
-	/**quadric callback constants*/
-	
-	public static final int GLU_ERROR =                        	100103;
-	
-	/**quadric normal constants*/
-	
-	public static final int GLU_SMOOTH =                        100000;
-	public static final int GLU_FLAT =                          100001;
-	public static final int GLU_NONE =                          100002;
-	
-	/**quadric orientation constants*/
-	
-	public static final int GLU_OUTSIDE =                       100020;
-	public static final int GLU_INSIDE  =                       100021;
+public class GLUconstants {
+    /**
+     * error code constants
+     */
+
+    public static final int GLU_INVALID_ENUM = 100900;
+    public static final int GLU_INVALID_VALUE = 100901;
+    public static final int GLU_OUT_OF_MEMORY = 100902;
+    public static final int GLU_INCOMPATIBLE_GL_VERSION = 100903;
+    public static final int GLU_INVALID_OPERATION = 100904;
+
+    /**
+     * quadric draw style constants
+     */
+
+    public static final int GLU_POINT = 100010;
+    public static final int GLU_LINE = 100011;
+    public static final int GLU_FILL = 100012;
+    public static final int GLU_SILHOUETTE = 100013;
+
+    /**
+     * quadric callback constants
+     */
+
+    public static final int GLU_ERROR = 100103;
+
+    /**
+     * quadric normal constants
+     */
+
+    public static final int GLU_SMOOTH = 100000;
+    public static final int GLU_FLAT = 100001;
+    public static final int GLU_NONE = 100002;
+
+    /**
+     * quadric orientation constants
+     */
+
+    public static final int GLU_OUTSIDE = 100020;
+    public static final int GLU_INSIDE = 100021;
 }

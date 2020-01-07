@@ -18,21 +18,30 @@
 
 package com.panoramagl.downloaders;
 
-public interface PLIFileDownloaderManager
-{
-	/**property methods*/
-	
-	boolean isRunning();
-	
-	/**file downloaders methods*/
-	
-	void add(PLIFileDownloader fileDownloader);
-	boolean remove(PLIFileDownloader fileDownloader);
-	boolean removeAll();
-	
-	/**control methods*/
-	
-	void download(PLIFileDownloader fileDownloader);
-	boolean start();
-	boolean stop();
+public interface PLIFileDownloaderManager {
+    /**
+     * property methods
+     */
+
+    boolean isRunning();
+
+    /**
+     * file downloaders methods
+     */
+
+    void add(PLIFileDownloader fileDownloader);
+
+    boolean remove(PLIFileDownloader fileDownloader);
+
+    boolean removeAll();
+
+    /**
+     * control methods
+     */
+
+    void download(PLIFileDownloader fileDownloader);
+
+    boolean start();
+
+    boolean stop();
 }

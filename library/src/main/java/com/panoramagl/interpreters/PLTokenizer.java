@@ -33,117 +33,120 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PLTokenizer extends PLObjectBase implements PLITokenizer
-{
-	/**member variables*/
-	
-	private List<PLIToken> mTokens;
-	private List<PLTokenData> mTokensData;
-	
-	/**init methods*/
-	
-	public PLTokenizer()
-	{
-		super();
-	}
-	
-	@Override
-	protected void initializeValues()
-	{
-		mTokens = new ArrayList<PLIToken>();
-		mTokensData = new ArrayList<PLTokenData>();
-	}
-	
-	/**property methods*/
-	
-	@Override
-	public List<PLIToken> getTokens()
-	{
-		return mTokens;
-	}
-	
-	protected List<PLTokenData> getTokensData()
-	{
-		return mTokensData;
-	}
-	
-	/**token methods*/
-	
-	@Override
-	public void addToken(PLTokenType tokenType, String regex)
-	{
-		mTokensData.add(PLTokenData.PLTokenDataMake(tokenType, Pattern.compile("^(" + regex + ")")));
-	}
-	
-	@Override
-	public void tokenize(String input)
-	{
-		String inputText = input.trim();
-		mTokens.clear();
-		while(!inputText.equals(""))
-		{
-			boolean match = false;
-			for(int i = 0, tokensDataLength = mTokensData.size(); i < tokensDataLength; i++)
-			{
-				PLTokenData tokenData = mTokensData.get(i);
-				Matcher matcher = tokenData.regex.matcher(inputText);
-				if(matcher.find())
-				{
-					match = true;
-					String sequence = matcher.group().trim();
-					inputText = matcher.replaceFirst("").trim();
-					mTokens.add(new PLToken(tokenData.type, sequence));
-					break;
-				}
-			}
-			if(!match)
-				throw new RuntimeException("Unexpected character in input: " + inputText);
-		}
-	}
-	
-	/**dealloc methods*/
-	
-	@Override
-	protected void finalize() throws Throwable
-	{
-		mTokens.clear();
-		mTokens = null;
-		mTokensData.clear();
-		mTokensData = null;
-		super.finalize();
-	}
-	
-	/**internal classes declaration*/
-	
-	protected static class PLTokenData
-	{
-		/**member variables*/
-		
-		public PLTokenType type;
-		public Pattern regex;
-		
-		/**init methods*/
-		
-		public PLTokenData(PLTokenType typeValue, Pattern regexValue)
-		{
-			super();
-			type = typeValue;
-			regex = regexValue;
-		}
-		
-		public static PLTokenData PLTokenDataMake(PLTokenType type, Pattern regex)
-		{
-			return new PLTokenData(type, regex);
-		}
-		
-		/**dealloc methods*/
-		
-		@Override
-		protected void finalize() throws Throwable
-		{
-			type = null;
-			regex = null;
-			super.finalize();
-		}
-	}
+public class PLTokenizer extends PLObjectBase implements PLITokenizer {
+    /**
+     * member variables
+     */
+
+    private List<PLIToken> mTokens;
+    private List<PLTokenData> mTokensData;
+
+    /**
+     * init methods
+     */
+
+    public PLTokenizer() {
+        super();
+    }
+
+    @Override
+    protected void initializeValues() {
+        mTokens = new ArrayList<PLIToken>();
+        mTokensData = new ArrayList<PLTokenData>();
+    }
+
+    /**
+     * property methods
+     */
+
+    @Override
+    public List<PLIToken> getTokens() {
+        return mTokens;
+    }
+
+    protected List<PLTokenData> getTokensData() {
+        return mTokensData;
+    }
+
+    /**
+     * token methods
+     */
+
+    @Override
+    public void addToken(PLTokenType tokenType, String regex) {
+        mTokensData.add(PLTokenData.PLTokenDataMake(tokenType, Pattern.compile("^(" + regex + ")")));
+    }
+
+    @Override
+    public void tokenize(String input) {
+        String inputText = input.trim();
+        mTokens.clear();
+        while (!inputText.equals("")) {
+            boolean match = false;
+            for (int i = 0, tokensDataLength = mTokensData.size(); i < tokensDataLength; i++) {
+                PLTokenData tokenData = mTokensData.get(i);
+                Matcher matcher = tokenData.regex.matcher(inputText);
+                if (matcher.find()) {
+                    match = true;
+                    String sequence = matcher.group().trim();
+                    inputText = matcher.replaceFirst("").trim();
+                    mTokens.add(new PLToken(tokenData.type, sequence));
+                    break;
+                }
+            }
+            if (!match)
+                throw new RuntimeException("Unexpected character in input: " + inputText);
+        }
+    }
+
+    /**
+     * dealloc methods
+     */
+
+    @Override
+    protected void finalize() throws Throwable {
+        mTokens.clear();
+        mTokens = null;
+        mTokensData.clear();
+        mTokensData = null;
+        super.finalize();
+    }
+
+    /**
+     * internal classes declaration
+     */
+
+    protected static class PLTokenData {
+        /**
+         * member variables
+         */
+
+        public PLTokenType type;
+        public Pattern regex;
+
+        /**
+         * init methods
+         */
+
+        public PLTokenData(PLTokenType typeValue, Pattern regexValue) {
+            super();
+            type = typeValue;
+            regex = regexValue;
+        }
+
+        public static PLTokenData PLTokenDataMake(PLTokenType type, Pattern regex) {
+            return new PLTokenData(type, regex);
+        }
+
+        /**
+         * dealloc methods
+         */
+
+        @Override
+        protected void finalize() throws Throwable {
+            type = null;
+            regex = null;
+            super.finalize();
+        }
+    }
 }

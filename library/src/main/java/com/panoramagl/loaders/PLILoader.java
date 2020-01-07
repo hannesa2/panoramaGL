@@ -21,19 +21,26 @@ package com.panoramagl.loaders;
 import com.panoramagl.PLIView;
 import com.panoramagl.transitions.PLITransition;
 
-public interface PLILoader
-{
-	/**property methods*/
-	
-	PLLoaderListener getInternalListener();
-	void setInternalListener(PLLoaderListener listener);
-	
-	PLLoaderListener getListener();
-	void setListener(PLLoaderListener listener);
-	
-	/**load methods*/
-	
-	void load(PLIView view);
-	void load(PLIView view, PLITransition transition);
-	void load(PLIView view, PLITransition transition, float initialPitch, float initialYaw);
+public interface PLILoader {
+    /**
+     * property methods
+     */
+
+    PLLoaderListener getInternalListener();
+
+    void setInternalListener(PLLoaderListener listener);
+
+    PLLoaderListener getListener();
+
+    void setListener(PLLoaderListener listener);
+
+    /**
+     * load methods
+     */
+
+    void load(PLIView view);
+
+    void load(PLIView view, PLITransition transition);
+
+    void load(PLIView view, PLITransition transition, float initialPitch, float initialYaw);
 }

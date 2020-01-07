@@ -22,68 +22,64 @@ import com.panoramagl.opengl.GLUES;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class PLSphericalPanorama extends PLQuadricPanoramaBase
-{
-	/**init methods*/
-	
-	public PLSphericalPanorama()
-	{
-		super();
-	}
-	
-	@Override
-	protected void initializeValues()
-	{
-	    super.initializeValues();
-	    this.setPreviewDivs(PLConstants.kDefaultSpherePreviewDivs);
-		this.setDivs(PLConstants.kDefaultSphereDivs);
-	}
-	
-	/**property methods*/
-	
-	@Override
-	public void setImage(PLIImage image)
-	{
-	    if(image != null)
-	        this.setTexture(new PLTexture(image));
-	}
-	
-	public void setTexture(PLITexture texture)
-	{
-	    this.setTexture(texture, 0);
-	}
-	
-	/**render methods*/
-	
-	@Override
-	public void internalRender(GL10 gl, PLIRenderer renderer)
-	{
-		PLITexture previewTexture = this.getPreviewTextures()[0], texture = this.getTextures()[0];
-	    
-		boolean textureIsValid = (texture != null && texture.getTextureId(gl) != 0);
-	    
-	    if(textureIsValid || (previewTexture != null && previewTexture.getTextureId(gl) != 0))
-	    {
-	    	gl.glEnable(GL10.GL_TEXTURE_2D);
-	    	
-	    	int divs;
-	    	
-		    if(textureIsValid)
-		    {
-		    	divs = this.getDivs();
-		        gl.glBindTexture(GL10.GL_TEXTURE_2D, texture.getTextureId(gl));
-		        if(previewTexture != null)
-		            this.removePreviewTextureAtIndex(0, true);
-		    }
-		    else
-		    {
-		    	divs = this.getPreviewDivs();
-		    	gl.glBindTexture(GL10.GL_TEXTURE_2D, previewTexture.getTextureId(gl));
-		    }
-		    
-		    GLUES.gluSphere(gl, this.getQuadric(), PLConstants.kPanoramaRadius, divs, divs);
-			
-		    gl.glDisable(GL10.GL_TEXTURE_2D);
-	    }
-	}
+public class PLSphericalPanorama extends PLQuadricPanoramaBase {
+    /**
+     * init methods
+     */
+
+    public PLSphericalPanorama() {
+        super();
+    }
+
+    @Override
+    protected void initializeValues() {
+        super.initializeValues();
+        this.setPreviewDivs(PLConstants.kDefaultSpherePreviewDivs);
+        this.setDivs(PLConstants.kDefaultSphereDivs);
+    }
+
+    /**
+     * property methods
+     */
+
+    @Override
+    public void setImage(PLIImage image) {
+        if (image != null)
+            this.setTexture(new PLTexture(image));
+    }
+
+    public void setTexture(PLITexture texture) {
+        this.setTexture(texture, 0);
+    }
+
+    /**
+     * render methods
+     */
+
+    @Override
+    public void internalRender(GL10 gl, PLIRenderer renderer) {
+        PLITexture previewTexture = this.getPreviewTextures()[0], texture = this.getTextures()[0];
+
+        boolean textureIsValid = (texture != null && texture.getTextureId(gl) != 0);
+
+        if (textureIsValid || (previewTexture != null && previewTexture.getTextureId(gl) != 0)) {
+            gl.glEnable(GL10.GL_TEXTURE_2D);
+
+            int divs;
+
+            if (textureIsValid) {
+                divs = this.getDivs();
+                gl.glBindTexture(GL10.GL_TEXTURE_2D, texture.getTextureId(gl));
+                if (previewTexture != null)
+                    this.removePreviewTextureAtIndex(0, true);
+            } else {
+                divs = this.getPreviewDivs();
+                gl.glBindTexture(GL10.GL_TEXTURE_2D, previewTexture.getTextureId(gl));
+            }
+
+            GLUES.gluSphere(gl, this.getQuadric(), PLConstants.kPanoramaRadius, divs, divs);
+
+            gl.glDisable(GL10.GL_TEXTURE_2D);
+        }
+    }
 }

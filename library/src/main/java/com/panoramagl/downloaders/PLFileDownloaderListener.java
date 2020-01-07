@@ -18,16 +18,22 @@
 
 package com.panoramagl.downloaders;
 
-public interface PLFileDownloaderListener
-{
-	/**download methods*/
-	
-	void didBeginDownload(String url, long startTime);
-	void didProgressDownload(String url, int progress);
-	void didStopDownload(String url);
-	void didEndDownload(String url, byte[] data, long elapsedTime);
-	
-	/**error methods*/
-	
-	void didErrorDownload(String url, String error, int responseCode, byte[] data);
+public interface PLFileDownloaderListener {
+    /**
+     * download methods
+     */
+
+    void didBeginDownload(String url, long startTime);
+
+    void didProgressDownload(String url, int progress);
+
+    void didStopDownload(String url);
+
+    void didEndDownload(String url, byte[] data, long elapsedTime);
+
+    /**
+     * error methods
+     */
+
+    void didErrorDownload(String url, String error, int responseCode, byte[] data);
 }

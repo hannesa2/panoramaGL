@@ -18,23 +18,24 @@
 
 package com.panoramagl;
 
-public abstract class PLObjectBase extends Object
-{
-	/**init methods*/
-	
-	public PLObjectBase()
-	{
-		super();
-		this.initializeValues();
-	}
-	
-	protected abstract void initializeValues();
-	
-	/**native object methods*/
-	
-	@Override
-	public boolean equals(Object o)
-	{
-		return (o != null && o.hashCode() == this.hashCode());
-	}
+public abstract class PLObjectBase extends Object {
+    /**
+     * init methods
+     */
+
+    public PLObjectBase() {
+        super();
+        this.initializeValues();
+    }
+
+    protected abstract void initializeValues();
+
+    /**
+     * native object methods
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        return (o != null && o.hashCode() == this.hashCode());
+    }
 }

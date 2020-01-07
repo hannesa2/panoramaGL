@@ -25,42 +25,62 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public interface PLIScene extends PLIRenderableElement, PLIReleaseView
-{
-	/**reset methods*/
-	
-	void resetAlpha();
-	
-	/**property methods*/
-	
-	PLICamera getCamera();
-	void setCamera(PLICamera camera);
-	
-	PLCameraListener getInternalCameraListener();
-	void setInternalCameraListener(PLCameraListener listener);
-	
-	PLIView getInternalView();
-	void setInternalView(PLIView view);
-	
-	boolean isLocked();
-	void setLocked(boolean isLocked);
-	
-	boolean getWaitingForClick();
-	void setWaitingForClick(boolean isWaitingForClick);
-	
-	/**element methods*/
-	
-	int elementsLength();
-	List<PLISceneElement> getElements(List<PLISceneElement> elements);
-	PLISceneElement getElement(int index);
-	boolean addElement(PLISceneElement element);
-	boolean insertElement(PLISceneElement element, int index);
-	boolean removeElement(PLISceneElement element);
-	PLISceneElement removeElementAtIndex(int index);
-	boolean removeAllElements();
-	
-	/**conversion methods*/
-	
-	PLPosition convertPointTo3DPoint(GL10 gl, CGPoint point, float z);
-	void convertPointTo3DPoint(GL10 gl, CGPoint point, float z, PLPosition result);
+public interface PLIScene extends PLIRenderableElement, PLIReleaseView {
+    /**
+     * reset methods
+     */
+
+    void resetAlpha();
+
+    /**
+     * property methods
+     */
+
+    PLICamera getCamera();
+
+    void setCamera(PLICamera camera);
+
+    PLCameraListener getInternalCameraListener();
+
+    void setInternalCameraListener(PLCameraListener listener);
+
+    PLIView getInternalView();
+
+    void setInternalView(PLIView view);
+
+    boolean isLocked();
+
+    void setLocked(boolean isLocked);
+
+    boolean getWaitingForClick();
+
+    void setWaitingForClick(boolean isWaitingForClick);
+
+    /**
+     * element methods
+     */
+
+    int elementsLength();
+
+    List<PLISceneElement> getElements(List<PLISceneElement> elements);
+
+    PLISceneElement getElement(int index);
+
+    boolean addElement(PLISceneElement element);
+
+    boolean insertElement(PLISceneElement element, int index);
+
+    boolean removeElement(PLISceneElement element);
+
+    PLISceneElement removeElementAtIndex(int index);
+
+    boolean removeAllElements();
+
+    /**
+     * conversion methods
+     */
+
+    PLPosition convertPointTo3DPoint(GL10 gl, CGPoint point, float z);
+
+    void convertPointTo3DPoint(GL10 gl, CGPoint point, float z, PLPosition result);
 }

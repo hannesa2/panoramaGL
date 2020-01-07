@@ -40,13 +40,13 @@ public class MatrixStack {
     }
 
     public void glFrustumf(float left, float right, float bottom, float top,
-            float near, float far) {
+                           float near, float far) {
         Matrix.frustumM(mMatrix, mTop, left, right, bottom, top, near, far);
     }
 
     public void glFrustumx(int left, int right, int bottom, int top, int near,
-            int far) {
-        glFrustumf(fixedToFloat(left),fixedToFloat(right),
+                           int far) {
+        glFrustumf(fixedToFloat(left), fixedToFloat(right),
                 fixedToFloat(bottom), fixedToFloat(top),
                 fixedToFloat(near), fixedToFloat(far));
     }
@@ -64,13 +64,13 @@ public class MatrixStack {
     }
 
     public void glLoadMatrixx(int[] m, int offset) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
             mMatrix[mTop + i] = fixedToFloat(m[offset + i]);
         }
     }
 
     public void glLoadMatrixx(IntBuffer m) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
             mMatrix[mTop + i] = fixedToFloat(m.get());
         }
     }
@@ -86,26 +86,26 @@ public class MatrixStack {
     }
 
     public void glMultMatrixx(int[] m, int offset) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
             mTemp[MATRIX_SIZE + i] = fixedToFloat(m[offset + i]);
         }
         glMultMatrixf(mTemp, MATRIX_SIZE);
     }
 
     public void glMultMatrixx(IntBuffer m) {
-        for(int i = 0; i < MATRIX_SIZE; i++) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
             mTemp[MATRIX_SIZE + i] = fixedToFloat(m.get());
         }
         glMultMatrixf(mTemp, MATRIX_SIZE);
     }
 
     public void glOrthof(float left, float right, float bottom, float top,
-            float near, float far) {
+                         float near, float far) {
         Matrix.orthoM(mMatrix, mTop, left, right, bottom, top, near, far);
     }
 
     public void glOrthox(int left, int right, int bottom, int top, int near,
-            int far) {
+                         int far) {
         glOrthof(fixedToFloat(left), fixedToFloat(right),
                 fixedToFloat(bottom), fixedToFloat(top),
                 fixedToFloat(near), fixedToFloat(far));

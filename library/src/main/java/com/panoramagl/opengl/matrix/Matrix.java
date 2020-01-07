@@ -16,53 +16,51 @@
 
 package com.panoramagl.opengl.matrix;
 
-public class Matrix extends android.opengl.Matrix
-{
-	/**
+public class Matrix extends android.opengl.Matrix {
+    /**
      * Inverts a 4 x 4 matrix.
      *
-     * @param mInv the array that holds the output inverted matrix
+     * @param mInv       the array that holds the output inverted matrix
      * @param mInvOffset an offset into mInv where the inverted matrix is
-     *        stored.
-     * @param m the input array
-     * @param mOffset an offset into m where the matrix is stored.
+     *                   stored.
+     * @param m          the input array
+     * @param mOffset    an offset into m where the matrix is stored.
      * @return true if the matrix could be inverted, false if it could not.
      */
-	public static boolean invertM(float[] mInv, int mInvOffset, float[] m, int mOffset)
-	{
+    public static boolean invertM(float[] mInv, int mInvOffset, float[] m, int mOffset) {
         // Invert a 4 x 4 matrix using Cramer's Rule
 
         // array of transpose source matrix
         float src0 = m[mOffset],
-        src4 = m[mOffset + 1],
-		src8 = m[mOffset + 2],
-		src12 = m[mOffset + 3],
-		src1 = m[mOffset + 4],
-		src5 = m[mOffset + 5],
-		src9 = m[mOffset + 6],
-		src13 = m[mOffset + 7],
-		src2 = m[mOffset + 8],
-		src6 = m[mOffset + 9],
-		src10 = m[mOffset + 10],
-		src14 = m[mOffset + 11],
-		src3 = m[mOffset + 12],
-		src7 = m[mOffset + 13],
-		src11 = m[mOffset + 14],
-		src15 = m[mOffset + 15];
-        
+                src4 = m[mOffset + 1],
+                src8 = m[mOffset + 2],
+                src12 = m[mOffset + 3],
+                src1 = m[mOffset + 4],
+                src5 = m[mOffset + 5],
+                src9 = m[mOffset + 6],
+                src13 = m[mOffset + 7],
+                src2 = m[mOffset + 8],
+                src6 = m[mOffset + 9],
+                src10 = m[mOffset + 10],
+                src14 = m[mOffset + 11],
+                src3 = m[mOffset + 12],
+                src7 = m[mOffset + 13],
+                src11 = m[mOffset + 14],
+                src15 = m[mOffset + 15];
+
         // calculate pairs for first 8 elements (cofactors)
         float tmp0 = src10 * src15,
-        tmp1 = src11 * src14,
-        tmp2 = src9 * src15,
-        tmp3 = src11 * src13,
-        tmp4 = src9 * src14,
-        tmp5 = src10 * src13,
-        tmp6 = src8 * src15,
-        tmp7 = src11 * src12,
-        tmp8 = src8 * src14,
-        tmp9 = src10 * src12,
-        tmp10 = src8 * src13,
-        tmp11 = src9 * src12;
+                tmp1 = src11 * src14,
+                tmp2 = src9 * src15,
+                tmp3 = src11 * src13,
+                tmp4 = src9 * src14,
+                tmp5 = src10 * src13,
+                tmp6 = src8 * src15,
+                tmp7 = src11 * src12,
+                tmp8 = src8 * src14,
+                tmp9 = src10 * src12,
+                tmp10 = src8 * src13,
+                tmp11 = src9 * src12;
 
         // calculate first 8 elements (cofactors)
         float dst0 = tmp0 * src5 + tmp3 * src6 + tmp4 * src7;
@@ -123,7 +121,7 @@ public class Matrix extends android.opengl.Matrix
 
         // calculate matrix inverse
         det = 1.0f / det;
-        
+
         mInv[mInvOffset + 0] = dst0 * det;
         mInv[mInvOffset + 1] = dst1 * det;
         mInv[mInvOffset + 2] = dst2 * det;

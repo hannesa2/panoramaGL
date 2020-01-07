@@ -18,10 +18,9 @@
 
 package com.panoramagl.enumerations;
 
-public enum PLSpherical2FaceOrientation
-{
-	PLSpherical2FaceOrientationLeft,
-	PLSpherical2FaceOrientationRight,
+public enum PLSpherical2FaceOrientation {
+    PLSpherical2FaceOrientationLeft,
+    PLSpherical2FaceOrientationRight,
     PLSpherical2FaceOrientationFront,
     PLSpherical2FaceOrientationBack,
 }

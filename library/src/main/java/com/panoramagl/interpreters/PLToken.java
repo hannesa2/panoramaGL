@@ -20,53 +20,54 @@ package com.panoramagl.interpreters;
 
 import com.panoramagl.enumerations.PLTokenType;
 
-public class PLToken implements PLIToken
-{
-	/**member variables*/
-	
-	private PLTokenType mType;
-	private String mSequence;
-	
-	/**init methods*/
-	
-	public PLToken(PLTokenType type, String sequence)
-	{
-		super();
-		mType = type;
-		mSequence = sequence;
-	}
-	
-	/**property methods*/
-	
-	@Override
-	public PLTokenType getType()
-	{
-		return mType;
-	}
-	
-	protected void setType(PLTokenType type)
-	{
-		mType = type;
-	}
-	
-	@Override
-	public String getSequence()
-	{
-		return mSequence;
-	}
-	
-	protected void setSequence(String sequence)
-	{
-		mSequence = sequence;
-	}
-	
-	/**dealloc methods*/
-	
-	@Override
-	protected void finalize() throws Throwable
-	{
-		mType = null;
-		mSequence = null;
-		super.finalize();
-	}
+public class PLToken implements PLIToken {
+    /**
+     * member variables
+     */
+
+    private PLTokenType mType;
+    private String mSequence;
+
+    /**
+     * init methods
+     */
+
+    public PLToken(PLTokenType type, String sequence) {
+        super();
+        mType = type;
+        mSequence = sequence;
+    }
+
+    /**
+     * property methods
+     */
+
+    @Override
+    public PLTokenType getType() {
+        return mType;
+    }
+
+    protected void setType(PLTokenType type) {
+        mType = type;
+    }
+
+    @Override
+    public String getSequence() {
+        return mSequence;
+    }
+
+    protected void setSequence(String sequence) {
+        mSequence = sequence;
+    }
+
+    /**
+     * dealloc methods
+     */
+
+    @Override
+    protected void finalize() throws Throwable {
+        mType = null;
+        mSequence = null;
+        super.finalize();
+    }
 }
