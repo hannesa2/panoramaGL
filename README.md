@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/marianmoldovan/panoramagl.svg)](https://jitpack.io/#marianmoldovan/panoramagl)
+
 # PanoramaGL Android
 
 PanoramaGL library was the first open source library in the world to see panoramic views on Android. This is a gradle build adaptation, along with other changes and updates. I am evolving the library to something easy to use any help is welcome. The native code is used as a static library. 
@@ -23,7 +25,22 @@ The supported features in version 0.2 beta are:
 * Support for events.
 *
 
-##Usage
+## Usage
+
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+```	
+dependencies {
+    implementation 'com.github.marianmoldovan:panoramagl:$latestVersion'
+}
+```
 
 Create a `PLManager`object and add the bindings to the activity lifecycle methods:
 ````
