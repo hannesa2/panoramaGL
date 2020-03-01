@@ -19,5 +19,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - shell: bash
+        run: mkdir toolchains
+      - name: NDK
+        uses: ravinderjangra/android-ndk-toolchain-setup@0.1
+        with:
+          api: '21'
+          arch: 'x86'
+          install-location: 'toolchains'
+          force: true
       - name: Build with Gradle
         run: ./gradlew build
