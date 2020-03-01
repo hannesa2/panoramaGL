@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 28
-        versionCode 3
-        versionName "0.3"
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 4
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -18,6 +18,5 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
 }
