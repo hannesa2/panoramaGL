@@ -19,5 +19,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - shell: bash
+          run: find . -name ndk_locator_record.json 2>/dev/null
       - name: Build with Gradle
         run: ./gradlew build
+      - shell: bash
+          run: find . -name ndk_locator_record.json 2>/dev/null
