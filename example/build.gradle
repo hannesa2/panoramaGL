@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
 
+    ndkVersion '21.0.6113669'
+
     defaultConfig {
         applicationId "com.gipsyz.panoramaglandroid"
         minSdkVersion 15
