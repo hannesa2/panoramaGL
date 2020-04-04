@@ -1,4 +1,5 @@
-[![](https://jitpack.io/v/marianmoldovan/panoramagl.svg)](https://jitpack.io/#marianmoldovan/panoramagl)
+[![](https://jitpack.io/v/hannesa2/panoramagl.svg)](https://jitpack.io/#hannesa2/panoramagl)
+
 
 # PanoramaGL Android
 
@@ -38,7 +39,7 @@ allprojects {
 
 ```	
 dependencies {
-    implementation 'com.github.marianmoldovan:panoramagl:$latestVersion'
+    implementation 'com.github.hannesa2:panoramagl:$latestVersion'
 }
 ```
 
@@ -105,9 +106,5 @@ Finally add the panorama you want, for example;
 
 
 
-
-##ToDo
+## ToDo
 * Separate View, ViewController, TouchController and SensorController
-
-##Done
-* Activity removed as the base extended class. Now it can be used with AppCompatActivity or others.
