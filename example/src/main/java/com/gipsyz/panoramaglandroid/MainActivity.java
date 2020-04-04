@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         changePanorama(0);
 
-        Button button1 = ((Button) findViewById(R.id.button_1));
-        Button button2 = ((Button) findViewById(R.id.button_2));
+        Button button1 = findViewById(R.id.button_1);
+        Button button2 = findViewById(R.id.button_2);
         button1.setOnClickListener(buttonClickListener);
         button2.setOnClickListener(buttonClickListener);
     }
