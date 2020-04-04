@@ -19,11 +19,5 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Search a test file
-        run: find . -name gradle.properties 2>/dev/null
-      - name: Search for ndk_locator_record.json before
-        run: find . -name ndk_locator_record.json 2>/dev/null
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Search for ndk_locator_record.json after
-        run: find . -name ndk_locator_record.json 2>/dev/null
