@@ -19,5 +19,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Search for make_standalone_toolchain.py workspace
+        run: find . -name make_standalone_toolchain.py 2>/dev/null
+      - name: Search for make_standalone_toolchain.py user
+        run: find ~ -name make_standalone_toolchain.py 2>/dev/null
+      - name: Search for make_standalone_toolchain.py everywhere
+        run: find . -name make_standalone_toolchain.py 2>/dev/null
