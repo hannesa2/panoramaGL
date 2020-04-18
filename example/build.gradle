@@ -6,7 +6,7 @@ android {
     ndkVersion '21.0.6113669'
 
     defaultConfig {
-        applicationId "com.gipsyz.panoramaglandroid"
+        applicationId "com.panoramagl.sample"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1

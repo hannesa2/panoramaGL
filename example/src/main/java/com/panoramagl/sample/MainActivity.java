@@ -1,4 +1,4 @@
-package com.gipsyz.panoramaglandroid;
+package com.panoramagl.sample;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
