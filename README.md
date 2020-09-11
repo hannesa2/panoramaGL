@@ -7,9 +7,8 @@ PanoramaGL library was the first open source library in the world to see panoram
 
 Temporal docs about panorama object and json protocol the [original google code wiki](https://code.google.com/p/panoramagl-android/wiki/UserGuide#Introduction) and [here the new usage](#usage)
 
-The supported features in version 0.2 beta are:
+The supported features are:
 * SDK 2.0 to 5.+.
-* Architectures ARM, x86 and MIPS.
 * OpenGL ES 1.0 and 1.1.
 * Support for spherical, cubic and cylindrical panoramic images.
 * Scrolling and continuous scrolling.
