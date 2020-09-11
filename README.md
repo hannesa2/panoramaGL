@@ -6,8 +6,6 @@
 PanoramaGL library was the first open source library in the world to see panoramic views on Android. This is a gradle build adaptation, along with other changes and updates. 
 I am evolving the library to something easy to use any help is welcome.
 
-Temporal docs about panorama object and json protocol the [original google code wiki](https://code.google.com/p/panoramagl-android/wiki/UserGuide#Introduction) and [here the new usage](#usage)
-
 The supported features are:
 * SDK 2.0 to 5.+.
 * OpenGL ES 1.0 and 1.1.
