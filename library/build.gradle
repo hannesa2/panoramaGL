@@ -3,8 +3,6 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 30
 
-    ndkVersion ndkSelectedVersion
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
