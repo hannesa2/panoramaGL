@@ -7,7 +7,6 @@ PanoramaGL library was the first open source library in the world to see panoram
 I am evolving the library to something easy to use any help is welcome.
 
 The supported features are:
-* SDK 2.0 to 5.+.
 * OpenGL ES 1.0 and 1.1.
 * Support for spherical, cubic and cylindrical panoramic images.
 * Scrolling and continuous scrolling.
@@ -22,7 +21,6 @@ The supported features are:
 * Creation of virtual tours using the JSON protocol or with programming.
 * Transitions between panoramas.
 * Support for events.
-*
 
 ## Usage
 
