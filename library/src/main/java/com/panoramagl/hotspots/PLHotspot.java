@@ -42,9 +42,6 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
-    /**
-     * member variables
-     */
 
     private float mWidth, mHeight;
     private float mAtv, mAth;
@@ -287,8 +284,7 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
      */
 
     protected void array(float[] result, int size, float... args) {
-        for (int i = 0; i < size; i++)
-            result[i] = args[i];
+        if (size >= 0) System.arraycopy(args, 0, result, 0, size);
     }
 
     /**
@@ -304,7 +300,7 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
     }
 
     protected List<PLPosition> calculatePoints(GL10 gl) {
-        List<PLPosition> result = new ArrayList<PLPosition>(4);
+        List<PLPosition> result = new ArrayList<>(4);
         //1
         PLPosition pos = this.convertPitchAndYawToPosition(mAtv, mAth), pos1 = this.convertPitchAndYawToPosition(mAtv + 0.0001f, mAth);
         //2 and 3

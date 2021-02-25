@@ -22,9 +22,6 @@ import com.panoramagl.PLISceneElement;
 import com.panoramagl.structs.PLRect;
 
 public interface PLIHotspot extends PLISceneElement {
-    /**
-     * property methods
-     */
 
     float getAtv();
 
@@ -57,10 +54,6 @@ public interface PLIHotspot extends PLISceneElement {
     PLRect getRect();
 
     void getRect(PLRect rect);
-
-    /**
-     * layout methods
-     */
 
     void setSize(float width, float height);
 

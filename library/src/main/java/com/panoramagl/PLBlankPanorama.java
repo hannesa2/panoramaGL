@@ -23,15 +23,8 @@ import com.panoramagl.structs.PLRGBA;
 import javax.microedition.khronos.opengles.GL10;
 
 public class PLBlankPanorama extends PLPanoramaBase {
-    /**
-     * static variables
-     */
 
     protected static final int[] sPreviewTilesOrder = {0};
-
-    /**
-     * member variables
-     */
 
     private PLRGBA mColor;
 
