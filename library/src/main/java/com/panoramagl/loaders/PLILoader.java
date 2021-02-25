@@ -22,9 +22,6 @@ import com.panoramagl.PLIView;
 import com.panoramagl.transitions.PLITransition;
 
 public interface PLILoader {
-    /**
-     * property methods
-     */
 
     PLLoaderListener getInternalListener();
 
@@ -33,10 +30,6 @@ public interface PLILoader {
     PLLoaderListener getListener();
 
     void setListener(PLLoaderListener listener);
-
-    /**
-     * load methods
-     */
 
     void load(PLIView view);
 

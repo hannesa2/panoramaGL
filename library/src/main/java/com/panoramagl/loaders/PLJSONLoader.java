@@ -60,9 +60,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class PLJSONLoader extends PLLoaderBase {
-    /**
-     * member variables
-     */
 
     private PLIView mView;
     private PLITransition mTransition;
@@ -73,10 +70,6 @@ public class PLJSONLoader extends PLLoaderBase {
     private boolean mIsPreloadingImages;
     private PLViewParameters mKeepParameters;
     private Map<String, PLITexture> mHotspotTextures;
-
-    /**
-     * init methods
-     */
 
     public PLJSONLoader(byte[] jsonData) {
         super();
