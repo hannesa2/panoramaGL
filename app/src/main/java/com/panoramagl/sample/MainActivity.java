@@ -18,9 +18,10 @@ import com.panoramagl.PLImage;
 import com.panoramagl.PLManager;
 import com.panoramagl.PLSphericalPanorama;
 import com.panoramagl.hotspots.ActionPLHotspot;
+import com.panoramagl.hotspots.HotSpotListener;
 import com.panoramagl.utils.PLUtils;
 
-public class MainActivity extends AppCompatActivity implements ActionPLHotspot.HotSpotListener {
+public class MainActivity extends AppCompatActivity implements HotSpotListener {
 
     private PLManager plManager;
     private int currentIndex = -1;
