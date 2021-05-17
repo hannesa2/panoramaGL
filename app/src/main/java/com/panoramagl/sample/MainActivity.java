@@ -1,19 +1,26 @@
 package com.panoramagl.sample;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.panoramagl.PLConstants;
 import com.panoramagl.PLICamera;
 import com.panoramagl.PLImage;
 import com.panoramagl.PLManager;
 import com.panoramagl.PLSphericalPanorama;
+import com.panoramagl.hotspots.ActionPLHotspot;
 import com.panoramagl.utils.PLUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActionPLHotspot.HotSpotListener {
 
     private PLManager plManager;
     private int currentIndex = -1;
@@ -94,8 +101,24 @@ public class MainActivity extends AppCompatActivity {
             zoomFactor = camera.getZoomFactor();
         }
 
+        panorama.removeAllHotspots();
+        long hotSpotId = 100;
+        ActionPLHotspot plHotspot1 = new ActionPLHotspot(this, hotSpotId, new PLImage(BitmapFactory.decodeResource(getResources(), R.raw.hotspot)), -20.0f, 0, PLConstants.kDefaultHotspotSize, PLConstants.kDefaultHotspotSize);
+        panorama.addHotspot(plHotspot1);
+
         panorama.getCamera().lookAtAndZoomFactor(pitch, yaw, zoomFactor, false);
         plManager.setPanorama(panorama);
         currentIndex = index;
+    }
+
+    @Override
+    public void onClick(final long identifier) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "HotSpotClicked! Id is-> " + identifier, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
