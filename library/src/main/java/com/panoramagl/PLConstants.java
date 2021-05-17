@@ -56,7 +56,7 @@ public class PLConstants {
      * texture constants
      */
 
-    public static final int kTextureMaxSize = 2048;
+    public static final int kTextureMaxSize = 8192;
 
     /**
      * renderer constants
@@ -111,13 +111,13 @@ public class PLConstants {
      * animation constants
      */
 
-    public static final float kDefaultAnimationTimerInterval = (1.0f / 45.0f);
-    public static final float kDefaultAnimationTimerIntervalByFrame = (1.0f / 30.0f);
+    public static final float kDefaultAnimationTimerInterval = (1.0f / 120.0f);
+    public static final float kDefaultAnimationTimerIntervalByFrame = (1.0f / 120.0f);
     public static final int kDefaultAnimationFrameInterval = 1;
     public static final float kCameraLookAtAnimationTimerInterval = kDefaultAnimationTimerInterval;
     public static final float kCameraFovAnimationTimerInterval = kDefaultAnimationTimerInterval;
-    public static final int kCameraLookAtAnimationMaxStep = 45;
-    public static final int kCameraFovAnimationMaxStep = 25;
+    public static final int kCameraLookAtAnimationMaxStep = 20;
+    public static final int kCameraFovAnimationMaxStep = 10;
 
     /**
      * rotation constants
@@ -138,7 +138,7 @@ public class PLConstants {
 
     public static final float kRotationSensitivityMinValue = 1.0f;
     public static final float kRotationSensitivityMaxValue = 180.0f;
-    public static final float kDefaultRotationSensitivity = 30.0f;
+    public static final float kDefaultRotationSensitivity = 45.0f;
 
     /**
      * fov (field of view) constants
