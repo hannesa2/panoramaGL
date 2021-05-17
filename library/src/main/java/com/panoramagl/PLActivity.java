@@ -67,7 +67,9 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class PLActivity extends Activity implements PLIView, SensorEventListener, OnDoubleTapListener {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PLActivity extends AppCompatActivity implements PLIView, SensorEventListener, OnDoubleTapListener {
     /**
      * member variables
      */
