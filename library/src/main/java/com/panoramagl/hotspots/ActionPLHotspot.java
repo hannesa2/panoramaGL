@@ -1,6 +1,5 @@
 package com.panoramagl.hotspots;
 
-
 import com.panoramagl.PLIImage;
 
 public class ActionPLHotspot extends PLHotspot {
@@ -18,7 +17,4 @@ public class ActionPLHotspot extends PLHotspot {
         return touchDown;
     }
 
-    public interface HotSpotListener{
-        void onClick(long identifier);
-    }
 }
