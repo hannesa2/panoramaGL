@@ -247,10 +247,18 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
 
     @Override
     public void setX(float x) {
+        if(this.getX() != x) {
+	    super.setX(x);
+	    hasChangedCoordProperty = true;
+	}
     }
 
     @Override
     public void setY(float y) {
+        if(this.getY() != y) {
+	    super.setY(y);
+	    hasChangedCoordProperty = true;
+	}
     }
 
     @Override
