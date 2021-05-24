@@ -123,8 +123,14 @@ public class MainActivity extends AppCompatActivity implements HotSpotListener {
 
     @Override
     public void onClick(final long identifier) {
-        runOnUiThread(() -> Toast.makeText(MainActivity.this, "HotSpotClicked! Id is-> " + identifier, Toast.LENGTH_SHORT).show());
-
+        runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "HotSpotClicked! Id is-> " + identifier, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
     }
 
 
