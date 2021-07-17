@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'maven-publish'
 }
 
 android {
@@ -34,4 +35,14 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+            }
+        }
+    }
 }
