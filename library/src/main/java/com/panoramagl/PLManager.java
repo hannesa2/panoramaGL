@@ -1870,8 +1870,6 @@ public class PLManager implements PLIView, SensorEventListener, OnDoubleTapListe
     /**
      * This event is fired when root content view is created
      *
-     * @param
-     * @param contentView
      * @return root content view that Activity will use
      */
     public View onContentViewCreated(View contentView) {

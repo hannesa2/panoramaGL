@@ -4,8 +4,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.panoramagl.PLConstants
@@ -14,9 +12,12 @@ import com.panoramagl.PLManager
 import com.panoramagl.PLSphericalPanorama
 import com.panoramagl.hotspots.ActionPLHotspot
 import com.panoramagl.hotspots.HotSpotListener
+import com.panoramagl.sample.databinding.ActivityMainBinding
 import com.panoramagl.utils.PLUtils
 
 class MainActivity : AppCompatActivity(), HotSpotListener {
+
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var plManager: PLManager
     private var currentIndex = -1
@@ -31,19 +32,20 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         plManager = PLManager(this).apply {
-            setContentView(findViewById<View>(R.id.content_view) as ViewGroup)
+            setContentView(binding.contentView)
             onCreate()
             isAccelerometerEnabled = false
             isInertiaEnabled = false
             isZoomEnabled = false
         }
         changePanorama(0)
-        val button1 = findViewById<Button>(R.id.button_1)
-        val button2 = findViewById<Button>(R.id.button_2)
-        button1.setOnClickListener(buttonClickListener)
-        button2.setOnClickListener(buttonClickListener)
+        binding.button1.setOnClickListener(buttonClickListener)
+        binding.button2.setOnClickListener(buttonClickListener)
     }
 
     override fun onResume() {
