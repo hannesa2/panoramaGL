@@ -41,6 +41,8 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import static java.lang.Math.PI;
+
 public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
 
     private float mWidth, mHeight;
@@ -50,6 +52,7 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
     private String mOnClick;
     private float mOverAlpha, mDefaultOverAlpha;
     private boolean hasChangedCoordProperty;
+    private boolean hasManuallySetPosition = false;
 
     /**
      * init methods
@@ -247,16 +250,27 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
 
     @Override
     public void setX(float x) {
+        if (this.getX() != x) {
+            super.setX(x);
+            hasManuallySetPosition = true;
+            hasChangedCoordProperty = true;
+        }
     }
 
     @Override
     public void setY(float y) {
+        if (this.getY() != y) {
+            super.setY(y);
+            hasManuallySetPosition = true;
+            hasChangedCoordProperty = true;
+        }
     }
 
     @Override
     public void setZ(float z) {
         if (this.getZ() != z) {
             super.setZ(z);
+            hasManuallySetPosition = true;
             hasChangedCoordProperty = true;
         }
     }
@@ -303,12 +317,27 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
         List<PLPosition> result = new ArrayList<>(4);
         //1
         PLPosition pos = this.convertPitchAndYawToPosition(mAtv, mAth), pos1 = this.convertPitchAndYawToPosition(mAtv + 0.0001f, mAth);
+
         //2 and 3
-        PLVector3 p1 = new PLVector3(pos.x, pos.y, pos.z),
-                p2p1 = new PLVector3(0.0f, 0.0f, 0.0f).sub(p1),
-                r = p2p1.crossProduct(new PLVector3(pos1.x, pos1.y, pos1.z).sub(p1)),
-                s = p2p1.crossProduct(r);
-        //4
+        float x, y, z;
+        if (!hasManuallySetPosition) {
+            x = pos.x;
+            y = pos.y;
+            z = pos.z;
+        } else {
+            x = this.getX();
+            y = this.getY();
+            z = this.getZ();
+        }
+        PLVector3 p1 = new PLVector3(x, y, z),
+                p2p1 = new PLVector3(0.0f, 0.0f, 0.0f).sub(p1);
+        PLVector3 r;
+        if (hasManuallySetPosition) {
+            r = p2p1.crossProduct(new PLVector3(x, y + 1f, z).sub(p1));
+        } else {
+            r = p2p1.crossProduct(new PLVector3(pos1.x, pos1.y, pos1.z).sub(p1));
+        }
+        PLVector3 s = p2p1.crossProduct(r);
         r.normalize();
         s.normalize();
         //5.1
@@ -457,5 +486,32 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
         mVertexsBuffer = mTextureCoordsBuffer = null;
         mVertexs = null;
         super.finalize();
+    }
+
+    private float[] convertXYtoYawPitch(float normalizedX, float normalizedY) {
+        float[] rot = new float[2];
+        rot[0] = (float) (2 * PI * (-normalizedX));
+        rot[1] = (float) (PI * (2.0f - normalizedY));
+        return rot;
+    }
+
+    private PLPosition convertYawPitchTo3D(float[] angles) {
+        PLPosition result = PLPosition.PLPositionMake();
+        result.x = (float) (Math.sin(angles[1]) * Math.sin(angles[0]));
+        result.z = (float) (Math.sin(angles[1]) * Math.cos(angles[0]));
+        result.y = (float) Math.cos(angles[1]);
+        return result;
+    }
+
+    /**
+     * Set position of a point given the normalized 2D coordinates of an hotspot
+     * To normalize a coordinate just do coordinateX / imageWidth and coordinateY / imageHeight
+     *
+     * @param normalizedX the normalized X coordinate
+     * @param normalizedY the normalized Y coordinate
+     */
+    public void setPosition(float normalizedX, float normalizedY) {
+        PLPosition position = convertYawPitchTo3D(convertXYtoYawPitch(normalizedX, normalizedY));
+        super.setPosition(position);
     }
 }
