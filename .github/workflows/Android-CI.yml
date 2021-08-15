@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
@@ -16,11 +16,46 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 17
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.1.4
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
+      - name: Android Emulator test
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.4
+        with:
+          cmd: ./gradlew cAT --continue
+          api: 28
+          tag: default
+          abi: x86_64
+          cmdOptions: -noaudio -no-boot-anim -no-window
+          bootTimeout: 720
+      - uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        with:
+          name: PanoramaGL-Espresso-report
+          path: |
+            ./**/build/reports/androidTests/connected
+      - name: Archive screenshots
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: PanoramaGL-Screenshots
+          path: |
+            app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+            app/build/outputs/androidTest-results/connected
+  Check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.1.4
+      - name: Code checks
+        run: ./gradlew check
       - name: Archive Lint report
         uses: actions/upload-artifact@v3.1.2
         if: ${{ always() }}
         with:
-          name: PGL-Lint-report
+          name: PanoramaGL-Lint-report
           path: ./**/build/reports/lint-results*.html

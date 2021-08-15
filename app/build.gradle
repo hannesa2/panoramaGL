@@ -8,10 +8,19 @@ android {
 
     defaultConfig {
         applicationId "com.panoramagl.sample"
-        minSdkVersion 16
+        gradle.startParameter.taskNames.each {
+            if (it.contains("cAT") || it.contains("AndroidTest")) {
+                minSdkVersion 21
+            } else {
+                minSdkVersion 16
+            }
+        }
         targetSdkVersion 33
         versionCode getGitCommitCount()
         versionName getTag()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments useTestStorageService: 'true'
     }
 
     buildFeatures {
@@ -38,6 +47,12 @@ dependencies {
     implementation "androidx.core:core-ktx:1.10.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.material:material:1.8.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.4"
+    androidTestUtil "androidx.test.services:test-services:1.4.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
+    androidTestImplementation "androidx.test:rules:1.5.0" // GrantPermissionRule
 }
 
 static def getGitCommitCount() {
