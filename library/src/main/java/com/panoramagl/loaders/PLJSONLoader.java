@@ -95,10 +95,6 @@ public class PLJSONLoader extends PLLoaderBase {
         mHotspotTextures = new HashMap<String, PLITexture>();
     }
 
-    /**
-     * property methods
-     */
-
     protected PLIView getView() {
         return mView;
     }
@@ -151,13 +147,9 @@ public class PLJSONLoader extends PLLoaderBase {
         return mHotspotTextures;
     }
 
-    /**
-     * utility methods
-     */
-
     protected String buildURL(String url, String urlBase) {
         url = url.trim();
-        if (url.indexOf("://") == -1)
+        if (!url.contains("://"))
             url = urlBase + (urlBase.endsWith("/") || url.startsWith("/") ? url : "/" + url);
         return url;
     }
@@ -176,10 +168,6 @@ public class PLJSONLoader extends PLLoaderBase {
         mView.getDownloadManager().add(new PLLocalFileDownloader(mView.getContext().getApplicationContext(), url, new PLImageFileDownloaderListener(result, colorFormat)));
         return result;
     }
-
-    /**
-     * json methods
-     */
 
     protected void requestJSON(PLFileDownloaderListener listener) {
         try {

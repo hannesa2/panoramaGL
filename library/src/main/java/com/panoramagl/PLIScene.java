@@ -26,15 +26,8 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 public interface PLIScene extends PLIRenderableElement, PLIReleaseView {
-    /**
-     * reset methods
-     */
 
     void resetAlpha();
-
-    /**
-     * property methods
-     */
 
     PLICamera getCamera();
 
@@ -55,10 +48,6 @@ public interface PLIScene extends PLIRenderableElement, PLIReleaseView {
     boolean getWaitingForClick();
 
     void setWaitingForClick(boolean isWaitingForClick);
-
-    /**
-     * element methods
-     */
 
     int elementsLength();
 

@@ -4,7 +4,7 @@ import com.panoramagl.PLIImage;
 
 public class ActionPLHotspot extends PLHotspot {
 
-    private HotSpotListener hotSpotListener;
+    private final HotSpotListener hotSpotListener;
 
     public ActionPLHotspot(HotSpotListener hotSpotListener, long identifier, PLIImage image, float atv, float ath, float width, float height) {
         super(identifier, image, atv, ath, width, height);

@@ -43,6 +43,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import static java.lang.Math.PI;
 
+@SuppressWarnings("unused")
 public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
 
     private float mWidth, mHeight;
@@ -53,10 +54,6 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
     private float mOverAlpha, mDefaultOverAlpha;
     private boolean hasChangedCoordProperty;
     private boolean hasManuallySetPosition = false;
-
-    /**
-     * init methods
-     */
 
     public PLHotspot(long identifier, float atv, float ath) {
         super(identifier);
@@ -110,19 +107,11 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
         hasChangedCoordProperty = true;
     }
 
-    /**
-     * reset methods
-     */
-
     @Override
     public void reset() {
         super.reset();
         this.setOverAlpha(mDefaultOverAlpha);
     }
-
-    /**
-     * property methods
-     */
 
     @Override
     public float getAtv() {
@@ -293,10 +282,6 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
         this.setHeight(height);
     }
 
-    /**
-     * utility methods
-     */
-
     protected void array(float[] result, int size, float... args) {
         if (size >= 0) System.arraycopy(args, 0, result, 0, size);
     }
@@ -363,7 +348,7 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
 
         hasChangedCoordProperty = false;
 
-        float textureCoords[] = new float[8];
+        float[] textureCoords = new float[8];
 
         List<PLPosition> positions = this.calculatePoints(gl);
         PLPosition pos1 = positions.get(0);

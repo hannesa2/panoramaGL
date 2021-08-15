@@ -21,15 +21,8 @@ package com.panoramagl.downloaders;
 import com.panoramagl.PLObjectBase;
 
 public abstract class PLFileDownloaderBase extends PLObjectBase implements PLIFileDownloader {
-    /**
-     * constants
-     */
 
     public static final int kDefaultMaxAttempts = 1;
-
-    /**
-     * member variables
-     */
 
     private String mURL;
     private boolean mIsRunning;
@@ -37,10 +30,6 @@ public abstract class PLFileDownloaderBase extends PLObjectBase implements PLIFi
     private Thread mThread;
     private Runnable mThreadRunnable;
     private PLFileDownloaderListener mListener;
-
-    /**
-     * init methods
-     */
 
     public PLFileDownloaderBase() {
         this(null, null);
