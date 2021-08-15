@@ -9,7 +9,13 @@ android {
     ndkVersion "24.0.8215888"
 
     defaultConfig {
-        minSdkVersion 14
+        gradle.startParameter.taskNames.each {
+            if (it.contains("cAT") || it.contains("AndroidTest")) {
+                minSdkVersion 21
+            } else {
+                minSdkVersion 15
+            }
+        }
         targetSdkVersion 33
     }
 
