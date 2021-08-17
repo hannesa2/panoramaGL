@@ -1,7 +1,11 @@
 package com.panoramagl.sample
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +42,30 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
         changePanorama(0)
         binding.button1.setOnClickListener { changePanorama(0) }
         binding.button2.setOnClickListener { changePanorama(1) }
+
+        changeTo1()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun changeTo1() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            count++
+            Log.d("count", count.toString())
+            binding.countView.text= "count= $count"
+            changePanorama(1)
+            changeTo0()
+        }, DELAY)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun changeTo0() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            count++
+            Log.d("count", count.toString())
+            binding.countView.text= "count= $count"
+            changePanorama(0)
+            changeTo1()
+        }, DELAY)
     }
 
     override fun onResume() {
@@ -107,5 +135,10 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
 
     override fun onClick(identifier: Long) {
         runOnUiThread { Toast.makeText(this@MainActivity, "HotSpotClicked! Id is-> $identifier", Toast.LENGTH_SHORT).show() }
+    }
+
+    companion object {
+        var count = 0
+        const val DELAY = 700L
     }
 }
