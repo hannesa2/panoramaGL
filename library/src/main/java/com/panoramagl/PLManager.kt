@@ -47,7 +47,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mGLSurfaceView: GLSurfaceView? = null
     var sensorManager: SensorManager? = null
         private set
-    private var mGestureDetector: GestureDetector? = null
+    private var gestureDetector: GestureDetector? = null
     var contentLayout: ViewGroup? = null
         private set
     private var mTempRenderingViewport: CGRect? = null
@@ -1349,7 +1349,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     fun onCreate() {
         try {
             sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            mGestureDetector = GestureDetector(
+            gestureDetector = GestureDetector(
                 context,
                 object : SimpleOnGestureListener() {
                     override fun onDoubleTap(event: MotionEvent): Boolean {
@@ -1586,7 +1586,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     fun onTouchEvent(event: MotionEvent): Boolean {
         if (mIsRendererCreated && renderer!!.isRunning && !mIsValidForTransition) {
-            if (mGestureDetector!!.onTouchEvent(event)) return true
+            if (gestureDetector!!.onTouchEvent(event))
+                return true
             when (event.action and MotionEvent.ACTION_MASK) {
                 MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                     touchesBegan(this.getTouches(event), event)
