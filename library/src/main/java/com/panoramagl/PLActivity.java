@@ -742,8 +742,8 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
 
     protected boolean calculateFov(List<UITouch> touches) {
         if (touches.size() == 2 && isZoomEnabled()) {
-            mAuxiliarStartPoint.setValues(touches.get(0).locationInView(mGLSurfaceView));
-            mAuxiliarEndPoint.setValues(touches.get(1).locationInView(mGLSurfaceView));
+            mAuxiliarStartPoint.setValues(touches.get(0).locationInView());
+            mAuxiliarEndPoint.setValues(touches.get(1).locationInView());
 
             mFovCounter++;
             if (mFovCounter < PLConstants.kDefaultFovMinCounter) {
@@ -795,8 +795,8 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
                 if (eventType == PLTouchEventType.PLTouchEventTypeMoved)
                     this.calculateFov(touches);
                 else if (eventType == PLTouchEventType.PLTouchEventTypeBegan) {
-                    mAuxiliarStartPoint.setValues(touches.get(0).locationInView(mGLSurfaceView));
-                    mAuxiliarEndPoint.setValues(touches.get(1).locationInView(mGLSurfaceView));
+                    mAuxiliarStartPoint.setValues(touches.get(0).locationInView());
+                    mAuxiliarEndPoint.setValues(touches.get(1).locationInView());
                     if (mListener != null)
                         mListener.onDidBeginZooming(this, mAuxiliarStartPoint, mAuxiliarEndPoint);
                 }
@@ -840,7 +840,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
     }
 
     protected CGPoint getLocationOfFirstTouch(List<UITouch> touches) {
-        return touches.get(0).locationInView(mGLSurfaceView);
+        return touches.get(0).locationInView();
     }
 
     protected void touchesBegan(List<UITouch> touches, MotionEvent event) {

@@ -589,8 +589,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      */
     protected fun calculateFov(touches: List<UITouch?>?): Boolean {
         if (touches!!.size == 2 && isZoomEnabled) {
-            mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView(mGLSurfaceView))
-            mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView(mGLSurfaceView))
+            mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
+            mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
             mFovCounter++
             if (mFovCounter < PLConstants.kDefaultFovMinCounter) {
                 if (mFovCounter == PLConstants.kDefaultFovMinCounter - 1) mFovDistance =
@@ -630,8 +630,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mIsValidForFov = true
                 }
                 if (eventType == PLTouchEventType.PLTouchEventTypeMoved) calculateFov(touches) else if (eventType == PLTouchEventType.PLTouchEventTypeBegan) {
-                    mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView(mGLSurfaceView))
-                    mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView(mGLSurfaceView))
+                    mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
+                    mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
                     if (mListener != null) mListener!!.onDidBeginZooming(this, mAuxiliarStartPoint, mAuxiliarEndPoint)
                 }
             }
@@ -674,7 +674,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     protected fun getLocationOfFirstTouch(touches: List<UITouch?>?): CGPoint {
-        return touches!![0]!!.locationInView(mGLSurfaceView)
+        return touches!![0]!!.locationInView()
     }
 
     protected fun touchesBegan(touches: List<UITouch?>?, event: MotionEvent?) {
