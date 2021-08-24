@@ -712,7 +712,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (listenerExists) mListener!!.onDidBeginTouching(this, touches, event)
     }
 
-    protected fun touchesMoved(touches: List<UITouch?>?, event: MotionEvent?) {
+    fun touchesMoved(touches: List<UITouch?>?, event: MotionEvent?) {
         val listenerExists = mListener != null
         if (listenerExists) mListener!!.onTouchesMoved(this, touches, event)
         if (this.isLocked || isValidForCameraAnimation || mIsValidForTransition || !isTouchInView(touches) || listenerExists && !mListener!!.onShouldMoveTouching(
@@ -726,14 +726,12 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (listenerExists) mListener!!.onDidMoveTouching(this, touches, event)
     }
 
-    protected fun touchesEnded(touches: List<UITouch?>?, event: MotionEvent?) {
+    fun touchesEnded(touches: List<UITouch?>?, event: MotionEvent?) {
         val listenerExists = mListener != null
-        if (listenerExists) mListener!!.onTouchesEnded(this, touches, event)
-        if (this.isLocked || isValidForCameraAnimation || mIsValidForTransition || !isTouchInView(touches) || listenerExists && !mListener!!.onShouldEndTouching(
-                this,
-                touches,
-                event
-            )
+        if (listenerExists)
+            mListener!!.onTouchesEnded(this, touches, event)
+        if (this.isLocked || isValidForCameraAnimation || mIsValidForTransition || !isTouchInView(touches) || listenerExists &&
+            !mListener!!.onShouldEndTouching(this, touches, event)
         ) {
             mIsValidForTouch = false
             return
@@ -744,18 +742,19 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mIsValidForTouch = false
             mIsValidForFov = mIsValidForTouch
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
-            if (listenerExists) mListener!!.onDidEndZooming(this)
+            mListener?.onDidEndZooming(this)
         } else {
             if (!executeDefaultAction(touches, PLTouchEventType.PLTouchEventTypeEnded)) {
                 val endPoint = getLocationOfFirstTouch(touches)
-                if (PLMath.distanceBetweenPoints(
-                        mStartPoint,
-                        endPoint
-                    ) >= mMinDistanceToEnableDrawing
-                ) mEndPoint!!.setValues(endPoint) else mEndPoint!!.setValues(mStartPoint)
+                if (PLMath.distanceBetweenPoints(mStartPoint, endPoint) >= mMinDistanceToEnableDrawing)
+                    mEndPoint!!.setValues(endPoint)
+                else
+                    mEndPoint!!.setValues(mStartPoint)
+
                 var isNotCancelable = true
                 var isNotValidAction = false
-                if (mIsScrollingEnabled && listenerExists) isNotCancelable = mListener!!.onShouldBeingScrolling(this, mStartPoint, mEndPoint)
+                if (mIsScrollingEnabled && listenerExists)
+                    isNotCancelable = mListener!!.onShouldBeingScrolling(this, mStartPoint, mEndPoint)
                 if (mIsScrollingEnabled && isNotCancelable) {
                     val isValidForMoving = PLMath.distanceBetweenPoints(mStartPoint, mEndPoint) >= mMinDistanceToEnableScrolling
                     if (mIsInertiaEnabled) {
@@ -770,29 +769,34 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                                 updateInitialSensorialRotation = false
                                 startInertia()
                             }
-                        } else isNotValidAction = true
+                        } else
+                            isNotValidAction = true
                     } else {
                         if (isValidForMoving) {
                             mIsValidForScrolling = true
                             mIsValidForTouch = false
-                            if (listenerExists) mListener!!.onDidBeginScrolling(this, mStartPoint, mEndPoint)
-                        } else isNotValidAction = true
+                            mListener?.onDidBeginScrolling(this, mStartPoint, mEndPoint)
+                        } else
+                            isNotValidAction = true
                     }
-                } else isNotValidAction = true
+                } else
+                    isNotValidAction = true
                 if (isNotValidAction) {
                     mIsValidForTouch = false
                     mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
                 }
             }
         }
-        if (updateInitialSensorialRotation) updateInitialSensorialRotation()
-        if (listenerExists) mListener!!.onDidEndTouching(this, touches, event)
+        if (updateInitialSensorialRotation)
+            updateInitialSensorialRotation()
+
+        mListener?.onDidEndTouching(this, touches, event)
     }
 
     /**
      * inertia methods
      */
-    protected fun startInertia() {
+    fun startInertia() {
         if (this.isLocked || mIsValidForInertia || mIsValidForTransition || mListener != null && !mListener!!.onShouldRunInertia(
                 this,
                 mStartPoint,
@@ -1005,7 +1009,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         return false
     }
 
-    protected fun updateGyroscopeRotationByOrientation(currentOrientation: UIDeviceOrientation?, newOrientation: UIDeviceOrientation?) {
+    fun updateGyroscopeRotationByOrientation(currentOrientation: UIDeviceOrientation?, newOrientation: UIDeviceOrientation?) {
         val tempRotation: Float
         when (currentOrientation) {
             UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> when (newOrientation) {
@@ -1023,8 +1027,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
-                else -> {
-                }
+                else -> Unit
             }
             UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> when (newOrientation) {
                 UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> {
@@ -1041,8 +1044,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
-                else -> {
-                }
+                else -> Unit
             }
             UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> when (newOrientation) {
                 UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> {
@@ -1059,8 +1061,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
-                else -> {
-                }
+                else -> Unit
             }
             UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> when (newOrientation) {
                 UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> {
@@ -1077,11 +1078,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
-                else -> {
-                }
+                else -> Unit
             }
-            else -> {
-            }
+            else -> Unit
         }
     }
 
