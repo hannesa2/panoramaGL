@@ -123,6 +123,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         private set
     private var mListener: PLViewListener? = null
     private var mIsZoomEnabled = false
+    private var mIsAcceleratedTouchScrollingEnabled = true
 
     /**
      * init methods
@@ -722,6 +723,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             )
         ) return
         mTouchStatus = PLTouchStatus.PLTouchStatusMoved
+        if (!mIsAcceleratedTouchScrollingEnabled) mStartPoint!!.setValues(mEndPoint)
         if (!executeDefaultAction(touches, PLTouchEventType.PLTouchEventTypeMoved)) mEndPoint!!.setValues(getLocationOfFirstTouch(touches))
         if (listenerExists) mListener!!.onDidMoveTouching(this, touches, event)
     }
@@ -1276,6 +1278,14 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     override fun setZoomEnabled(enabled: Boolean) {
         mIsZoomEnabled = enabled
+    }
+
+    override fun isAcceleratedTouchScrollingEnabled(): Boolean {
+        return mIsAcceleratedTouchScrollingEnabled
+    }
+
+    override fun setAcceleratedTouchScrollingEnabled(enabled: Boolean) {
+        mIsAcceleratedTouchScrollingEnabled = enabled
     }
 
     /**

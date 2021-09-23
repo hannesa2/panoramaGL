@@ -137,7 +137,7 @@ public class PLConstants {
     public static final float kDefaultRollMaxRange = kRotationMaxValue;
 
     public static final float kRotationSensitivityMinValue = 1.0f;
-    public static final float kRotationSensitivityMaxValue = 180.0f;
+    public static final float kRotationSensitivityMaxValue = 270.0f;
     public static final float kDefaultRotationSensitivity = 45.0f;
 
     /**
