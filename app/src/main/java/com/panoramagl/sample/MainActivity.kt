@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
     private var currentIndex = -1
     private val resourceIds = intArrayOf(R.raw.sighisoara_sphere, R.raw.sighisoara_sphere_2)
 
+    private val useAcceleratedTouchScrolling = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
             isAccelerometerEnabled = false
             isInertiaEnabled = false
             isZoomEnabled = false
+            isAcceleratedTouchScrollingEnabled = useAcceleratedTouchScrolling
         }
         changePanorama(0)
         binding.button1.setOnClickListener { changePanorama(0) }
@@ -101,6 +104,13 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
         panorama.addHotspot(plHotspot1)
         panorama.addHotspot(plHotspot2)
         panorama.camera.lookAtAndZoomFactor(pitch, yaw, zoomFactor, false)
+        if (!useAcceleratedTouchScrolling) {
+            // If not using the accelerated scrolling, increasing the camera's rotation sensitivity will allow the
+            // image to pan faster with finger movement. 180f gives about a ~1:1 move sensitivity.
+            // Higher will move the map faster
+            // Range 1-270
+            panorama.camera.rotationSensitivity = 270f
+        }
         plManager.panorama = panorama
         currentIndex = index
     }

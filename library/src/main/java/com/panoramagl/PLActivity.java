@@ -141,6 +141,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
 
     private PLViewListener mListener;
     private boolean mIsZoomEnabled;
+    private boolean mIsAcceleratedTouchScrollingEnabled;
 
     /**
      * init methods
@@ -192,6 +193,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         mFileDownloaderManager = new PLFileDownloaderManager();
 
         mIsZoomEnabled = true;
+        mIsAcceleratedTouchScrollingEnabled = true;
 
         this.reset();
 
@@ -899,6 +901,10 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
 
         mTouchStatus = PLTouchStatus.PLTouchStatusMoved;
 
+        if (!this.mIsAcceleratedTouchScrollingEnabled) {
+            mStartPoint.setValues(mEndPoint);
+        }
+
         if (!this.executeDefaultAction(touches, PLTouchEventType.PLTouchEventTypeMoved))
             mEndPoint.setValues(this.getLocationOfFirstTouch(touches));
 
@@ -1567,6 +1573,16 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
 
     public void setZoomEnabled(boolean enabled) {
         this.mIsZoomEnabled = enabled;
+    }
+
+    @Override
+    public boolean isAcceleratedTouchScrollingEnabled() {
+        return mIsAcceleratedTouchScrollingEnabled;
+    }
+
+    @Override
+    public void setAcceleratedTouchScrollingEnabled(boolean enabled) {
+        this.mIsAcceleratedTouchScrollingEnabled = enabled;
     }
 
     /**

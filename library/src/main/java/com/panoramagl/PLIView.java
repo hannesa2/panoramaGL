@@ -227,4 +227,11 @@ public interface PLIView {
     boolean isZoomEnabled();
 
     void setZoomEnabled(boolean enabled);
+
+    /**
+     * accelerated touch scrolling
+     **/
+    boolean isAcceleratedTouchScrollingEnabled();
+
+    void setAcceleratedTouchScrollingEnabled(boolean enabled);
 }
