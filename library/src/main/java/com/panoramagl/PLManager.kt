@@ -594,7 +594,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             if (renderer != null) renderer!!.start()
             animationTimer = NSTimer.scheduledTimerWithTimeInterval(
                 mAnimationInterval,
-                { target, userInfo -> drawView() },
+                { _, _ -> drawView() },
                 null,
                 true
             )
@@ -848,7 +848,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         } else mInertiaStepValue = 1.0f
         mInertiaTimer = NSTimer.scheduledTimerWithTimeInterval(
             interval,
-            { target, userInfo -> inertia() },
+            { _, _ -> inertia() },
             null,
             true
         )
@@ -1430,7 +1430,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      *
      * @param gl current OpenGL context
      */
-    protected fun onGLContextCreated(gl: GL10?) {}
+    protected fun onGLContextCreated(gl: GL10?) = Unit
+
     fun onResume() {
         if (mIsRendererCreated && mPanorama != null) startAnimation()
         activateOrientation()
