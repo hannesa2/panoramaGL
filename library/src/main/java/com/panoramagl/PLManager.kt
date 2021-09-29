@@ -45,7 +45,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     private var mGLContext: GL10? = null
     private var mGLSurfaceView: GLSurfaceView? = null
-    var sensorManager: SensorManager? = null
+    var sensorManager: SensorManager
         private set
     private var gestureDetector: GestureDetector? = null
     var contentLayout: ViewGroup? = null
@@ -125,6 +125,41 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mIsZoomEnabled = false
     private var mIsAcceleratedTouchScrollingEnabled = true
 
+    init {
+        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
+    
+    fun onCreate() {
+        try {
+            gestureDetector = GestureDetector(
+                context,
+                object : SimpleOnGestureListener() {
+                    override fun onDoubleTap(event: MotionEvent): Boolean {
+                        return this@PLManager.onDoubleTap(event)
+                    }
+
+                    override fun onDoubleTapEvent(event: MotionEvent): Boolean {
+                        return this@PLManager.onDoubleTapEvent(event)
+                    }
+
+                    override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
+                        return this@PLManager.onSingleTapConfirmed(event)
+                    }
+                }
+            )
+            mTempRenderingViewport = CGRect()
+            mTempRenderingSize = CGSize()
+            mTempSize = CGSize()
+            mTempAcceleration = UIAcceleration()
+            mInternalTouches = ArrayList(kMaxTouches)
+            mCurrentTouches = ArrayList(kMaxTouches)
+            mLocation = IntArray(2)
+            initializeValues()
+        } catch (e: Throwable) {
+            PLLog.error("PLView::onCreate", e)
+        }
+    }
+    
     /**
      * init methods
      */
@@ -868,9 +903,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      * accelerometer methods
      */
     protected fun activateAccelerometer(): Boolean {
-        if (sensorManager != null && sensorManager!!.registerListener(
+        if (sensorManager.registerListener(
                 this,
-                sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 (mAccelerometerInterval * 1000.0f).toInt()
             )
         ) return true
@@ -879,7 +914,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     protected fun deactiveAccelerometer() {
-        if (sensorManager != null) sensorManager!!.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER))
+        sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER))
     }
 
     protected fun accelerometer(event: SensorEvent?, acceleration: UIAcceleration) {
@@ -911,30 +946,30 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      * gyroscope methods
      */
     protected fun activateGyroscope(): Boolean {
-        return sensorManager != null && sensorManager!!.registerListener(
+        return sensorManager.registerListener(
             this,
-            sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
+            sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
             (PLConstants.kDefaultGyroscopeInterval * 1000.0f).toInt()
         )
     }
 
     protected fun deactivateGyroscope() {
-        if (sensorManager != null) sensorManager!!.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE))
+        sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE))
     }
 
     /**
      * magnetometer methods
      */
     protected fun activateMagnetometer(): Boolean {
-        return sensorManager != null && sensorManager!!.registerListener(
+        return sensorManager.registerListener(
             this,
-            sensorManager!!.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+            sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
             (PLConstants.kDefaultMagnetometerInterval * 1000.0f).toInt()
         )
     }
 
     protected fun deactivateMagnetometer() {
-        if (sensorManager != null) sensorManager!!.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD))
+        sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD))
     }
 
     /**
@@ -951,7 +986,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 mIsValidForSensorialRotation = true
             } else {
                 PLLog.debug("PLView::startSensorialRotation", "Gyroscope sensor is not available on device!")
-                if (sensorManager != null && sensorManager!!.getSensorList(Sensor.TYPE_ACCELEROMETER).size > 0 && sensorManager!!.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).size > 0) {
+                if (sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size > 0 && sensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).size > 0) {
                     mSensorialRotationThresholdTimestamp = 0
                     mSensorialRotationThresholdFlag = false
                     mSensorialRotationAccelerometerData = FloatArray(3)
@@ -1106,9 +1141,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      * orientation methods
      */
     fun activateOrientation(): Boolean {
-        if (sensorManager != null && sensorManager!!.registerListener(
+        if (sensorManager.registerListener(
                 this,
-                sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_GAME
             )
         ) return true
@@ -1117,7 +1152,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     fun deactiveOrientation() {
-        if (sensorManager != null) sensorManager!!.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION))
+        sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION))
     }
 
     /**
@@ -1353,41 +1388,6 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     /**
-     * android: events methods
-     */
-    fun onCreate() {
-        try {
-            sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            gestureDetector = GestureDetector(
-                context,
-                object : SimpleOnGestureListener() {
-                    override fun onDoubleTap(event: MotionEvent): Boolean {
-                        return this@PLManager.onDoubleTap(event)
-                    }
-
-                    override fun onDoubleTapEvent(event: MotionEvent): Boolean {
-                        return this@PLManager.onDoubleTapEvent(event)
-                    }
-
-                    override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-                        return this@PLManager.onSingleTapConfirmed(event)
-                    }
-                }
-            )
-            mTempRenderingViewport = CGRect()
-            mTempRenderingSize = CGSize()
-            mTempSize = CGSize()
-            mTempAcceleration = UIAcceleration()
-            mInternalTouches = ArrayList(kMaxTouches)
-            mCurrentTouches = ArrayList(kMaxTouches)
-            mLocation = IntArray(2)
-            initializeValues()
-        } catch (e: Throwable) {
-            PLLog.error("PLView::onCreate", e)
-        }
-    }
-
-    /**
      * This event is fired when GLSurfaceView is created
      *
      * @param glSurfaceView current GLSurfaceView
@@ -1478,6 +1478,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                         Surface.ROTATION_0, Surface.ROTATION_90 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationLandscapeLeft
                         Surface.ROTATION_180, Surface.ROTATION_270 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationLandscapeRight
                     }
+                    else -> Unit
                 }
                 if (mCurrentDeviceOrientation != newOrientation) {
                     if (mIsValidForSensorialRotation && sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeGyroscope) updateGyroscopeRotationByOrientation(
