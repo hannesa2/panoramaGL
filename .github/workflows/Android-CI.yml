@@ -24,3 +24,9 @@ jobs:
         run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;24.0.8215888' 1>/dev/null
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Archive Lint report
+        uses: actions/upload-artifact@v2.2.4
+        if: ${{ always() }}
+        with:
+          name: PGL-Lint-report
+          path: ./**/build/intermediates/lint_intermediate_text_report/debug/lint-results-debug.txt
