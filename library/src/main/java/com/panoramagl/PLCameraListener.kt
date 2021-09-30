@@ -15,25 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.panoramagl
 
-package com.panoramagl;
+import com.panoramagl.enumerations.PLCameraAnimationType
 
-import com.panoramagl.enumerations.PLCameraAnimationType;
-
-public interface PLCameraListener {
-    /**
-     * event methods
-     */
-
-    void didBeginAnimation(Object sender, PLICamera camera, PLCameraAnimationType type);
-
-    void didEndAnimation(Object sender, PLICamera camera, PLCameraAnimationType type);
-
-    void didLookAt(Object sender, PLICamera camera, float pitch, float yaw, boolean animated);
-
-    void didRotate(Object sender, PLICamera camera, float pitch, float yaw, float roll);
-
-    void didFov(Object sender, PLICamera camera, float fov, boolean animated);
-
-    void didReset(Object sender, PLICamera camera);
+interface PLCameraListener {
+    fun didBeginAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType)
+    fun didEndAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType)
+    fun didLookAt(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, animated: Boolean)
+    fun didRotate(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, roll: Float)
+    fun didFov(sender: Any, camera: PLICamera, fov: Float, animated: Boolean)
+    fun didReset(sender: Any, camera: PLICamera)
 }
