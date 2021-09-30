@@ -8,23 +8,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_1"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1" />
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="Image 1" />
 
         <Button
             android:id="@+id/button_2"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2" />
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="Image 2" />
     </LinearLayout>
 
     <RelativeLayout
