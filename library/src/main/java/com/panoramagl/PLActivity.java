@@ -220,6 +220,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
             mFovDistance = 0.0f;
             if (resetCamera && mPanorama != null)
                 mPanorama.getCamera().reset(this);
+
             this.updateInitialSensorialRotation();
             return true;
         }
