@@ -26,6 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="Image 2" />
+
+        <Button
+            android:id="@+id/clickCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            tools:text="click" />
     </LinearLayout>
 
     <RelativeLayout
