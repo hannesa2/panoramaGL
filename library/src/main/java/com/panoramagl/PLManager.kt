@@ -244,8 +244,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 panorama.internalView = this
                 panorama.internalCameraListener = mInternalCameraListener
                 if (renderer != null) {
-                    renderer!!.internalScene = panorama
-                    renderer!!.resizeFromLayer()
+                    renderer?.internalScene = panorama
+                    renderer?.resizeFromLayer()
                     mPanorama = panorama
                     startAnimation()
                 } else {
