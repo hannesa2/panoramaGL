@@ -24,9 +24,6 @@ import com.panoramagl.structs.PLRange;
 import com.panoramagl.structs.PLRotation;
 
 public class PLObject extends PLObjectBase implements PLIObject {
-    /**
-     * member variables
-     */
 
     private boolean mIsXAxisEnabled, mIsYAxisEnabled, mIsZAxisEnabled;
     private PLPosition mPosition;

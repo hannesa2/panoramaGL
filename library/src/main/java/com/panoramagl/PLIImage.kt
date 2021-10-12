@@ -28,8 +28,8 @@ interface PLIImage {
     val size: CGSize
     val rect: CGRect
     val count: Int
-    val bitmap: Bitmap
-    val bits: ByteBuffer
+    val bitmap: Bitmap?
+    val bits: ByteBuffer?
     val isValid: Boolean
     val isRecycled: Boolean
     val isLoaded: Boolean
