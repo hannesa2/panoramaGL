@@ -40,7 +40,7 @@ open class PLHotspot : PLSceneElementBase, PLIHotspot {
         mHeight = height
     }
 
-    constructor(identifier: Long, image: PLIImage?, atv: Float, ath: Float, width: Float, height: Float) : this(
+    constructor(identifier: Long, image: PLIImage, atv: Float, ath: Float, width: Float, height: Float) : this(
         identifier,
         PLTexture(image),
         atv,
