@@ -11,6 +11,7 @@ import com.panoramagl.loaders.PLILoader
 import com.panoramagl.structs.PLPosition
 import com.panoramagl.transitions.PLITransition
 
+@Suppress("UNUSED_PARAMETER")
 abstract class PLViewListener {
     fun onTouchesBegan(view: PLIView?, touches: List<UITouch?>?, event: MotionEvent?) {}
     fun onTouchesMoved(view: PLIView?, touches: List<UITouch?>?, event: MotionEvent?) {}
