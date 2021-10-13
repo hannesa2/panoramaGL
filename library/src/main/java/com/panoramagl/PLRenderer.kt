@@ -1,20 +1,3 @@
-/*
- * PanoramaGL library
- * Version 0.2 beta
- * Copyright (c) 2010 Javier Baez <javbaezga@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.panoramagl
 
 import javax.microedition.khronos.opengles.GL11ExtensionPack
@@ -30,17 +13,17 @@ import com.panoramagl.utils.PLOpenGLSupport
 import com.panoramagl.opengl.matrix.MatrixTrackingGL
 import javax.microedition.khronos.egl.EGLConfig
 
-class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer {
+open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRenderer {
     private var mBackingWidth: IntArray = IntArray(1)
     private var mBackingHeight: IntArray = IntArray(1)
     private var mDefaultFramebuffer: IntArray = IntArray(1)
     private var mColorRenderbuffer: IntArray =IntArray(1)
-    override var internalView: PLIView? = null
-    override var internalScene: PLIScene? = null
-    override var isRendering = false
-        private set
-    override var isRunning = false
-        private set
+    final override var internalView: PLIView? = null
+    final override var internalScene: PLIScene? = null
+    final override var isRendering = false
+        protected set
+    final override var isRunning = false
+        protected set
     private var mViewport: CGRect = CGRect.CGRectMake(CGRect.CGRectMake(0, 0, PLConstants.kViewportSize, PLConstants.kViewportSize).also { mTempViewport = it })
     private var mTempViewport: CGRect? = null
     private var mSize: CGSize = CGSize.CGSizeMake(CGSize.CGSizeMake(0.0f, 0.0f).also { mTempSize = it })
@@ -57,8 +40,11 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         get() = gLWrapper
 
     init {
+        internalView = view
+        internalScene = scene
         isRunning = isRendering
     }
+
     override fun initializeValues()  = Unit
 
     override val backingWidth: Int
@@ -70,15 +56,14 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
     override val size: CGSize
         get() = mTempSize!!.setValues(mSize)
 
-    /**
-     * buffer methods
-     */
     protected fun createFrameBuffer(gl11ep: GL11ExtensionPack) {
         if (contextSupportsFrameBufferObject) {
             gl11ep.glGenFramebuffersOES(1, mDefaultFramebuffer, 0)
-            if (mDefaultFramebuffer[0] <= 0) PLLog.error("PLRenderer::createFrameBuffer", "Invalid framebuffer id returned!")
+            if (mDefaultFramebuffer[0] <= 0)
+                PLLog.error("PLRenderer::createFrameBuffer", "Invalid framebuffer id returned!")
             gl11ep.glGenRenderbuffersOES(1, mColorRenderbuffer, 0)
-            if (mColorRenderbuffer[0] <= 0) PLLog.error("PLRenderer::createFrameBuffer", "Invalid renderbuffer id returned!")
+            if (mColorRenderbuffer[0] <= 0)
+                PLLog.error("PLRenderer::createFrameBuffer", "Invalid renderbuffer id returned!")
             gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, mDefaultFramebuffer[0])
             gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0])
         }
@@ -97,9 +82,6 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         }
     }
 
-    /**
-     * resize methods
-     */
     override fun resizeFromLayer(): Boolean {
         return this.resizeFromLayer(null)
     }
@@ -156,9 +138,6 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         return false
     }
 
-    /**
-     * render methods
-     */
     protected fun renderScene(gl: GL10, scene: PLIScene?, camera: PLICamera?) {
         if (scene != null && camera != null) {
             gl.glMatrixMode(GL10.GL_PROJECTION)
@@ -196,7 +175,8 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
                         renderScene(gl, currentTransition.currentPanorama, currentTransition.currentPanoramaCamera)
                         renderScene(gl, currentTransition.newPanorama, currentTransition.newPanoramaCamera)
                     } else renderScene(gl, internalScene, internalScene!!.camera)
-                } else renderScene(gl, internalScene, internalScene!!.camera)
+                } else
+                    renderScene(gl, internalScene, internalScene!!.camera)
                 if (contextSupportsFrameBufferObject) {
                     val gl11ep = gl as GL11ExtensionPack
                     gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0])
@@ -213,9 +193,6 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         for (i in 0 until times) render(gl)
     }
 
-    /**
-     * control methods
-     */
     override fun start(): Boolean {
         if (!isRunning) {
             synchronized(this) {
@@ -236,9 +213,6 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         return false
     }
 
-    /**
-     * PLIReleaseView methods
-     */
     override fun releaseView() {
         if (!isRunning) {
             internalView = null
@@ -273,7 +247,7 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
             )
             //mContextSupportsFrameBufferObject = PLOpenGLSupport.checkIfContextSupportsFrameBufferObject(gl);
             start()
-            if (internalListener != null) internalListener!!.rendererCreated(this)
+            internalListener?.rendererCreated(this)
         } catch (e: Throwable) {
             PLLog.error("PLRenderer::onSurfaceCreated", e)
         }
@@ -283,21 +257,14 @@ class PLRenderer(view: PLIView?, scene: PLIScene?) : PLObjectBase(), PLIRenderer
         mSize.setValues(width, height)
         this.resizeFromLayer(if (contextSupportsFrameBufferObject) gLWrapper as GL11ExtensionPack? else null)
         if (!isGLContextCreated) {
-            if (internalListener != null) internalListener!!.rendererFirstChanged(gLWrapper, this, width, height)
+            internalListener?.rendererFirstChanged(gLWrapper, this, width, height)
             isGLContextCreated = true
         }
-        if (internalListener != null) internalListener!!.rendererChanged(this, width, height)
+        internalListener?.rendererChanged(this, width, height)
     }
 
     override fun onDrawFrame(gl: GL10) {
         if (isGLContextCreated && internalView != null) render(gLWrapper)
     }
 
-    /**
-     * init methods
-     */
-    init {
-        internalView = view
-        internalScene = scene
-    }
 }
