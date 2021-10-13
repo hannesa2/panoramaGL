@@ -40,15 +40,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class PLUtils {
-    /**
-     * static variables
-     */
 
-    private static float sAndroidVersion = 0.0f;
-
-    /**
-     * buffer methods
-     */
+    private static int sAndroidVersion = 0;
 
     public static IntBuffer makeIntBuffer(int[] array) {
         final int integerSize = Integer.SIZE / 8;
@@ -225,14 +218,14 @@ public class PLUtils {
         return (displayMetrics.xdpi + displayMetrics.ydpi) / 2.0f;
     }
 
-    public static float getAndroidVersion() {
-        if (sAndroidVersion == 0.0f) {
+    public static int getAndroidVersion() {
+        if (sAndroidVersion == 0) {
             String androidVersion = Build.VERSION.RELEASE.trim();
             try {
                 int firstDotPosition = androidVersion.indexOf('.'), secondDotPosition = androidVersion.indexOf('.', firstDotPosition + 1);
-                sAndroidVersion = Float.parseFloat(androidVersion.substring(0, secondDotPosition != -1 && secondDotPosition < 6 ? secondDotPosition : firstDotPosition));
+                sAndroidVersion = Integer.parseInt(androidVersion.substring(0, secondDotPosition != -1 && secondDotPosition < 6 ? secondDotPosition : firstDotPosition));
             } catch (Throwable e) {
-                sAndroidVersion = Float.parseFloat(androidVersion.substring(0, 1));
+                sAndroidVersion = Integer.parseInt(androidVersion);
             }
         }
         return sAndroidVersion;

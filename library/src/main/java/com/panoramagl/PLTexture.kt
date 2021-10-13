@@ -176,7 +176,7 @@ class PLTexture @JvmOverloads constructor(
 
     protected fun recycleTexture(gl: GL10?) {
         if (gl != null && mTextureId[0] != 0) {
-            if (PLUtils.getAndroidVersion() < 3f) {
+            if (PLUtils.getAndroidVersion() < 3) {
                 gl.glDeleteTextures(1, mTextureId, 0)
                 mTextureId[0] = 0
                 mGLWrapper = null
