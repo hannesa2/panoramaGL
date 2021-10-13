@@ -24,6 +24,7 @@ The supported features are:
 
 ## Usage
 
+https://jitpack.io/#hannesa2/panoramagl
 ```
 allprojects {
     repositories {
