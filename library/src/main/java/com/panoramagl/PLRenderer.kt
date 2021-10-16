@@ -45,7 +45,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
         isRunning = isRendering
     }
 
-    override fun initializeValues()  = Unit
+    override fun initializeValues() = Unit
 
     override val backingWidth: Int
         get() = mBackingWidth[0]
@@ -241,10 +241,10 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         try {
             isGLContextCreated = false
-            gLWrapper = if (PLOpenGLSupport.isHigherThanOpenGL1(gl)) GLWrapper(gl, internalView!!.glSurfaceView) else MatrixTrackingGL(
-                gl,
-                internalView!!.glSurfaceView
-            )
+            gLWrapper = if (PLOpenGLSupport.isHigherThanOpenGL1(gl))
+                GLWrapper(gl, internalView!!.glSurfaceView)
+            else
+                MatrixTrackingGL(gl, internalView!!.glSurfaceView)
             //mContextSupportsFrameBufferObject = PLOpenGLSupport.checkIfContextSupportsFrameBufferObject(gl);
             start()
             internalListener?.rendererCreated(this)
