@@ -23,9 +23,6 @@ import com.panoramagl.opengl.GLUES;
 import javax.microedition.khronos.opengles.GL10;
 
 public class PLSphericalPanorama extends PLQuadricPanoramaBase {
-    /**
-     * init methods
-     */
 
     public PLSphericalPanorama() {
         super();
@@ -38,10 +35,6 @@ public class PLSphericalPanorama extends PLQuadricPanoramaBase {
         this.setDivs(PLConstants.kDefaultSphereDivs);
     }
 
-    /**
-     * property methods
-     */
-
     @Override
     public void setImage(PLIImage image) {
         if (image != null)
@@ -51,10 +44,6 @@ public class PLSphericalPanorama extends PLQuadricPanoramaBase {
     public void setTexture(PLITexture texture) {
         this.setTexture(texture, 0);
     }
-
-    /**
-     * render methods
-     */
 
     @Override
     public void internalRender(GL10 gl, PLIRenderer renderer) {

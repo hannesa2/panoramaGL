@@ -2,15 +2,11 @@ package com.panoramagl.utils
 
 import com.panoramagl.enumerations.PLOpenGLVersion
 import javax.microedition.khronos.opengles.GL10
-import com.panoramagl.utils.PLOpenGLSupport
-import com.panoramagl.utils.PLUtils
 
 object PLOpenGLSupport {
-
     private var sGLVersion: PLOpenGLVersion? = null
     private var sIsHigherThanOpenGL1FirstTime = true
     private var sIsHigherThanOpenGL1 = false
-
     private fun getOpenGLVersion(gl: GL10): PLOpenGLVersion? {
         if (sGLVersion == null) {
             val version = gl.glGetString(GL10.GL_VERSION)
