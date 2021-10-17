@@ -228,11 +228,10 @@ public class PLUtils {
     public static float getAndroidVersion() {
         if (sAndroidVersion == 0.0f) {
             String androidVersion = Build.VERSION.RELEASE.trim();
-            try {
-                int firstDotPosition = androidVersion.indexOf('.'), secondDotPosition = androidVersion.indexOf('.', firstDotPosition + 1);
-                sAndroidVersion = Float.parseFloat(androidVersion.substring(0, secondDotPosition != -1 && secondDotPosition < 6 ? secondDotPosition : firstDotPosition));
-            } catch (Throwable e) {
-                sAndroidVersion = Float.parseFloat(androidVersion.substring(0, 1));
+            String[] arr = androidVersion.split("\\.");
+            sAndroidVersion = Float.parseFloat(arr[0]);
+            if (arr.length > 1) {
+                sAndroidVersion = Float.parseFloat(arr[0] + "." + arr[1]);
             }
         }
         return sAndroidVersion;
