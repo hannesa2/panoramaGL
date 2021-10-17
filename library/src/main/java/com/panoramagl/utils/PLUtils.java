@@ -26,7 +26,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Build;
 import android.util.DisplayMetrics;
 
 import com.panoramagl.enumerations.PLTextureColorFormat;
@@ -40,8 +39,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class PLUtils {
-
-    private static float sAndroidVersion = 0.0f;
 
     public static IntBuffer makeIntBuffer(int[] array) {
         final int integerSize = Integer.SIZE / 8;
@@ -89,10 +86,6 @@ public class PLUtils {
         return makeFloatBuffer(result);
     }
 
-    /**
-     * conversion methods
-     */
-
     public static Config convertTextureColorFormatToBitmapConfig(PLTextureColorFormat colorFormat) {
         Config config = Config.ARGB_8888;
         switch (colorFormat) {
@@ -128,10 +121,6 @@ public class PLUtils {
         }
         return bitmap;
     }
-
-    /**
-     * bitmap methods
-     */
 
     public static Bitmap getBitmap(byte[] data) {
         return getBitmap(data, Config.ARGB_8888);
