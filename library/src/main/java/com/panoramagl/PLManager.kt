@@ -37,6 +37,7 @@ import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.RelativeLayout
 import java.util.ArrayList
+import kotlin.math.abs
 
 @Suppress("unused")
 open class PLManager(private val context: Context) : PLIView, SensorEventListener, OnDoubleTapListener {
@@ -1155,10 +1156,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION))
     }
 
-    /**
-     * shake methods
-     */
-    fun resetWithShake(acceleration: UIAcceleration?): Boolean {
+    fun resetWithShake(acceleration: UIAcceleration): Boolean {
         if (!mIsShakeResetEnabled || !mIsResetEnabled || this.isLocked || isValidForCameraAnimation || mIsValidForTransition) return false
         var result = false
         val currentTime = System.currentTimeMillis()
@@ -1167,7 +1165,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mShakeData!!.lastTime = currentTime
             mShakeData!!.shakePosition.setValues(acceleration)
             val speed =
-                Math.abs(mShakeData!!.shakePosition.x + mShakeData!!.shakePosition.y + mShakeData!!.shakePosition.z - mShakeData!!.shakeLastPosition.x - mShakeData!!.shakeLastPosition.y - mShakeData!!.shakeLastPosition.z) / diffTime * 10000
+                abs(mShakeData!!.shakePosition.x + mShakeData!!.shakePosition.y + mShakeData!!.shakePosition.z - mShakeData!!.shakeLastPosition.x - mShakeData!!.shakeLastPosition.y - mShakeData!!.shakeLastPosition.z) / diffTime * 10000
             if (speed > mShakeThreshold) {
                 var isNotCancelable = true
                 if (mListener != null) isNotCancelable = mListener!!.onShouldReset(this)
