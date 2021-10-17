@@ -23,9 +23,6 @@ import com.panoramagl.enumerations.PLTextureColorFormat;
 import javax.microedition.khronos.opengles.GL10;
 
 public interface PLITexture {
-    /**
-     * property methods
-     */
 
     PLIImage getImage();
 
@@ -50,10 +47,6 @@ public interface PLITexture {
     PLTextureListener getListener();
 
     void setListener(PLTextureListener listener);
-
-    /**
-     * recycle methods
-     */
 
     void recycle();
 }

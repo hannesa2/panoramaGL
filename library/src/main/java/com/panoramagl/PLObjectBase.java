@@ -19,9 +19,6 @@
 package com.panoramagl;
 
 public abstract class PLObjectBase extends Object {
-    /**
-     * init methods
-     */
 
     public PLObjectBase() {
         super();
@@ -29,10 +26,6 @@ public abstract class PLObjectBase extends Object {
     }
 
     protected abstract void initializeValues();
-
-    /**
-     * native object methods
-     */
 
     @Override
     public boolean equals(Object o) {

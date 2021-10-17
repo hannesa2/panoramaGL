@@ -38,9 +38,6 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 public abstract class PLSceneBase extends PLRenderableElementBase implements PLIScene {
-    /**
-     * member variables
-     */
 
     private PLICamera mCamera;
     private PLCameraListener mInternalCameraListener;
@@ -58,15 +55,11 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
 
     private boolean mIsLocked, mIsWaitingForClick;
 
-    /**
-     * init methods
-     */
-
     @Override
     protected void initializeValues() {
         mCamera = new PLCamera();
         mInternalCameraListener = null;
-        mElements = new ArrayList<PLISceneElement>();
+        mElements = new ArrayList<>();
         mView = null;
         mCollisionData = PLCollisionData.PLCollisionDataMake();
         mMatrixGrabber = new MatrixGrabber();
@@ -77,10 +70,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         mIsLocked = mIsWaitingForClick = false;
         super.initializeValues();
     }
-
-    /**
-     * reset methods
-     */
 
     @Override
     public void reset() {
@@ -168,10 +157,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         this.setObjectsAlpha(mElements, alpha);
     }
 
-    /**
-     * alpha methods
-     */
-
     protected void setObjectsAlpha(List<? extends PLIObject> objects, float alpha) {
         for (int i = 0; i < objects.size(); i++)
             objects.get(i).setAlpha(alpha);
@@ -183,10 +168,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
             object.setAlpha(object.getDefaultAlpha());
         }
     }
-
-    /**
-     * elements methods
-     */
 
     @Override
     public int elementsLength() {
@@ -281,18 +262,10 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         return false;
     }
 
-    /**
-     * clear methods
-     */
-
     @Override
     protected void internalClear() {
         this.removeAllElements(true);
     }
-
-    /**
-     * render methods
-     */
 
     @Override
     protected void beginRender(GL10 gl, PLIRenderer renderer) {
@@ -323,10 +296,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         super.endRender(gl, renderer);
     }
 
-    /**
-     * matrix methods
-     */
-
     protected void updateMatrixes(GL10 gl) {
         if (PLOpenGLSupport.isHigherThanOpenGL1(gl)) {
             GL11 gl11 = (GL11) gl;
@@ -337,10 +306,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
             mMatrixGrabber.getCurrentModelView(gl);
         }
     }
-
-    /**
-     * conversion methods
-     */
 
     @Override
     public PLPosition convertPointTo3DPoint(GL10 gl, CGPoint point, float z) {
@@ -366,10 +331,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
                 result.reset();
         }
     }
-
-    /**
-     * collision methods
-     */
 
     protected void createRayWithPoint(GL10 gl, PLIRenderer renderer, CGPoint point, PLVector3[] ray) {
         CGRect viewport = renderer.getViewport();
@@ -426,10 +387,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         return hits;
     }
 
-    /**
-     * scene element event methods
-     */
-
     protected void performSceneElementOverEvent(PLIView view, PLISceneElement element, CGPoint screenPoint, PLPosition scene3DPoint) {
         new Handler(view.getContext().getMainLooper()).post(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOver));
     }
@@ -442,19 +399,11 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         new Handler(view.getContext().getMainLooper()).post(new PLSceneElementEventRunnable(view, element, screenPoint, scene3DPoint, PLSceneElementTouchStatus.PLSceneElementTouchStatusOut));
     }
 
-    /**
-     * PLIReleaseView methods
-     */
-
     @Override
     public void releaseView() {
         mView = null;
         mInternalCameraListener = null;
     }
-
-    /**
-     * dealloc methods
-     */
 
     @Override
     protected void finalize() throws Throwable {
@@ -474,20 +423,9 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
         super.finalize();
     }
 
-    /**
-     * internal classes declaration
-     */
-
     protected static class PLCollisionData {
-        /**
-         * member variables
-         */
 
         public PLVector3[] ray, hitPoint, points;
-
-        /**
-         * init methods
-         */
 
         public PLCollisionData() {
             super();
@@ -500,10 +438,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
             return new PLCollisionData();
         }
 
-        /**
-         * dealloc methods
-         */
-
         @Override
         protected void finalize() throws Throwable {
             ray = hitPoint = points = null;
@@ -512,19 +446,12 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
     }
 
     protected class PLSceneElementEventRunnable implements Runnable {
-        /**
-         * member variables
-         */
 
         private PLIView mView;
         private PLISceneElement mElement;
         private CGPoint mScreenPoint;
         private PLPosition mScene3DPoint;
         private PLSceneElementTouchStatus mTouchStatus;
-
-        /**
-         * init methods
-         */
 
         public PLSceneElementEventRunnable(PLIView view, PLISceneElement element, CGPoint screenPoint, PLPosition scene3DPoint, PLSceneElementTouchStatus touchStatus) {
             super();
@@ -534,10 +461,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
             mScene3DPoint = scene3DPoint;
             mTouchStatus = touchStatus;
         }
-
-        /**
-         * runnable methods
-         */
 
         @Override
         public void run() {
@@ -564,10 +487,6 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
                 }
             }
         }
-
-        /**
-         * dealloc methods
-         */
 
         @Override
         protected void finalize() throws Throwable {
