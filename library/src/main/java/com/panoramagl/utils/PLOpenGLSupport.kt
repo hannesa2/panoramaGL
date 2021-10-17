@@ -10,8 +10,8 @@ object PLOpenGLSupport {
     private fun getOpenGLVersion(gl: GL10): PLOpenGLVersion? {
         if (sGLVersion == null) {
             val version = gl.glGetString(GL10.GL_VERSION)
-            sGLVersion = if (PLUtils.isEmulator()) {
-                (if (PLUtils.getAndroidVersion() < 3)
+            sGLVersion = if (isEmulator()) {
+                (if (getAndroidVersion() < 3)
                     PLOpenGLVersion.PLOpenGLVersion1_0
                 else
                     PLOpenGLVersion.PLOpenGLVersion1_1)

@@ -20,7 +20,7 @@ package com.panoramagl
 import android.graphics.*
 import com.panoramagl.ios.structs.CGRect
 import com.panoramagl.ios.structs.CGSize
-import com.panoramagl.utils.PLUtils
+import com.panoramagl.utils.getAndroidVersion
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -193,15 +193,17 @@ class PLImage : PLIImage {
     }
 
     override fun recycle() {
-        if (!isRecycled) deleteImage()
+        if (!isRecycled)
+            deleteImage()
     }
 
     protected fun deleteImage() {
-        if (bitmap != null) {
-            if (PLUtils.getAndroidVersion() < 3.0f && !bitmap!!.isRecycled) bitmap!!.recycle()
-            bitmap = null
+        bitmap?.let {
+            if (getAndroidVersion() < 3 && !it.isRecycled)
+                it.recycle()
             isRecycled = true
             isLoaded = false
+            bitmap = null
         }
     }
 
