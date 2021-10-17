@@ -26,15 +26,8 @@
 package com.panoramagl.computation;
 
 public class PLIntersection {
-    /**
-     * static variables
-     */
 
     private static final PLVector3 sAuxVector3 = new PLVector3();
-
-    /**
-     * internal check methods
-     */
 
     private static boolean getIntersection(float distance1, float distance2, PLVector3[] ray, PLVector3[] hitPoint) {
         if (distance1 * distance2 >= 0.0f || distance1 == distance2)
@@ -52,33 +45,24 @@ public class PLIntersection {
             return true;
         if (axis == 2 && hitPoint[0].z > startBound.z && hitPoint[0].z < endBound.z && hitPoint[0].x > startBound.x && hitPoint[0].x < endBound.x)
             return true;
-        if (axis == 3 && hitPoint[0].x > startBound.x && hitPoint[0].x < endBound.x && hitPoint[0].y > startBound.y && hitPoint[0].y < endBound.y)
-            return true;
-        return false;
+        return axis == 3 && hitPoint[0].x > startBound.x && hitPoint[0].x < endBound.x && hitPoint[0].y > startBound.y && hitPoint[0].y < endBound.y;
     }
 
     private static boolean evalSideIntersection(float distance1, float distance2, PLVector3[] ray, PLVector3[] hitPoint, PLVector3 startBound, PLVector3 endBound, int axis) {
         if (PLIntersection.getIntersection(distance1, distance2, ray, hitPoint)) {
-            if (!PLIntersection.inBox(hitPoint, startBound, endBound, axis))
-                return false;
-            return true;
+            return PLIntersection.inBox(hitPoint, startBound, endBound, axis);
         }
         return false;
     }
 
-    /**
-     * check methods
-     */
-
     public static boolean checkLineBox(PLVector3[] ray, PLVector3 startBound, PLVector3 endBound, PLVector3[] hitPoint) {
         //Check for a quick exit if ray is completely to one side of the box
-        if (
-                (ray[1].x < startBound.x && ray[0].x < startBound.x) ||
-                        (ray[1].x > endBound.x && ray[0].x > endBound.x) ||
-                        (ray[1].y < startBound.y && ray[0].y < startBound.y) ||
-                        (ray[1].y > endBound.y && ray[0].y > endBound.y) ||
-                        (ray[1].z < startBound.z && ray[0].z < startBound.z) ||
-                        (ray[1].z > endBound.z && ray[0].z > endBound.z)
+        if ((ray[1].x < startBound.x && ray[0].x < startBound.x) ||
+                (ray[1].x > endBound.x && ray[0].x > endBound.x) ||
+                (ray[1].y < startBound.y && ray[0].y < startBound.y) ||
+                (ray[1].y > endBound.y && ray[0].y > endBound.y) ||
+                (ray[1].z < startBound.z && ray[0].z < startBound.z) ||
+                (ray[1].z > endBound.z && ray[0].z > endBound.z)
         )
             return false;
 
@@ -92,31 +76,23 @@ public class PLIntersection {
         }
 
         //Check for a ray intersection with each side of the box
-        if (
-                (PLIntersection.evalSideIntersection(ray[0].x - startBound.x, ray[1].x - startBound.x, ray, hitPoint, startBound, endBound, 1)) ||
-                        (PLIntersection.evalSideIntersection(ray[0].y - startBound.y, ray[1].y - startBound.y, ray, hitPoint, startBound, endBound, 2)) ||
-                        (PLIntersection.evalSideIntersection(ray[0].z - startBound.z, ray[1].z - startBound.z, ray, hitPoint, startBound, endBound, 3)) ||
-                        (PLIntersection.evalSideIntersection(ray[0].x - endBound.x, ray[1].x - endBound.x, ray, hitPoint, startBound, endBound, 1)) ||
-                        (PLIntersection.evalSideIntersection(ray[0].y - endBound.y, ray[1].y - endBound.y, ray, hitPoint, startBound, endBound, 2)) ||
-                        (PLIntersection.evalSideIntersection(ray[0].z - endBound.z, ray[1].z - endBound.z, ray, hitPoint, startBound, endBound, 3))
-        )
-            return true;
-        return false;
+        return (PLIntersection.evalSideIntersection(ray[0].x - startBound.x, ray[1].x - startBound.x, ray, hitPoint, startBound, endBound, 1)) ||
+                (PLIntersection.evalSideIntersection(ray[0].y - startBound.y, ray[1].y - startBound.y, ray, hitPoint, startBound, endBound, 2)) ||
+                (PLIntersection.evalSideIntersection(ray[0].z - startBound.z, ray[1].z - startBound.z, ray, hitPoint, startBound, endBound, 3)) ||
+                (PLIntersection.evalSideIntersection(ray[0].x - endBound.x, ray[1].x - endBound.x, ray, hitPoint, startBound, endBound, 1)) ||
+                (PLIntersection.evalSideIntersection(ray[0].y - endBound.y, ray[1].y - endBound.y, ray, hitPoint, startBound, endBound, 2)) ||
+                (PLIntersection.evalSideIntersection(ray[0].z - endBound.z, ray[1].z - endBound.z, ray, hitPoint, startBound, endBound, 3));
     }
 
     public static boolean checkLineBox(PLVector3[] ray, PLVector3 point1, PLVector3 point2, PLVector3 point3, PLVector3 point4, PLVector3[] hitPoint) {
-        if (
-                checkLineBox(ray, point1, point4, hitPoint) ||
-                        checkLineBox(ray, point4, point1, hitPoint) ||
-                        checkLineBox(ray, point2, point3, hitPoint) ||
-                        checkLineBox(ray, point3, point2, hitPoint) ||
-                        checkLineBox(ray, point1, point3, hitPoint) ||
-                        checkLineBox(ray, point3, point1, hitPoint) ||
-                        checkLineBox(ray, point1, point2, hitPoint) ||
-                        checkLineBox(ray, point2, point1, hitPoint)
-        )
-            return true;
-        return false;
+        return checkLineBox(ray, point1, point4, hitPoint) ||
+                checkLineBox(ray, point4, point1, hitPoint) ||
+                checkLineBox(ray, point2, point3, hitPoint) ||
+                checkLineBox(ray, point3, point2, hitPoint) ||
+                checkLineBox(ray, point1, point3, hitPoint) ||
+                checkLineBox(ray, point3, point1, hitPoint) ||
+                checkLineBox(ray, point1, point2, hitPoint) ||
+                checkLineBox(ray, point2, point1, hitPoint);
     }
 
     public static boolean checkLineTriangle(PLVector3[] ray, PLVector3 firstVertex, PLVector3 secondVertex, PLVector3 thirdVertex, PLVector3[] hitPoint) {

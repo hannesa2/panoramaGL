@@ -24,22 +24,11 @@ import com.panoramagl.opengl.GLUquadric;
 import javax.microedition.khronos.opengles.GL10;
 
 public abstract class PLQuadricPanoramaBase extends PLPanoramaBase implements PLIQuadricPanorama {
-    /**
-     * static variables
-     */
 
     protected static final int[] sPreviewTilesOrder = {0};
 
-    /**
-     * member variables
-     */
-
     private GLUquadric mQuadric;
     private int mPreviewDivs, mDivs;
-
-    /**
-     * init methods
-     */
 
     @Override
     protected void initializeValues() {
@@ -48,10 +37,6 @@ public abstract class PLQuadricPanoramaBase extends PLPanoramaBase implements PL
         GLUES.gluQuadricNormals(mQuadric, GLUES.GLU_SMOOTH);
         GLUES.gluQuadricTexture(mQuadric, true);
     }
-
-    /**
-     * property methods
-     */
 
     @Override
     public int getPreviewTilesNumber() {
@@ -98,10 +83,6 @@ public abstract class PLQuadricPanoramaBase extends PLPanoramaBase implements PL
             mDivs = divs;
     }
 
-    /**
-     * render methods
-     */
-
     @Override
     protected void beginRender(GL10 gl, PLIRenderer renderer) {
         super.beginRender(gl, renderer);
@@ -115,10 +96,6 @@ public abstract class PLQuadricPanoramaBase extends PLPanoramaBase implements PL
         gl.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
         super.endRender(gl, renderer);
     }
-
-    /**
-     * dealloc methods
-     */
 
     @Override
     protected void finalize() throws Throwable {

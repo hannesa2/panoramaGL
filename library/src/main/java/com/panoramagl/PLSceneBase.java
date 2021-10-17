@@ -409,7 +409,7 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
     protected void finalize() throws Throwable {
         try {
             this.clear();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         mCamera = null;
         mInternalCameraListener = null;
