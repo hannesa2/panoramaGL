@@ -1,6 +1,5 @@
 package com.panoramagl.utils
 
-import android.os.Build
 import com.panoramagl.enumerations.PLOpenGLVersion
 import javax.microedition.khronos.opengles.GL10
 
