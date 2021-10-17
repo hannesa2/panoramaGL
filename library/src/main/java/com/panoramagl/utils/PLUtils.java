@@ -209,29 +209,9 @@ public class PLUtils {
         return null;
     }
 
-    /**
-     * device methods
-     */
-
     public static float getDisplayPPI() {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         return (displayMetrics.xdpi + displayMetrics.ydpi) / 2.0f;
     }
 
-    public static float getAndroidVersion() {
-        if (sAndroidVersion == 0.0f) {
-            String androidVersion = Build.VERSION.RELEASE.trim();
-            String[] arr = androidVersion.split("\\.");
-            sAndroidVersion = Float.parseFloat(arr[0]);
-            if (arr.length > 1) {
-                sAndroidVersion = Float.parseFloat(arr[0] + arr[1]);
-            }
-        }
-        return sAndroidVersion;
-    }
-
-    public static boolean isEmulator() {
-        String product = Build.PRODUCT;
-        return (product != null && (product.equals("sdk") || product.contains("_sdk") || product.contains("sdk_")));
-    }
 }
