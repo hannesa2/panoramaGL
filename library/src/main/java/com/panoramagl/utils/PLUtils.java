@@ -224,7 +224,7 @@ public class PLUtils {
             String[] arr = androidVersion.split("\\.");
             sAndroidVersion = Float.parseFloat(arr[0]);
             if (arr.length > 1) {
-                sAndroidVersion = Float.parseFloat(arr[0] + arr[1]);
+                sAndroidVersion = Float.parseFloat(arr[0] + "." + arr[1]);
             }
         }
         return sAndroidVersion;
