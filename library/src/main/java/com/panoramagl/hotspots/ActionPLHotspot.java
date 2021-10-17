@@ -13,7 +13,7 @@ public class ActionPLHotspot extends PLHotspot {
 
     public boolean touchDown(Object obj) {
         boolean touchDown = super.touchDown(obj);
-        hotSpotListener.onClick(getIdentifier());
+        hotSpotListener.onHotspotClick(getIdentifier());
         return touchDown;
     }
 

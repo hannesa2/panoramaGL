@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
         currentIndex = index
     }
 
-    override fun onClick(identifier: Long) {
+    override fun onHotspotClick(identifier: Long) {
         runOnUiThread { Toast.makeText(this@MainActivity, "HotSpotClicked! Id is-> $identifier", Toast.LENGTH_SHORT).show() }
     }
 }
