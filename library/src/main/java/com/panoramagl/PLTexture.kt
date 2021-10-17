@@ -9,7 +9,8 @@ import com.panoramagl.utils.PLLog
 import com.panoramagl.computation.PLMath
 import android.opengl.GLU
 import android.opengl.GLUtils
-import com.panoramagl.utils.getAndroidVersion
+import com.panoramagl.enumerations.PLOpenGLVersion
+import com.panoramagl.utils.getOpenGLVersion
 import kotlin.Throws
 
 class PLTexture @JvmOverloads constructor(
@@ -177,7 +178,7 @@ class PLTexture @JvmOverloads constructor(
 
     protected fun recycleTexture(gl: GL10?) {
         if (gl != null && mTextureId[0] != 0) {
-            if (getAndroidVersion() < 3) {
+            if (gl.getOpenGLVersion() == PLOpenGLVersion.PLOpenGLVersion1_0) {
                 gl.glDeleteTextures(1, mTextureId, 0)
                 mTextureId[0] = 0
                 mGLWrapper = null

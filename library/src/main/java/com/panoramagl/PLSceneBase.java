@@ -29,13 +29,14 @@ import com.panoramagl.ios.structs.CGRect;
 import com.panoramagl.opengl.GLUES;
 import com.panoramagl.opengl.matrix.MatrixGrabber;
 import com.panoramagl.structs.PLPosition;
-import com.panoramagl.utils.PLOpenGLSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+
+import static com.panoramagl.utils.VersionUtilsKt.isHigherThanOpenGL1;
 
 public abstract class PLSceneBase extends PLRenderableElementBase implements PLIScene {
 
@@ -297,7 +298,7 @@ public abstract class PLSceneBase extends PLRenderableElementBase implements PLI
     }
 
     protected void updateMatrixes(GL10 gl) {
-        if (PLOpenGLSupport.isHigherThanOpenGL1(gl)) {
+        if (isHigherThanOpenGL1(gl)) {
             GL11 gl11 = (GL11) gl;
             gl11.glGetFloatv(GL11.GL_PROJECTION_MATRIX, mProjectionMatrix, 0);
             gl11.glGetFloatv(GL11.GL_MODELVIEW_MATRIX, mModelMatrix, 0);
