@@ -198,6 +198,8 @@ class PLImage : PLIImage {
 
     protected fun deleteImage() {
         bitmap?.let {
+            if (!it.isRecycled)
+                it.recycle()
             isRecycled = true
             isLoaded = false
             bitmap = null

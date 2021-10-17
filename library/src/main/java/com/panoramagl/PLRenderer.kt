@@ -9,8 +9,8 @@ import com.panoramagl.ios.structs.CGSize
 import com.panoramagl.opengl.GLWrapper
 import kotlin.Throws
 import com.panoramagl.opengl.IGLWrapper
-import com.panoramagl.utils.PLOpenGLSupport
 import com.panoramagl.opengl.matrix.MatrixTrackingGL
+import com.panoramagl.utils.isHigherThanOpenGL1
 import javax.microedition.khronos.egl.EGLConfig
 
 open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRenderer {
@@ -241,7 +241,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         try {
             isGLContextCreated = false
-            gLWrapper = if (PLOpenGLSupport.isHigherThanOpenGL1(gl))
+            gLWrapper = if (gl.isHigherThanOpenGL1())
                 GLWrapper(gl, internalView!!.glSurfaceView)
             else
                 MatrixTrackingGL(gl, internalView!!.glSurfaceView)
