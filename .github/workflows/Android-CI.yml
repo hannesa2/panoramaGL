@@ -18,5 +18,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 11
+      - name: Which NDK
+        run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --list --channel=0 | grep NDK # 0 (stable), 1 (beta), 2 (dev), or 3 (canary)
+      - name: Install NDK
+        run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;24.0.8215888' 1>/dev/null
       - name: Build with Gradle
         run: ./gradlew build
