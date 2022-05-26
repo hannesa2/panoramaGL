@@ -120,14 +120,6 @@ public class PLJSONLoader extends PLLoaderBase {
         mJSONData = jsonData;
     }
 
-    protected String getURL() {
-        return mURL;
-    }
-
-    protected void setURL(String url) {
-        mURL = url;
-    }
-
     protected JSONObject getJSON() {
         return mJSON;
     }

@@ -21,10 +21,10 @@ import kotlin.jvm.JvmOverloads
 import com.panoramagl.PLObjectBase
 import kotlin.Throws
 
-abstract class PLFileDownloaderBase @JvmOverloads constructor(private var url: String, givenListener: PLFileDownloaderListener? = null) : PLObjectBase(),
+abstract class PLFileDownloaderBase @JvmOverloads constructor(var url: String, givenListener: PLFileDownloaderListener? = null) :
+    PLObjectBase(),
     PLIFileDownloader {
     private var running = false
-    private var maxAttempts = 0
     private var thread: Thread? = null
     private var threadRunnable: Runnable? = null
     private var localListener: PLFileDownloaderListener?
@@ -35,24 +35,8 @@ abstract class PLFileDownloaderBase @JvmOverloads constructor(private var url: S
 
     override fun initializeValues() {
         running = false
-        maxAttempts = kDefaultMaxAttempts
         thread = null
         threadRunnable = null
-    }
-
-    /**
-     * property methods
-     */
-    override fun getURL(): String {
-        return url
-    }
-
-    override fun setURL(url: String): PLIFileDownloader {
-        if (!running) {
-            var localUrl = url
-            synchronized(this) { localUrl = localUrl.trim { it <= ' ' } }
-        }
-        return this
     }
 
     override fun isRunning(): Boolean {
@@ -61,17 +45,6 @@ abstract class PLFileDownloaderBase @JvmOverloads constructor(private var url: S
 
     protected fun setRunning(isRunning: Boolean) {
         running = isRunning
-    }
-
-    override fun getMaxAttempts(): Int {
-        return maxAttempts
-    }
-
-    override fun setMaxAttempts(maxAttemps: Int): PLIFileDownloader {
-        if (!running && maxAttemps > 0) {
-            synchronized(this) { maxAttempts = maxAttemps }
-        }
-        return this
     }
 
     override fun getListener(): PLFileDownloaderListener? {
@@ -103,7 +76,7 @@ abstract class PLFileDownloaderBase @JvmOverloads constructor(private var url: S
                     threadRunnable = Runnable { downloadFile() }
                 }
                 thread = Thread(threadRunnable)
-                thread!!.start()
+                thread?.start()
                 return true
             }
         }
@@ -125,17 +98,10 @@ abstract class PLFileDownloaderBase @JvmOverloads constructor(private var url: S
         return false
     }
 
-    /**
-     * dealloc methods
-     */
     @Throws(Throwable::class)
     protected open fun finalize() {
         thread = null
         threadRunnable = null
-    }
-
-    companion object {
-        const val kDefaultMaxAttempts = 1
     }
 
 }
