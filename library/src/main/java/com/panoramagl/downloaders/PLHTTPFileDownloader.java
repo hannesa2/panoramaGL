@@ -35,18 +35,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class PLHTTPFileDownloader extends PLFileDownloaderBase {
-    /**static code*/
 
     static {
         Protocol.registerProtocol("https", new Protocol("https", new EasySSLSocketFactory(), 443));
-    }
-
-    /**
-     * init methods
-     */
-
-    public PLHTTPFileDownloader() {
-        super();
     }
 
     public PLHTTPFileDownloader(String url) {
@@ -98,7 +89,7 @@ public class PLHTTPFileDownloader extends PLFileDownloaderBase {
             is = method.getResponseBodyAsStream();
             bas = new ByteArrayOutputStream();
             byte[] buffer = new byte[256];
-            int length = 0, total = 0;
+            int length, total = 0;
             // Read stream
             while ((length = is.read(buffer)) != -1) {
                 if (this.isRunning()) {
