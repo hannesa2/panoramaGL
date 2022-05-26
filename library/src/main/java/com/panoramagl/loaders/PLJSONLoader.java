@@ -55,6 +55,7 @@ import com.panoramagl.utils.PLUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -190,30 +191,31 @@ public class PLJSONLoader extends PLLoaderBase {
         try {
             mJSON = new JSONObject(new String(jsonData, "utf-8"));
             String urlBase = mJSON.getString("urlBase").trim();
-            if (urlBase == null)
-                throw new RuntimeException("urlBase property not exists");
-            else if (!this.isHTTPURL(urlBase) && !urlBase.startsWith("res://") && !urlBase.startsWith("file://"))
+            if (!this.isHTTPURL(urlBase) && !urlBase.startsWith("res://") && !urlBase.startsWith("file://"))
                 throw new RuntimeException("urlBase property is wrong");
             String type = mJSON.getString("type").trim();
             final PLIPanorama panorama;
-            PLPanoramaType panoramaType = PLPanoramaType.PLPanoramaTypeUnknow;
-            if (type != null) {
-                if (type.equals("spherical")) {
+            PLPanoramaType panoramaType;
+            switch (type) {
+                case "spherical":
                     panoramaType = PLPanoramaType.PLPanoramaTypeSpherical;
                     panorama = new PLSphericalPanorama();
-                } else if (type.equals("spherical2")) {
+                    break;
+                case "spherical2":
                     panoramaType = PLPanoramaType.PLPanoramaTypeSpherical2;
                     panorama = new PLSpherical2Panorama();
-                } else if (type.equals("cubic")) {
+                    break;
+                case "cubic":
                     panoramaType = PLPanoramaType.PLPanoramaTypeCubic;
                     panorama = new PLCubicPanorama();
-                } else if (type.equals("cylindrical")) {
+                    break;
+                case "cylindrical":
                     panoramaType = PLPanoramaType.PLPanoramaTypeCylindrical;
                     panorama = new PLCylindricalPanorama();
-                } else
+                    break;
+                default:
                     throw new RuntimeException("Panorama type is wrong");
-            } else
-                throw new RuntimeException("type property not exists");
+            }
             PLTextureColorFormat colorFormat = PLTextureColorFormat.PLTextureColorFormatRGBA8888;
             if (mJSON.has("imageColorFormat")) {
                 String imageColorFormat = mJSON.getString("imageColorFormat").trim().toUpperCase(Locale.US);
@@ -226,201 +228,182 @@ public class PLJSONLoader extends PLLoaderBase {
                 ((PLCylindricalPanorama) panorama).setHeight((float) mJSON.getDouble("height"));
             if (mJSON.has("divisions") && panorama instanceof PLIQuadricPanorama) {
                 JSONObject divisions = mJSON.getJSONObject("divisions");
-                if (divisions != null) {
-                    PLIQuadricPanorama quadricPanorama = (PLIQuadricPanorama) panorama;
-                    if (divisions.has("preview"))
-                        quadricPanorama.setPreviewDivs(divisions.getInt("preview"));
-                    if (divisions.has("panorama"))
-                        quadricPanorama.setDivs(divisions.getInt("panorama"));
-                }
+                PLIQuadricPanorama quadricPanorama = (PLIQuadricPanorama) panorama;
+                if (divisions.has("preview"))
+                    quadricPanorama.setPreviewDivs(divisions.getInt("preview"));
+                if (divisions.has("panorama"))
+                    quadricPanorama.setDivs(divisions.getInt("panorama"));
             }
             PLIPanorama oldPanorama = mView.getPanorama();
             mKeepParameters = (oldPanorama != null && !(oldPanorama instanceof PLBlankPanorama) && mJSON.has("keep") ? PLViewParameterType.checkViewParametersWithStringMask(mJSON.getString("keep")) : PLViewParameterType.checkViewParametersWithMask(PLViewParameterType.PLViewParameterTypeNone));
             if (!mKeepParameters.reset && mJSON.has("reset")) {
                 JSONObject reset = mJSON.getJSONObject("reset");
-                if (reset != null) {
-                    if (reset.has("enabled"))
-                        mView.setResetEnabled(reset.getBoolean("enabled"));
-                    if (reset.has("numberOfTouches"))
-                        mView.setNumberOfTouchesForReset(reset.getInt("numberOfTouches"));
-                    if (reset.has("shake")) {
-                        JSONObject shake = reset.getJSONObject("shake");
-                        if (shake != null) {
-                            if (shake.has("enabled"))
-                                mView.setShakeResetEnabled(shake.getBoolean("enabled"));
-                            if (shake.has("threshold"))
-                                mView.setShakeThreshold((float) shake.getDouble("threshold"));
-                        }
-                    }
+                if (reset.has("enabled"))
+                    mView.setResetEnabled(reset.getBoolean("enabled"));
+                if (reset.has("numberOfTouches"))
+                    mView.setNumberOfTouchesForReset(reset.getInt("numberOfTouches"));
+                if (reset.has("shake")) {
+                    JSONObject shake = reset.getJSONObject("shake");
+                    if (shake.has("enabled"))
+                        mView.setShakeResetEnabled(shake.getBoolean("enabled"));
+                    if (shake.has("threshold"))
+                        mView.setShakeThreshold((float) shake.getDouble("threshold"));
                 }
             }
             if (!mKeepParameters.scrolling && mJSON.has("scrolling")) {
                 JSONObject scrolling = mJSON.getJSONObject("scrolling");
-                if (scrolling != null) {
-                    if (scrolling.has("enabled"))
-                        mView.setScrollingEnabled(scrolling.getBoolean("enabled"));
-                    if (scrolling.has("minDistanceToEnableScrolling"))
-                        mView.setMinDistanceToEnableScrolling(scrolling.getInt("minDistanceToEnableScrolling"));
-                }
+                if (scrolling.has("enabled"))
+                    mView.setScrollingEnabled(scrolling.getBoolean("enabled"));
+                if (scrolling.has("minDistanceToEnableScrolling"))
+                    mView.setMinDistanceToEnableScrolling(scrolling.getInt("minDistanceToEnableScrolling"));
             }
             if (!mKeepParameters.inertia && mJSON.has("inertia")) {
                 JSONObject inertia = mJSON.getJSONObject("inertia");
-                if (inertia != null) {
-                    if (inertia.has("enabled"))
-                        mView.setInertiaEnabled(inertia.getBoolean("enabled"));
-                    if (inertia.has("interval"))
-                        mView.setInertiaInterval((float) inertia.getDouble("interval"));
-                }
+                if (inertia.has("enabled"))
+                    mView.setInertiaEnabled(inertia.getBoolean("enabled"));
+                if (inertia.has("interval"))
+                    mView.setInertiaInterval((float) inertia.getDouble("interval"));
             }
             if (!mKeepParameters.accelerometer && mJSON.has("accelerometer")) {
                 JSONObject accelerometer = mJSON.getJSONObject("accelerometer");
-                if (accelerometer != null) {
-                    if (accelerometer.has("enabled"))
-                        mView.setAccelerometerEnabled(accelerometer.getBoolean("enabled"));
-                    if (accelerometer.has("interval"))
-                        mView.setAccelerometerInterval((float) accelerometer.getDouble("interval"));
-                    if (accelerometer.has("sensitivity"))
-                        mView.setAccelerometerSensitivity((float) accelerometer.getDouble("sensitivity"));
-                    if (accelerometer.has("leftRightEnabled"))
-                        mView.setAccelerometerLeftRightEnabled(accelerometer.getBoolean("leftRightEnabled"));
-                    if (accelerometer.has("upDownEnabled"))
-                        mView.setAccelerometerUpDownEnabled(accelerometer.getBoolean("upDownEnabled"));
-                }
+                if (accelerometer.has("enabled"))
+                    mView.setAccelerometerEnabled(accelerometer.getBoolean("enabled"));
+                if (accelerometer.has("interval"))
+                    mView.setAccelerometerInterval((float) accelerometer.getDouble("interval"));
+                if (accelerometer.has("sensitivity"))
+                    mView.setAccelerometerSensitivity((float) accelerometer.getDouble("sensitivity"));
+                if (accelerometer.has("leftRightEnabled"))
+                    mView.setAccelerometerLeftRightEnabled(accelerometer.getBoolean("leftRightEnabled"));
+                if (accelerometer.has("upDownEnabled"))
+                    mView.setAccelerometerUpDownEnabled(accelerometer.getBoolean("upDownEnabled"));
             }
             boolean hasPreviewImage = false;
             JSONObject images = mJSON.getJSONObject("images");
-            if (images != null) {
-                if (images.has("preview")) {
-                    String previewURL = this.buildURL(images.getString("preview"), urlBase);
-                    if (this.isHTTPURL(previewURL)) {
-                        byte[] previewData = new PLHTTPFileDownloader(previewURL).download();
-                        if (previewData != null) {
-                            panorama.setPreviewImage(new PLImage(previewData));
-                            hasPreviewImage = true;
-                        }
-                    } else {
-                        PLIImage previewImage = this.getLocalImage(previewURL, colorFormat);
-                        if (previewImage != null) {
-                            panorama.setPreviewImage(previewImage);
-                            hasPreviewImage = true;
-                        }
+            if (images.has("preview")) {
+                String previewURL = this.buildURL(images.getString("preview"), urlBase);
+                if (this.isHTTPURL(previewURL)) {
+                    byte[] previewData = new PLHTTPFileDownloader(previewURL).download();
+                    if (previewData != null) {
+                        panorama.setPreviewImage(new PLImage(previewData));
+                        hasPreviewImage = true;
                     }
-                }
-                if (mHotspotTextures.size() > 0)
-                    mHotspotTextures.clear();
-                JSONArray hotspots = mJSON.getJSONArray("hotspots");
-                if (hotspots != null) {
-                    for (int i = 0, hotspotsCount = hotspots.length(); i < hotspotsCount; i++) {
-                        JSONObject hotspot = hotspots.getJSONObject(i);
-                        if (hotspot != null) {
-                            if (hotspot.has("image")) {
-                                long identifier = (hotspot.has("id") ? hotspot.getLong("id") : -1);
-                                float atv = (hotspot.has("atv") ? (float) hotspot.getDouble("atv") : 0.0f);
-                                float ath = (hotspot.has("ath") ? (float) hotspot.getDouble("ath") : 0.0f);
-                                float width = (hotspot.has("width") ? (float) hotspot.getDouble("width") : PLConstants.kDefaultHotspotSize);
-                                float height = (hotspot.has("height") ? (float) hotspot.getDouble("height") : PLConstants.kDefaultHotspotSize);
-                                PLIHotspot currentHotspot = new PLHotspot(identifier, atv, ath, width, height);
-                                if (hotspot.has("alpha")) {
-                                    currentHotspot.setDefaultAlpha((float) hotspot.getDouble("alpha"));
-                                    currentHotspot.setAlpha(currentHotspot.getDefaultAlpha());
-                                }
-                                if (hotspot.has("overAlpha")) {
-                                    currentHotspot.setDefaultOverAlpha((float) hotspot.getDouble("overAlpha"));
-                                    currentHotspot.setOverAlpha(currentHotspot.getDefaultOverAlpha());
-                                }
-                                if (hotspot.has("onClick"))
-                                    currentHotspot.setOnClick(hotspot.getString("onClick"));
-                                this.loadHotspotTexture(currentHotspot, hotspot.getString("image"), urlBase, colorFormat);
-                                panorama.addHotspot(currentHotspot);
-                            }
-                        }
-                    }
-                    mHotspotTextures.clear();
-                }
-                if (panoramaType == PLPanoramaType.PLPanoramaTypeCubic) {
-                    PLCubicPanorama cubicPanorama = (PLCubicPanorama) panorama;
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationFront, images, "front", urlBase, hasPreviewImage, colorFormat);
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationBack, images, "back", urlBase, hasPreviewImage, colorFormat);
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationLeft, images, "left", urlBase, hasPreviewImage, colorFormat);
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationRight, images, "right", urlBase, hasPreviewImage, colorFormat);
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationUp, images, "up", urlBase, hasPreviewImage, colorFormat);
-                    this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationDown, images, "down", urlBase, hasPreviewImage, colorFormat);
                 } else {
-                    if (images.has("image")) {
-                        String imageURL = this.buildURL(images.getString("image"), urlBase);
-                        if (this.isHTTPURL(imageURL))
-                            mView.getDownloadManager().add(new PLHTTPFileDownloader(imageURL, new PLPanoramaImageFileDownloaderListener(panorama, colorFormat)));
-                        else if (panoramaType == PLPanoramaType.PLPanoramaTypeSpherical2)
-                            ((PLSpherical2Panorama) panorama).setImage(this.getLocalImage(imageURL, colorFormat));
-                        else if (panorama instanceof PLIQuadricPanorama)
-                            ((PLIQuadricPanorama) panorama).setImage(this.getLocalImageAsynchronously(imageURL, colorFormat));
-                    } else if (!hasPreviewImage)
-                        throw new RuntimeException("images.image and images.preview properties not exist");
+                    PLIImage previewImage = this.getLocalImage(previewURL, colorFormat);
+                    if (previewImage != null) {
+                        panorama.setPreviewImage(previewImage);
+                        hasPreviewImage = true;
+                    }
                 }
-                if (images.has("preload"))
-                    mIsPreloadingImages = images.getBoolean("preload");
-            } else
-                throw new RuntimeException("images property not exists");
+            }
+            if (mHotspotTextures.size() > 0)
+                mHotspotTextures.clear();
+            JSONArray hotspots = mJSON.getJSONArray("hotspots");
+            for (int i = 0, hotspotsCount = hotspots.length(); i < hotspotsCount; i++) {
+                JSONObject hotspot = hotspots.getJSONObject(i);
+                if (hotspot != null) {
+                    if (hotspot.has("image")) {
+                        long identifier = (hotspot.has("id") ? hotspot.getLong("id") : -1);
+                        float atv = (hotspot.has("atv") ? (float) hotspot.getDouble("atv") : 0.0f);
+                        float ath = (hotspot.has("ath") ? (float) hotspot.getDouble("ath") : 0.0f);
+                        float width = (hotspot.has("width") ? (float) hotspot.getDouble("width") : PLConstants.kDefaultHotspotSize);
+                        float height = (hotspot.has("height") ? (float) hotspot.getDouble("height") : PLConstants.kDefaultHotspotSize);
+                        PLIHotspot currentHotspot = new PLHotspot(identifier, atv, ath, width, height);
+                        if (hotspot.has("alpha")) {
+                            currentHotspot.setDefaultAlpha((float) hotspot.getDouble("alpha"));
+                            currentHotspot.setAlpha(currentHotspot.getDefaultAlpha());
+                        }
+                        if (hotspot.has("overAlpha")) {
+                            currentHotspot.setDefaultOverAlpha((float) hotspot.getDouble("overAlpha"));
+                            currentHotspot.setOverAlpha(currentHotspot.getDefaultOverAlpha());
+                        }
+                        if (hotspot.has("onClick"))
+                            currentHotspot.setOnClick(hotspot.getString("onClick"));
+                        this.loadHotspotTexture(currentHotspot, hotspot.getString("image"), urlBase, colorFormat);
+                        panorama.addHotspot(currentHotspot);
+                    }
+                }
+            }
+            mHotspotTextures.clear();
+            if (panoramaType == PLPanoramaType.PLPanoramaTypeCubic) {
+                PLCubicPanorama cubicPanorama = (PLCubicPanorama) panorama;
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationFront, images, "front", urlBase, hasPreviewImage, colorFormat);
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationBack, images, "back", urlBase, hasPreviewImage, colorFormat);
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationLeft, images, "left", urlBase, hasPreviewImage, colorFormat);
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationRight, images, "right", urlBase, hasPreviewImage, colorFormat);
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationUp, images, "up", urlBase, hasPreviewImage, colorFormat);
+                this.loadCubicPanoramaImage(cubicPanorama, PLCubeFaceOrientation.PLCubeFaceOrientationDown, images, "down", urlBase, hasPreviewImage, colorFormat);
+            } else {
+                if (images.has("image")) {
+                    String imageURL = this.buildURL(images.getString("image"), urlBase);
+                    if (this.isHTTPURL(imageURL))
+                        mView.getDownloadManager().add(new PLHTTPFileDownloader(imageURL, new PLPanoramaImageFileDownloaderListener(panorama, colorFormat)));
+                    else if (panoramaType == PLPanoramaType.PLPanoramaTypeSpherical2)
+                        ((PLSpherical2Panorama) panorama).setImage(this.getLocalImage(imageURL, colorFormat));
+                    else if (panorama instanceof PLIQuadricPanorama)
+                        ((PLIQuadricPanorama) panorama).setImage(this.getLocalImageAsynchronously(imageURL, colorFormat));
+                } else if (!hasPreviewImage)
+                    throw new RuntimeException("images.image and images.preview properties not exist");
+            }
+            if (images.has("preload"))
+                mIsPreloadingImages = images.getBoolean("preload");
             if (mIsPreloadingImages)
                 mView.getDownloadManager().start();
-            new Handler(mView.getContext().getMainLooper()).post
-                    (
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    mView.reset(false);
-                                    if (mTransition != null && mView.getPanorama() != null) {
-                                        mTransition.getListeners().add
-                                                (
-                                                        new PLTransitionListener() {
-                                                            @Override
-                                                            public boolean isRemovableListener() {
-                                                                return true;
-                                                            }
+            new Handler(mView.getContext().getMainLooper()).post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            mView.reset(false);
+                            if (mTransition != null && mView.getPanorama() != null) {
+                                mTransition.getListeners().add(
+                                        new PLTransitionListener() {
+                                            @Override
+                                            public boolean isRemovableListener() {
+                                                return true;
+                                            }
 
-                                                            @Override
-                                                            public void didBeginTransition(PLITransition transition) {
-                                                                synchronized (transition) {
-                                                                    parseCameraJSON(transition.getNewPanorama());
-                                                                }
-                                                            }
+                                            @Override
+                                            public void didBeginTransition(PLITransition transition) {
+                                                synchronized (transition) {
+                                                    parseCameraJSON(transition.getNewPanorama());
+                                                }
+                                            }
 
-                                                            @Override
-                                                            public void didProcessTransition(PLITransition transition, int progressPercentage) {
-                                                            }
+                                            @Override
+                                            public void didProcessTransition(PLITransition transition, int progressPercentage) {
+                                            }
 
-                                                            @Override
-                                                            public void didStopTransition(PLITransition transition, int progressPercentage) {
-                                                                if (parseSensorialRotationJSON()) {
-                                                                    mView.getDownloadManager().removeAll();
-                                                                    didStop(true);
-                                                                }
-                                                            }
+                                            @Override
+                                            public void didStopTransition(PLITransition transition, int progressPercentage) {
+                                                if (parseSensorialRotationJSON()) {
+                                                    mView.getDownloadManager().removeAll();
+                                                    didStop(true);
+                                                }
+                                            }
 
-                                                            @Override
-                                                            public void didEndTransition(PLITransition transition) {
-                                                                if (parseSensorialRotationJSON()) {
-                                                                    if (!mIsPreloadingImages)
-                                                                        mView.getDownloadManager().start();
-                                                                    didComplete(true);
-                                                                }
-                                                            }
-                                                        }
-                                                );
-                                        mView.startTransition(mTransition, panorama);
-                                    } else {
-                                        if (parseCameraJSON(panorama)) {
-                                            mView.setPanorama(panorama);
-                                            if (parseSensorialRotationJSON()) {
-                                                if (!mIsPreloadingImages)
-                                                    mView.getDownloadManager().start();
-                                                didComplete(false);
+                                            @Override
+                                            public void didEndTransition(PLITransition transition) {
+                                                if (parseSensorialRotationJSON()) {
+                                                    if (!mIsPreloadingImages)
+                                                        mView.getDownloadManager().start();
+                                                    didComplete(true);
+                                                }
                                             }
                                         }
+                                );
+                                mView.startTransition(mTransition, panorama);
+                            } else {
+                                if (parseCameraJSON(panorama)) {
+                                    mView.setPanorama(panorama);
+                                    if (parseSensorialRotationJSON()) {
+                                        if (!mIsPreloadingImages)
+                                            mView.getDownloadManager().start();
+                                        didComplete(false);
                                     }
                                 }
                             }
-                    );
+                        }
+                    }
+            );
         } catch (Throwable e) {
             this.didError(e);
         }
@@ -429,77 +412,75 @@ public class PLJSONLoader extends PLLoaderBase {
     protected boolean parseCameraJSON(PLIPanorama panorama) {
         try {
             JSONObject camera = mJSON.getJSONObject("camera");
-            if (camera != null) {
-                PLIPanorama oldPanorama = mView.getPanorama();
-                PLICamera oldCamera = (oldPanorama != null && !(oldPanorama instanceof PLBlankPanorama) ? oldPanorama.getCamera() : null);
-                PLICamera currentCamera = panorama.getCamera();
-                PLCameraParameters keep = (oldCamera != null && camera.has("keep") ? PLCameraParameterType.checkCameraParametersWithStringMask(camera.getString("keep")) : PLCameraParameterType.checkCameraParametersWithMask(PLCameraParameterType.PLCameraParameterTypeNone));
-                float pitch = currentCamera.getInitialPitch(), yaw = currentCamera.getInitialYaw();
-                if (keep.atvMin)
-                    currentCamera.setPitchMin(oldCamera.getPitchMin());
-                else if (camera.has("atvMin"))
-                    currentCamera.setPitchMin((float) camera.getDouble("atvMin"));
-                if (keep.atvMax)
-                    currentCamera.setPitchMax(oldCamera.getPitchMax());
-                else if (camera.has("atvMax"))
-                    currentCamera.setPitchMax((float) camera.getDouble("atvMax"));
-                if (keep.athMin)
-                    currentCamera.setYawMin(oldCamera.getYawMin());
-                else if (camera.has("athMin"))
-                    currentCamera.setYawMin((float) camera.getDouble("athMin"));
-                if (keep.athMax)
-                    currentCamera.setYawMax(oldCamera.getYawMax());
-                else if (camera.has("athMax"))
-                    currentCamera.setYawMax((float) camera.getDouble("athMax"));
-                if (keep.reverseRotation)
-                    currentCamera.setReverseRotation(oldCamera.isReverseRotation());
-                else if (camera.has("reverseRotation"))
-                    currentCamera.setReverseRotation(camera.getBoolean("reverseRotation"));
-                if (keep.rotationSensitivity)
-                    currentCamera.setRotationSensitivity(oldCamera.getRotationSensitivity());
-                else if (camera.has("rotationSensitivity"))
-                    currentCamera.setRotationSensitivity((float) camera.getDouble("rotationSensitivity"));
-                if (mInitialPitch != PLConstants.kFloatUndefinedValue)
-                    pitch = mInitialPitch;
-                else if (keep.vLookAt)
-                    pitch = oldCamera.getLookAtRotation().pitch;
-                else if (camera.has("vLookAt"))
-                    pitch = (float) camera.getDouble("vLookAt");
-                if (mInitialYaw != PLConstants.kFloatUndefinedValue)
-                    yaw = mInitialYaw;
-                else if (keep.hLookAt)
-                    yaw = oldCamera.getLookAtRotation().yaw;
-                else if (camera.has("hLookAt"))
-                    yaw = (float) camera.getDouble("hLookAt");
-                currentCamera.setInitialLookAt(pitch, yaw);
-                currentCamera.lookAt(pitch, yaw);
-                if (keep.zoomLevels)
-                    currentCamera.setZoomLevels(oldCamera.getZoomLevels());
-                else if (camera.has("zoomLevels"))
-                    currentCamera.setZoomLevels(camera.getInt("zoomLevels"));
-                if (keep.fovMin)
-                    currentCamera.setFovMin(oldCamera.getFovMin());
-                else if (camera.has("fovMin"))
-                    currentCamera.setFovMin((float) camera.getDouble("fovMin"));
-                if (keep.fovMax)
-                    currentCamera.setFovMax(oldCamera.getFovMax());
-                else if (camera.has("fovMax"))
-                    currentCamera.setFovMax((float) camera.getDouble("fovMax"));
-                if (keep.fovSensitivity)
-                    currentCamera.setFovSensitivity(oldCamera.getFovSensitivity());
-                else if (camera.has("fovSensitivity"))
-                    currentCamera.setFovSensitivity((float) camera.getDouble("fovSensitivity"));
-                if (keep.fov)
-                    currentCamera.setFov(oldCamera.getFov());
-                else if (camera.has("fov"))
-                    currentCamera.setFov((float) camera.getDouble("fov"));
-                else if (camera.has("fovFactor"))
-                    currentCamera.setFovFactor((float) camera.getDouble("fovFactor"));
-                else if (camera.has("zoomFactor"))
-                    currentCamera.setZoomFactor((float) camera.getDouble("zoomFactor"));
-                else if (camera.has("zoomLevel"))
-                    currentCamera.setZoomLevel(camera.getInt("zoomLevel"));
-            }
+            PLIPanorama oldPanorama = mView.getPanorama();
+            PLICamera oldCamera = (oldPanorama != null && !(oldPanorama instanceof PLBlankPanorama) ? oldPanorama.getCamera() : null);
+            PLICamera currentCamera = panorama.getCamera();
+            PLCameraParameters keep = (oldCamera != null && camera.has("keep") ? PLCameraParameterType.checkCameraParametersWithStringMask(camera.getString("keep")) : PLCameraParameterType.checkCameraParametersWithMask(PLCameraParameterType.PLCameraParameterTypeNone));
+            float pitch = currentCamera.getInitialPitch(), yaw = currentCamera.getInitialYaw();
+            if (keep.atvMin)
+                currentCamera.setPitchMin(oldCamera.getPitchMin());
+            else if (camera.has("atvMin"))
+                currentCamera.setPitchMin((float) camera.getDouble("atvMin"));
+            if (keep.atvMax)
+                currentCamera.setPitchMax(oldCamera.getPitchMax());
+            else if (camera.has("atvMax"))
+                currentCamera.setPitchMax((float) camera.getDouble("atvMax"));
+            if (keep.athMin)
+                currentCamera.setYawMin(oldCamera.getYawMin());
+            else if (camera.has("athMin"))
+                currentCamera.setYawMin((float) camera.getDouble("athMin"));
+            if (keep.athMax)
+                currentCamera.setYawMax(oldCamera.getYawMax());
+            else if (camera.has("athMax"))
+                currentCamera.setYawMax((float) camera.getDouble("athMax"));
+            if (keep.reverseRotation)
+                currentCamera.setReverseRotation(oldCamera.isReverseRotation());
+            else if (camera.has("reverseRotation"))
+                currentCamera.setReverseRotation(camera.getBoolean("reverseRotation"));
+            if (keep.rotationSensitivity)
+                currentCamera.setRotationSensitivity(oldCamera.getRotationSensitivity());
+            else if (camera.has("rotationSensitivity"))
+                currentCamera.setRotationSensitivity((float) camera.getDouble("rotationSensitivity"));
+            if (mInitialPitch != PLConstants.kFloatUndefinedValue)
+                pitch = mInitialPitch;
+            else if (keep.vLookAt)
+                pitch = oldCamera.getLookAtRotation().pitch;
+            else if (camera.has("vLookAt"))
+                pitch = (float) camera.getDouble("vLookAt");
+            if (mInitialYaw != PLConstants.kFloatUndefinedValue)
+                yaw = mInitialYaw;
+            else if (keep.hLookAt)
+                yaw = oldCamera.getLookAtRotation().yaw;
+            else if (camera.has("hLookAt"))
+                yaw = (float) camera.getDouble("hLookAt");
+            currentCamera.setInitialLookAt(pitch, yaw);
+            currentCamera.lookAt(pitch, yaw);
+            if (keep.zoomLevels)
+                currentCamera.setZoomLevels(oldCamera.getZoomLevels());
+            else if (camera.has("zoomLevels"))
+                currentCamera.setZoomLevels(camera.getInt("zoomLevels"));
+            if (keep.fovMin)
+                currentCamera.setFovMin(oldCamera.getFovMin());
+            else if (camera.has("fovMin"))
+                currentCamera.setFovMin((float) camera.getDouble("fovMin"));
+            if (keep.fovMax)
+                currentCamera.setFovMax(oldCamera.getFovMax());
+            else if (camera.has("fovMax"))
+                currentCamera.setFovMax((float) camera.getDouble("fovMax"));
+            if (keep.fovSensitivity)
+                currentCamera.setFovSensitivity(oldCamera.getFovSensitivity());
+            else if (camera.has("fovSensitivity"))
+                currentCamera.setFovSensitivity((float) camera.getDouble("fovSensitivity"));
+            if (keep.fov)
+                currentCamera.setFov(oldCamera.getFov());
+            else if (camera.has("fov"))
+                currentCamera.setFov((float) camera.getDouble("fov"));
+            else if (camera.has("fovFactor"))
+                currentCamera.setFovFactor((float) camera.getDouble("fovFactor"));
+            else if (camera.has("zoomFactor"))
+                currentCamera.setZoomFactor((float) camera.getDouble("zoomFactor"));
+            else if (camera.has("zoomLevel"))
+                currentCamera.setZoomLevel(camera.getInt("zoomLevel"));
         } catch (Throwable e) {
             this.didError(e);
             return false;
@@ -612,15 +593,14 @@ public class PLJSONLoader extends PLLoaderBase {
 
     protected void didComplete(boolean runOnUiThread) {
         if (runOnUiThread) {
-            new Handler(mView.getContext().getMainLooper()).post
-                    (
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    didComplete();
-                                }
-                            }
-                    );
+            new Handler(mView.getContext().getMainLooper()).post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            didComplete();
+                        }
+                    }
+            );
         } else
             this.didComplete();
     }
@@ -636,15 +616,14 @@ public class PLJSONLoader extends PLLoaderBase {
 
     protected void didStop(boolean runOnUiThread) {
         if (runOnUiThread) {
-            new Handler(mView.getContext().getMainLooper()).post
-                    (
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    didStop();
-                                }
-                            }
-                    );
+            new Handler(mView.getContext().getMainLooper()).post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            didStop();
+                        }
+                    }
+            );
         } else
             this.didStop();
     }
@@ -659,16 +638,15 @@ public class PLJSONLoader extends PLLoaderBase {
     }
 
     protected void didError(final Throwable e) {
-        new Handler(mView.getContext().getMainLooper()).post
-                (
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                didError(e.toString());
-                                PLLog.error("PLJSONLoader", e);
-                            }
-                        }
-                );
+        new Handler(mView.getContext().getMainLooper()).post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        didError(e.toString());
+                        PLLog.error("PLJSONLoader", e);
+                    }
+                }
+        );
     }
 
     protected void didError(String error) {
@@ -720,7 +698,7 @@ public class PLJSONLoader extends PLLoaderBase {
         private PLFileDownloaderListener mListener;
         private String mURL;
         private byte[] mData;
-        private long mStartTime;
+        private final long mStartTime;
 
         /**
          * init methods
@@ -757,13 +735,10 @@ public class PLJSONLoader extends PLLoaderBase {
     }
 
     protected class PLPanoramaImageFileDownloaderListener implements PLFileDownloaderListener {
-        /**
-         * member variables
-         */
 
         private PLIPanorama mPanorama;
-        private PLTextureColorFormat mColorFormat;
-        private int mIndex;
+        private final PLTextureColorFormat mColorFormat;
+        private final int mIndex;
 
         /**
          * init methods
@@ -826,7 +801,7 @@ public class PLJSONLoader extends PLLoaderBase {
          */
 
         private PLIImage mImage;
-        private PLTextureColorFormat mColorFormat;
+        private final PLTextureColorFormat mColorFormat;
 
         /**
          * init methods
