@@ -31,10 +31,6 @@ public abstract class PLFileDownloaderBase extends PLObjectBase implements PLIFi
     private Runnable mThreadRunnable;
     private PLFileDownloaderListener mListener;
 
-    public PLFileDownloaderBase() {
-        this(null, null);
-    }
-
     public PLFileDownloaderBase(String url) {
         this(url, null);
     }
@@ -96,22 +92,6 @@ public abstract class PLFileDownloaderBase extends PLObjectBase implements PLIFi
             }
         }
         return this;
-    }
-
-    protected Thread getThread() {
-        return mThread;
-    }
-
-    protected void setThread(Thread thread) {
-        mThread = thread;
-    }
-
-    protected Runnable getThreadRunnable() {
-        return mThreadRunnable;
-    }
-
-    protected void setThreadRunnable(Runnable threadRunnable) {
-        mThreadRunnable = threadRunnable;
     }
 
     @Override
