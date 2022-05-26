@@ -21,6 +21,8 @@ jobs:
           java-version: 11
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.2
+      - name: Install NDK
+        run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;24.0.8215888' 1>/dev/null
       - name: Build project
         run: ./gradlew assembleRelease
         env:
