@@ -10,8 +10,8 @@ android {
         applicationId "com.panoramagl.sample"
         minSdkVersion 15
         targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+        versionCode getGitCommitCount()
+        versionName getTag()
     }
 
     buildFeatures {
@@ -34,4 +34,14 @@ dependencies {
     implementation "androidx.core:core-ktx:1.9.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.material:material:1.7.0'
+}
+
+static def getGitCommitCount() {
+    def process = "git rev-list HEAD --count".execute()
+    return process.text.toInteger()
+}
+
+static def getTag() {
+    def process = "git describe --tags".execute()
+    return process.text.toString().trim()
 }
