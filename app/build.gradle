@@ -33,7 +33,7 @@ dependencies {
     implementation project(':library')
     implementation "androidx.core:core-ktx:1.9.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
 }
 
 static def getGitCommitCount() {
