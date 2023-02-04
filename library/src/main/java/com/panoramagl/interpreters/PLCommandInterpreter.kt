@@ -24,7 +24,7 @@ import com.panoramagl.PLObjectBase
 import com.panoramagl.enumerations.PLTokenType
 import com.panoramagl.loaders.PLJSONLoader
 import com.panoramagl.transitions.PLTransitionBlend
-import com.panoramagl.utils.PLLog
+import timber.log.Timber
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class PLCommandInterpreter : PLObjectBase(), PLIInterpreter {
@@ -40,7 +40,7 @@ open class PLCommandInterpreter : PLObjectBase(), PLIInterpreter {
             tokenizer.tokenize(text)
             parseCommands(tokenizer.tokens, 0)
         } catch (e: Throwable) {
-            PLLog.error("PLCommandInterpreter::interpret", e)
+            Timber.e(e)
             return false
         } finally {
             this.view = null
@@ -228,7 +228,7 @@ open class PLCommandInterpreter : PLObjectBase(), PLIInterpreter {
                     )
                 }
             } catch (e: Throwable) {
-                PLLog.error("PLCommandRunnable::run", e)
+                Timber.e(e)
             }
         }
 

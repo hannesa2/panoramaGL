@@ -1,6 +1,7 @@
 package com.panoramagl.utils
 
 import com.panoramagl.enumerations.PLOpenGLVersion
+import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
 
 object PLOpenGLSupport {
@@ -22,7 +23,7 @@ object PLOpenGLSupport {
                     else -> PLOpenGLVersion.PLOpenGLVersion3_1
                 }
             }
-            PLLog.debug("PLOpenGLSupport::getOpenGLVersion", "Use '${sGLVersion?.name}' found $version")
+            Timber.d("PLOpenGLSupport::getOpenGLVersion '${sGLVersion?.name}' found $version")
         }
         return sGLVersion
     }

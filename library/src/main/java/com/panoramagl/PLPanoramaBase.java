@@ -22,12 +22,13 @@ import com.panoramagl.computation.PLMath;
 import com.panoramagl.computation.PLVector3;
 import com.panoramagl.hotspots.PLIHotspot;
 import com.panoramagl.ios.structs.CGPoint;
-import com.panoramagl.utils.PLLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import timber.log.Timber;
 
 public abstract class PLPanoramaBase extends PLSceneBase implements PLIPanorama {
     /**
@@ -112,7 +113,7 @@ public abstract class PLPanoramaBase extends PLSceneBase implements PLIPanorama 
                             mPreviewTextures[i] = new PLTexture(subImage);
                         } catch (Throwable e) {
                             this.removeAllPreviewTextures(true);
-                            PLLog.error("PLPanoramaBase::setPreviewTexture", "setPreviewTexture fails: %s", e);
+                            Timber.e(e);
                             break;
                         }
                     }

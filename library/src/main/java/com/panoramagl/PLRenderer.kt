@@ -1,30 +1,30 @@
 package com.panoramagl
 
-import javax.microedition.khronos.opengles.GL11ExtensionPack
-import com.panoramagl.utils.PLLog
-import javax.microedition.khronos.opengles.GL10
 import android.opengl.GLU
 import com.panoramagl.ios.structs.CGRect
 import com.panoramagl.ios.structs.CGSize
 import com.panoramagl.opengl.GLWrapper
-import kotlin.Throws
 import com.panoramagl.opengl.IGLWrapper
-import com.panoramagl.utils.PLOpenGLSupport
 import com.panoramagl.opengl.matrix.MatrixTrackingGL
+import com.panoramagl.utils.PLOpenGLSupport
+import timber.log.Timber
 import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.opengles.GL10
+import javax.microedition.khronos.opengles.GL11ExtensionPack
 
 open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRenderer {
     private var mBackingWidth: IntArray = IntArray(1)
     private var mBackingHeight: IntArray = IntArray(1)
     private var mDefaultFramebuffer: IntArray = IntArray(1)
-    private var mColorRenderbuffer: IntArray =IntArray(1)
+    private var mColorRenderbuffer: IntArray = IntArray(1)
     final override var internalView: PLIView? = null
     final override var internalScene: PLIScene? = null
     final override var isRendering = false
         protected set
     final override var isRunning = false
         protected set
-    private var mViewport: CGRect = CGRect.CGRectMake(CGRect.CGRectMake(0, 0, PLConstants.kViewportSize, PLConstants.kViewportSize).also { mTempViewport = it })
+    private var mViewport: CGRect =
+        CGRect.CGRectMake(CGRect.CGRectMake(0, 0, PLConstants.kViewportSize, PLConstants.kViewportSize).also { mTempViewport = it })
     private var mTempViewport: CGRect? = null
     private var mSize: CGSize = CGSize.CGSizeMake(CGSize.CGSizeMake(0.0f, 0.0f).also { mTempSize = it })
     private var mTempSize: CGSize? = null
@@ -60,10 +60,10 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
         if (contextSupportsFrameBufferObject) {
             gl11ep.glGenFramebuffersOES(1, mDefaultFramebuffer, 0)
             if (mDefaultFramebuffer[0] <= 0)
-                PLLog.error("PLRenderer::createFrameBuffer", "Invalid framebuffer id returned!")
+                Timber.e("Invalid framebuffer id returned!")
             gl11ep.glGenRenderbuffersOES(1, mColorRenderbuffer, 0)
             if (mColorRenderbuffer[0] <= 0)
-                PLLog.error("PLRenderer::createFrameBuffer", "Invalid renderbuffer id returned!")
+                Timber.e("Invalid renderbuffer id returned!")
             gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, mDefaultFramebuffer[0])
             gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0])
         }
@@ -118,8 +118,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                     mViewport.x = -(mViewport.width / 2 - mSize.width / 2)
                     mViewport.y = -(mViewport.height / 2 - mSize.height / 2)
                     if (gl11ep.glCheckFramebufferStatusOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES) != GL11ExtensionPack.GL_FRAMEBUFFER_COMPLETE_OES) {
-                        PLLog.error(
-                            "PLRenderer::resizeFromLayer",
+                        Timber.e(
                             "Failed to make complete framebuffer object %x",
                             gl11ep.glCheckFramebufferStatusOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES)
                         )
@@ -185,7 +184,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
             }
         } catch (e: Throwable) {
             isRendering = false
-            PLLog.debug("PLRenderer::render", e)
+            Timber.d(e)
         }
     }
 
@@ -226,7 +225,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
         try {
             stop()
             if (contextSupportsFrameBufferObject) destroyFramebuffer(gLWrapper as GL11ExtensionPack?)
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
         }
         mBackingWidth = mBackingHeight
         mDefaultFramebuffer = mColorRenderbuffer
@@ -249,7 +248,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
             start()
             internalListener?.rendererCreated(this)
         } catch (e: Throwable) {
-            PLLog.error("PLRenderer::onSurfaceCreated", e)
+            Timber.e(e)
         }
     }
 

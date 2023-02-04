@@ -20,9 +20,9 @@ package com.panoramagl.ios;
 
 import android.os.SystemClock;
 
-import com.panoramagl.utils.PLLog;
-
 import java.util.Date;
+
+import timber.log.Timber;
 
 public class NSTimer extends Object {
     /**
@@ -31,10 +31,10 @@ public class NSTimer extends Object {
 
     private boolean mIsRunning;
 
-    private long mInterval;
+    private final long mInterval;
     private Runnable mTarget;
     private Object[] mUserInfo;
-    private boolean mRepeats;
+    private final boolean mRepeats;
 
     private Thread mThread;
     private long mLastTime, mTime;
@@ -60,7 +60,7 @@ public class NSTimer extends Object {
                         try {
                             mTarget.run(NSTimer.this, mUserInfo);
                         } catch (Throwable e) {
-                            PLLog.debug("NSTimer::run", e);
+                            Timber.e(e);
                         }
                         if (!mRepeats)
                             invalidate();
@@ -68,7 +68,7 @@ public class NSTimer extends Object {
                     mLastTime = mTime;
                     try {
                         Thread.sleep(mInterval);
-                    } catch (Throwable e) {
+                    } catch (Throwable ignored) {
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class NSTimer extends Object {
     protected void finalize() throws Throwable {
         try {
             this.invalidate();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         super.finalize();
     }
@@ -109,6 +109,6 @@ public class NSTimer extends Object {
      */
 
     public interface Runnable {
-        public void run(NSTimer target, Object[] userInfo);
+        void run(NSTimer target, Object[] userInfo);
     }
 }

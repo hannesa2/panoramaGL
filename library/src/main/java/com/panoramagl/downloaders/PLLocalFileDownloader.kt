@@ -18,7 +18,7 @@
 package com.panoramagl.downloaders
 
 import android.content.Context
-import com.panoramagl.utils.PLLog
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -57,7 +57,7 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
             } else throw PLRequestInvalidatedException(url)
         } catch (e: Throwable) {
             if (this.isRunning) {
-                PLLog.error("PLLocalFileDownloader::downloadFile", e)
+                Timber.e(e)
                 if (hasListener) listener!!.didErrorDownload(url, e.toString(), -1, result)
             }
         } finally {
@@ -65,7 +65,7 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
                 try {
                     `is`.close()
                 } catch (e: IOException) {
-                    PLLog.error("PLLocalFileDownloader::downloadFile", e)
+                    Timber.e(e)
                 }
             }
         }

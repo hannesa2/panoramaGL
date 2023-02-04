@@ -19,12 +19,13 @@
 package com.panoramagl;
 
 import com.panoramagl.enumerations.PLCubeFaceOrientation;
-import com.panoramagl.utils.PLLog;
 import com.panoramagl.utils.PLUtils;
 
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import timber.log.Timber;
 
 public class PLCubicPanorama extends PLPanoramaBase {
     /**
@@ -191,7 +192,7 @@ public class PLCubicPanorama extends PLPanoramaBase {
                 }
             }
         } catch (Throwable e) {
-            PLLog.error("PLCubicPanorama::bindTextureByIndex", e);
+            Timber.e(e);
         }
         return result;
     }
