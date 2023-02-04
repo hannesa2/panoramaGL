@@ -1,5 +1,6 @@
 package com.panoramagl
 
+import android.opengl.GLES20
 import android.opengl.GLU
 import com.panoramagl.ios.structs.CGRect
 import com.panoramagl.ios.structs.CGSize
@@ -7,6 +8,7 @@ import com.panoramagl.opengl.GLWrapper
 import com.panoramagl.opengl.IGLWrapper
 import com.panoramagl.opengl.matrix.MatrixTrackingGL
 import com.panoramagl.utils.PLOpenGLSupport
+import com.panoramagl.utils.PLOpenGLSupport.getOpenGLVersion
 import timber.log.Timber
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -15,8 +17,8 @@ import javax.microedition.khronos.opengles.GL11ExtensionPack
 open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRenderer {
     private var mBackingWidth: IntArray = IntArray(1)
     private var mBackingHeight: IntArray = IntArray(1)
-    private var mDefaultFramebuffer: IntArray = IntArray(1)
-    private var mColorRenderbuffer: IntArray = IntArray(1)
+    private var defaultFramebuffer: IntArray = IntArray(1)
+    private var colorRenderBuffer: IntArray = IntArray(1)
     final override var internalView: PLIView? = null
     final override var internalScene: PLIScene? = null
     final override var isRendering = false
@@ -24,10 +26,10 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
     final override var isRunning = false
         protected set
     private var mViewport: CGRect =
-        CGRect.CGRectMake(CGRect.CGRectMake(0, 0, PLConstants.kViewportSize, PLConstants.kViewportSize).also { mTempViewport = it })
-    private var mTempViewport: CGRect? = null
-    private var mSize: CGSize = CGSize.CGSizeMake(CGSize.CGSizeMake(0.0f, 0.0f).also { mTempSize = it })
-    private var mTempSize: CGSize? = null
+        CGRect.CGRectMake(CGRect.CGRectMake(0, 0, PLConstants.kViewportSize, PLConstants.kViewportSize).also { tempViewport = it })
+    private var tempViewport: CGRect? = null
+    private var mSize: CGSize = CGSize.CGSizeMake(CGSize.CGSizeMake(0.0f, 0.0f).also { tempSize = it })
+    private var tempSize: CGSize? = null
     protected var contextSupportsFrameBufferObject = false
         private set
     override var internalListener: PLRendererListener? = null
@@ -52,32 +54,32 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
     override val backingHeight: Int
         get() = mBackingHeight[0]
     override val viewport: CGRect
-        get() = mTempViewport!!.setValues(mViewport)
+        get() = tempViewport!!.setValues(mViewport)
     override val size: CGSize
-        get() = mTempSize!!.setValues(mSize)
+        get() = tempSize!!.setValues(mSize)
 
     protected fun createFrameBuffer(gl11ep: GL11ExtensionPack) {
         if (contextSupportsFrameBufferObject) {
-            gl11ep.glGenFramebuffersOES(1, mDefaultFramebuffer, 0)
-            if (mDefaultFramebuffer[0] <= 0)
+            gl11ep.glGenFramebuffersOES(1, defaultFramebuffer, 0)
+            if (defaultFramebuffer[0] <= 0)
                 Timber.e("Invalid framebuffer id returned!")
-            gl11ep.glGenRenderbuffersOES(1, mColorRenderbuffer, 0)
-            if (mColorRenderbuffer[0] <= 0)
+            gl11ep.glGenRenderbuffersOES(1, colorRenderBuffer, 0)
+            if (colorRenderBuffer[0] <= 0)
                 Timber.e("Invalid renderbuffer id returned!")
-            gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, mDefaultFramebuffer[0])
-            gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0])
+            gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, defaultFramebuffer[0])
+            gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, colorRenderBuffer[0])
         }
     }
 
     protected fun destroyFramebuffer(gl11ep: GL11ExtensionPack?) {
         if (contextSupportsFrameBufferObject) {
-            if (mDefaultFramebuffer[0] != 0) {
-                gl11ep!!.glDeleteFramebuffersOES(1, mDefaultFramebuffer, 0)
-                mDefaultFramebuffer[0] = 0
+            if (defaultFramebuffer[0] != 0) {
+                gl11ep!!.glDeleteFramebuffersOES(1, defaultFramebuffer, 0)
+                defaultFramebuffer[0] = 0
             }
-            if (mColorRenderbuffer[0] != 0) {
-                gl11ep!!.glDeleteRenderbuffersOES(1, mColorRenderbuffer, 0)
-                mColorRenderbuffer[0] = 0
+            if (colorRenderBuffer[0] != 0) {
+                gl11ep!!.glDeleteRenderbuffersOES(1, colorRenderBuffer, 0)
+                colorRenderBuffer[0] = 0
             }
         }
     }
@@ -101,7 +103,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                     gl11ep.glFramebufferRenderbufferOES(
                         GL11ExtensionPack.GL_FRAMEBUFFER_OES,
                         GL11ExtensionPack.GL_COLOR_ATTACHMENT0_OES,
-                        GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0]
+                        GL11ExtensionPack.GL_RENDERBUFFER_OES, colorRenderBuffer[0]
                     )
                     gl11ep.glGetRenderbufferParameterivOES(
                         GL11ExtensionPack.GL_RENDERBUFFER_OES,
@@ -153,7 +155,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                 isRendering = true
                 if (contextSupportsFrameBufferObject) {
                     val gl11ep = gl as GL11ExtensionPack
-                    gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, mDefaultFramebuffer[0])
+                    gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, defaultFramebuffer[0])
                 }
                 gl.glViewport(mViewport.x, mViewport.y, mViewport.width, mViewport.height)
                 gl.glMatrixMode(GL10.GL_MODELVIEW)
@@ -178,7 +180,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                     renderScene(gl, internalScene, internalScene!!.camera)
                 if (contextSupportsFrameBufferObject) {
                     val gl11ep = gl as GL11ExtensionPack
-                    gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, mColorRenderbuffer[0])
+                    gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, colorRenderBuffer[0])
                 }
                 isRendering = false
             }
@@ -228,11 +230,11 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
         } catch (_: Throwable) {
         }
         mBackingWidth = mBackingHeight
-        mDefaultFramebuffer = mColorRenderbuffer
+        defaultFramebuffer = colorRenderBuffer
         internalView = null
         internalScene = null
-        mTempViewport = null
-        mTempSize = null
+        tempViewport = null
+        tempSize = null
         internalListener = null
         gLWrapper = null
     }
@@ -244,6 +246,10 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                 GLWrapper(gl, internalView!!.glSurfaceView)
             else
                 MatrixTrackingGL(gl, internalView!!.glSurfaceView)
+
+            versionGL = gl.glGetString(GL10.GL_VERSION) ?: "unknown"
+            vendorGL = GLES20.glGetString(GLES20.GL_VENDOR) ?: "unknown"
+            rendererGL = GLES20.glGetString(GLES20.GL_RENDERER) ?: "unknown"
             //mContextSupportsFrameBufferObject = PLOpenGLSupport.checkIfContextSupportsFrameBufferObject(gl);
             start()
             internalListener?.rendererCreated(this)
@@ -266,4 +272,12 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
         if (isGLContextCreated && internalView != null) render(gLWrapper)
     }
 
+    companion object {
+        var versionGL: String? = null
+            private set
+        var vendorGL: String? = null
+            private set
+        var rendererGL: String? = null
+            private set
+    }
 }

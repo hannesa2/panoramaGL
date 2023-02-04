@@ -1,5 +1,7 @@
 package com.panoramagl.utils
 
+import android.opengl.GLES20
+import com.panoramagl.PLRenderer
 import com.panoramagl.enumerations.PLOpenGLVersion
 import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
@@ -8,7 +10,8 @@ object PLOpenGLSupport {
     private var sGLVersion: PLOpenGLVersion? = null
     private var sIsHigherThanOpenGL1FirstTime = true
     private var sIsHigherThanOpenGL1 = false
-    private fun getOpenGLVersion(gl: GL10): PLOpenGLVersion? {
+
+    fun getOpenGLVersion(gl: GL10): PLOpenGLVersion? {
         if (sGLVersion == null) {
             val version = gl.glGetString(GL10.GL_VERSION)
             sGLVersion = if (isEmulator()) {
@@ -23,7 +26,11 @@ object PLOpenGLSupport {
                     else -> PLOpenGLVersion.PLOpenGLVersion3_1
                 }
             }
-            Timber.d("PLOpenGLSupport::getOpenGLVersion '${sGLVersion?.name}' found $version")
+            Timber.d("'${sGLVersion?.name}' found $version")
+            val vendorGL = GLES20.glGetString(GLES20.GL_VENDOR) ?: "unknown"
+            val rendererGL = GLES20.glGetString(GLES20.GL_RENDERER) ?: "unknown"
+            Timber.d("Vendor $vendorGL")
+            Timber.d("Render $rendererGL")
         }
         return sGLVersion
     }
@@ -42,6 +49,6 @@ object PLOpenGLSupport {
     }
 
     private fun checkIfSupportsExtension(gl: GL10, extension: String): Boolean {
-        return (" " + gl.glGetString(GL10.GL_EXTENSIONS) + " ").contains(" $extension ")
+        return " ${gl.glGetString(GL10.GL_EXTENSIONS)} ".contains(" $extension ")
     }
 }
