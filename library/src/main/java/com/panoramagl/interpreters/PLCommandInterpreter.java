@@ -32,15 +32,9 @@ import com.panoramagl.utils.PLLog;
 import java.util.List;
 
 public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter {
-    /**
-     * member variables
-     */
 
     private PLIView mView;
 
-    /**
-     * init methods
-     */
 
     public PLCommandInterpreter() {
         super();
@@ -51,10 +45,6 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
         mView = null;
     }
 
-    /**
-     * property methods
-     */
-
     protected PLIView getView() {
         return mView;
     }
@@ -62,10 +52,6 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
     protected void setView(PLIView view) {
         mView = view;
     }
-
-    /**
-     * interpret methods
-     */
 
     @Override
     public boolean interpret(PLIView view, String text) {
@@ -83,41 +69,48 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
         return true;
     }
 
-    /**
-     * parse methods
-     */
-
     protected void parseCommands(List<PLIToken> tokens, int tokenIndex) {
         if (tokenIndex < tokens.size()) {
             PLIToken token = tokens.get(tokenIndex++);
             if (token.getType() == PLTokenType.PLTokenTypeFunction) {
                 String fx = token.getSequence();
                 PLITokenInfo tokenInfo = new PLTokenInfo(fx);
-                if (fx.equals("load")) {
-                    tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeString.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeFunction.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional);
-                    new Handler(mView.getContext().getMainLooper()).post(new PLCommandRunnable(mView, tokenInfo));
-                } else if (fx.equals("lookAt")) {
-                    tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
-                    PLICamera camera = mView.getCamera();
-                    if (camera != null)
-                        camera.lookAt(tokenInfo.getFloat(0), tokenInfo.getFloat(1), tokenInfo.hasValue(2) ? tokenInfo.getBoolean(2) : false);
-                } else if (fx.equals("lookAtAndZoom")) {
-                    tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
-                    PLICamera camera = mView.getCamera();
-                    if (camera != null)
-                        camera.lookAtAndZoomFactor(tokenInfo.getFloat(0), tokenInfo.getFloat(1), tokenInfo.getFloat(2), tokenInfo.hasValue(3) ? tokenInfo.getBoolean(3) : false);
-                } else if (fx.equals("zoom")) {
-                    tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
-                    PLICamera camera = mView.getCamera();
-                    if (camera != null)
-                        camera.setZoomFactor(tokenInfo.getFloat(0), tokenInfo.hasValue(1) ? tokenInfo.getBoolean(1) : false);
-                } else if (fx.equals("fov")) {
-                    tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
-                    PLICamera camera = mView.getCamera();
-                    if (camera != null)
-                        camera.setFov(tokenInfo.getFloat(0), tokenInfo.hasValue(1) ? tokenInfo.getBoolean(1) : false);
-                } else
-                    throw new RuntimeException("parseCommands expected a valid function name");
+                switch (fx) {
+                    case "load":
+                        tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeString.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeFunction.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional, PLTokenType.PLTokenTypeNumber.ordinal() | PLTokenType.PLTokenTypeOptional);
+                        new Handler(mView.getContext().getMainLooper()).post(new PLCommandRunnable(mView, tokenInfo));
+                        break;
+                    case "lookAt": {
+                        tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
+                        PLICamera camera = mView.getCamera();
+                        if (camera != null)
+                            camera.lookAt(tokenInfo.getFloat(0), tokenInfo.getFloat(1), tokenInfo.hasValue(2) && tokenInfo.getBoolean(2));
+                        break;
+                    }
+                    case "lookAtAndZoom": {
+                        tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
+                        PLICamera camera = mView.getCamera();
+                        if (camera != null)
+                            camera.lookAtAndZoomFactor(tokenInfo.getFloat(0), tokenInfo.getFloat(1), tokenInfo.getFloat(2), tokenInfo.hasValue(3) && tokenInfo.getBoolean(3));
+                        break;
+                    }
+                    case "zoom": {
+                        tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
+                        PLICamera camera = mView.getCamera();
+                        if (camera != null)
+                            camera.setZoomFactor(tokenInfo.getFloat(0), tokenInfo.hasValue(1) && tokenInfo.getBoolean(1));
+                        break;
+                    }
+                    case "fov": {
+                        tokenIndex = this.parseFunction(tokens, tokenIndex, tokenInfo, PLTokenType.PLTokenTypeNumber.ordinal(), PLTokenType.PLTokenTypeBoolean.ordinal() | PLTokenType.PLTokenTypeOptional);
+                        PLICamera camera = mView.getCamera();
+                        if (camera != null)
+                            camera.setFov(tokenInfo.getFloat(0), tokenInfo.hasValue(1) && tokenInfo.getBoolean(1));
+                        break;
+                    }
+                    default:
+                        throw new RuntimeException("parseCommands expected a valid function name");
+                }
                 this.parseCommands(tokens, tokenIndex);
             } else if (token.getType() == PLTokenType.PLTokenTypeEOS)
                 this.parseCommands(tokens, tokenIndex);
@@ -192,41 +185,22 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
         return tokenIndex;
     }
 
-    /**
-     * dealloc methods
-     */
-
     @Override
     protected void finalize() throws Throwable {
         mView = null;
         super.finalize();
     }
 
-    /**
-     * internal classes declaration
-     */
-
     protected class PLCommandRunnable implements Runnable {
-        /**
-         * member variables
-         */
 
         private PLIView mView;
         private PLITokenInfo mTokenInfo;
-
-        /**
-         * init methods
-         */
 
         public PLCommandRunnable(PLIView view, PLITokenInfo tokenInfo) {
             super();
             mView = view;
             mTokenInfo = tokenInfo;
         }
-
-        /**
-         * Runnable methods
-         */
 
         @Override
         public void run() {
@@ -235,16 +209,12 @@ public class PLCommandInterpreter extends PLObjectBase implements PLIInterpreter
                     PLITokenInfo transitionTokenInfo = (mTokenInfo.hasValue(2) ? mTokenInfo.getTokenInfo(2) : null);
                     if (transitionTokenInfo != null && transitionTokenInfo.getName().equals("null"))
                         transitionTokenInfo = null;
-                    mView.load(new PLJSONLoader(mTokenInfo.getString(0)), mTokenInfo.hasValue(1) ? mTokenInfo.getBoolean(1) : false, transitionTokenInfo != null ? new PLTransitionBlend(transitionTokenInfo.getFloat(0), transitionTokenInfo.hasValue(1) ? transitionTokenInfo.getFloat(1) : -1.0f) : null, mTokenInfo.hasValue(3) ? mTokenInfo.getFloat(3) : PLConstants.kFloatUndefinedValue, mTokenInfo.hasValue(4) ? mTokenInfo.getFloat(4) : PLConstants.kFloatUndefinedValue);
+                    mView.load(new PLJSONLoader(mTokenInfo.getString(0)), mTokenInfo.hasValue(1) && mTokenInfo.getBoolean(1), transitionTokenInfo != null ? new PLTransitionBlend(transitionTokenInfo.getFloat(0), transitionTokenInfo.hasValue(1) ? transitionTokenInfo.getFloat(1) : -1.0f) : null, mTokenInfo.hasValue(3) ? mTokenInfo.getFloat(3) : PLConstants.kFloatUndefinedValue, mTokenInfo.hasValue(4) ? mTokenInfo.getFloat(4) : PLConstants.kFloatUndefinedValue);
                 }
             } catch (Throwable e) {
                 PLLog.error("PLCommandRunnable::run", e);
             }
         }
-
-        /**
-         * dealloc methods
-         */
 
         @Override
         protected void finalize() throws Throwable {
