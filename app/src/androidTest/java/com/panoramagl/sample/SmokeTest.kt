@@ -25,8 +25,7 @@ class SmokeTest {
 
     @get:Rule
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
+        Manifest.permission.HIGH_SAMPLING_RATE_SENSORS
     )
 
     @Test
