@@ -49,16 +49,16 @@ import com.panoramagl.structs.PLCameraParameters;
 import com.panoramagl.structs.PLViewParameters;
 import com.panoramagl.transitions.PLITransition;
 import com.panoramagl.transitions.PLTransitionListener;
-import com.panoramagl.utils.PLLog;
 import com.panoramagl.utils.PLUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import timber.log.Timber;
 
 public class PLJSONLoader extends PLLoaderBase {
 
@@ -174,7 +174,7 @@ public class PLJSONLoader extends PLLoaderBase {
             else
                 listener.didErrorDownload(mURL, "JSON string is empty", -1, null);
         } catch (Throwable e) {
-            PLLog.error("PLJSONLoader::requestJSON", e);
+            Timber.e(e);
             listener.didErrorDownload(mURL, e.getMessage(), -1, null);
         }
     }
@@ -635,7 +635,7 @@ public class PLJSONLoader extends PLLoaderBase {
                     @Override
                     public void run() {
                         didError(e.toString());
-                        PLLog.error("PLJSONLoader", e);
+                        Timber.e(e);
                     }
                 }
         );

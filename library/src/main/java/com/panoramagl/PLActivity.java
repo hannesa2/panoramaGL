@@ -60,7 +60,6 @@ import com.panoramagl.structs.PLRotation;
 import com.panoramagl.structs.PLShakeData;
 import com.panoramagl.transitions.PLITransition;
 import com.panoramagl.transitions.PLTransitionListener;
-import com.panoramagl.utils.PLLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +67,7 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 import androidx.appcompat.app.AppCompatActivity;
+import timber.log.Timber;
 
 public class PLActivity extends AppCompatActivity implements PLIView, SensorEventListener, OnDoubleTapListener {
     /**
@@ -1071,7 +1071,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
     protected boolean activateAccelerometer() {
         if (mSensorManager != null && mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), (int) (mAccelerometerInterval * 1000.0f)))
             return true;
-        PLLog.debug("PLView::activateAccelerometer", "Accelerometer sensor is not available on the device!");
+        Timber.d("Accelerometer sensor is not available on the device!");
         return false;
     }
 
@@ -1162,7 +1162,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
                 mSensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeGyroscope;
                 mIsValidForSensorialRotation = true;
             } else {
-                PLLog.debug("PLView::startSensorialRotation", "Gyroscope sensor is not available on device!");
+                Timber.d("Gyroscope sensor is not available on device!");
                 if (mSensorManager != null && mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size() > 0 && mSensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).size() > 0) {
                     mSensorialRotationThresholdTimestamp = 0;
                     mSensorialRotationThresholdFlag = false;
@@ -1176,7 +1176,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
                     mIsValidForSensorialRotation = true;
                     this.activateMagnetometer();
                 } else
-                    PLLog.debug("PLView::startSensorialRotation", "Accelerometer or/and magnetometer sensor/s is/are not available on device!");
+                    Timber.d("Accelerometer or/and magnetometer sensor/s is/are not available on device!");
             }
             return mIsValidForSensorialRotation;
         }
@@ -1347,11 +1347,10 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
     protected boolean activateOrientation() {
         if (mSensorManager != null && mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME))
             return true;
-        PLLog.debug("PLView::activateOrientation", "Orientation sensor is not available on the device!");
+        Timber.d("Orientation sensor is not available on the device!");
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     protected void deactiveOrientation() {
         if (mSensorManager != null)
             mSensorManager.unregisterListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
@@ -1541,16 +1540,15 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
             if (showProgressBar) {
                 this.showProgressBar();
                 Handler handler = new Handler();
-                handler.postDelayed
-                        (
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loader.load(PLActivity.this, transition, initialPitch, initialYaw);
-                                    }
-                                },
-                                300
-                        );
+                handler.postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                loader.load(PLActivity.this, transition, initialPitch, initialYaw);
+                            }
+                        },
+                        300
+                );
             } else
                 loader.load(this, transition, initialPitch, initialYaw);
         }
@@ -1603,7 +1601,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         if (mPanorama != null)
             mPanorama.clear();
 
-        List<PLIReleaseView> releaseViewObjects = new ArrayList<PLIReleaseView>();
+        List<PLIReleaseView> releaseViewObjects = new ArrayList<>();
         releaseViewObjects.add(mPanorama);
         releaseViewObjects.add(mRenderer);
         releaseViewObjects.add(mInternalCameraListener);
@@ -1848,12 +1846,12 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
             mTempRenderingSize = new CGSize();
             mTempSize = new CGSize();
             mTempAcceleration = new UIAcceleration();
-            mInternalTouches = new ArrayList<UITouch>(kMaxTouches);
-            mCurrentTouches = new ArrayList<UITouch>(kMaxTouches);
+            mInternalTouches = new ArrayList<>(kMaxTouches);
+            mCurrentTouches = new ArrayList<>(kMaxTouches);
             mLocation = new int[2];
             this.initializeValues();
         } catch (Throwable e) {
-            PLLog.error("PLView::onCreate", e);
+            Timber.e(e);
         }
     }
 

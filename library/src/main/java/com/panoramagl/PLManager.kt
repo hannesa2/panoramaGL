@@ -22,7 +22,6 @@ import com.panoramagl.computation.PLMath
 import com.panoramagl.structs.PLRange
 import com.panoramagl.ios.UITouch
 import com.panoramagl.enumerations.PLTouchEventType
-import com.panoramagl.utils.PLLog
 import android.hardware.SensorEvent
 import com.panoramagl.ios.structs.UIAcceleration
 import android.hardware.SensorManager
@@ -36,6 +35,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.RelativeLayout
+import timber.log.Timber
 import java.util.ArrayList
 
 @Suppress("unused")
@@ -156,7 +156,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mLocation = IntArray(2)
             initializeValues()
         } catch (e: Throwable) {
-            PLLog.error("PLView::onCreate", e)
+            Timber.e(e)
         }
     }
     
@@ -909,7 +909,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 (mAccelerometerInterval * 1000.0f).toInt()
             )
         ) return true
-        PLLog.debug("PLView::activateAccelerometer", "Accelerometer sensor is not available on the device!")
+        Timber.d("Accelerometer sensor is not available on the device!")
         return false
     }
 
@@ -985,7 +985,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeGyroscope
                 mIsValidForSensorialRotation = true
             } else {
-                PLLog.debug("PLView::startSensorialRotation", "Gyroscope sensor is not available on device!")
+                Timber.d("Gyroscope sensor is not available on device!")
                 if (sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size > 0 && sensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).size > 0) {
                     mSensorialRotationThresholdTimestamp = 0
                     mSensorialRotationThresholdFlag = false
@@ -1003,7 +1003,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer
                     mIsValidForSensorialRotation = true
                     activateMagnetometer()
-                } else PLLog.debug("PLView::startSensorialRotation", "Accelerometer or/and magnetometer sensor/s is/are not available on device!")
+                } else Timber.d("Accelerometer or/and magnetometer sensor/s is/are not available on device!")
             }
             return mIsValidForSensorialRotation
         }
@@ -1147,7 +1147,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 SensorManager.SENSOR_DELAY_GAME
             )
         ) return true
-        PLLog.debug("PLView::activateOrientation", "Orientation sensor is not available on the device!")
+        Timber.d("Orientation sensor is not available on the device!")
         return false
     }
 

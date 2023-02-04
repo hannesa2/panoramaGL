@@ -5,10 +5,10 @@ import com.panoramagl.enumerations.PLTextureColorFormat
 import com.panoramagl.opengl.IGLWrapper
 import javax.microedition.khronos.opengles.GL10
 import com.panoramagl.utils.PLUtils
-import com.panoramagl.utils.PLLog
 import com.panoramagl.computation.PLMath
 import android.opengl.GLU
 import android.opengl.GLUtils
+import timber.log.Timber
 import kotlin.Throws
 
 class PLTexture @JvmOverloads constructor(
@@ -103,8 +103,7 @@ class PLTexture @JvmOverloads constructor(
             mWidth = mImage.width
             mHeight = mImage.height
             if (mWidth > PLConstants.kTextureMaxSize || mHeight > PLConstants.kTextureMaxSize) {
-                PLLog.error(
-                    "PLTexture::loadTexture",
+                Timber.e(                    
                     "Invalid texture size. The texture max size must be %d x %d and currently is %d x %d.",
                     PLConstants.kTextureMaxSize,
                     PLConstants.kTextureMaxSize,
@@ -127,14 +126,14 @@ class PLTexture @JvmOverloads constructor(
             gl.glGenTextures(1, mTextureId, 0)
             var error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                PLLog.error("PLTexture::loadTexture", "glGetError #1 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #1 = (%d) %s ...", error, GLU.gluErrorString(error))
                 recycleImage()
                 return false
             }
             gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId[0])
             error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                PLLog.error("PLTexture::loadTexture", "glGetError #2 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #2 = (%d) %s ...", error, GLU.gluErrorString(error))
                 recycleImage()
                 return false
             }
@@ -148,7 +147,7 @@ class PLTexture @JvmOverloads constructor(
             if (image !== mImage) image.recycle()
             error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                PLLog.error("PLTexture::loadTexture", "glGetError #3 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #3 = (%d) %s ...", error, GLU.gluErrorString(error))
                 recycleImage()
                 return false
             }
@@ -159,7 +158,7 @@ class PLTexture @JvmOverloads constructor(
             if (mListener != null) mListener!!.didLoad(this)
             return true
         } catch (e: Throwable) {
-            PLLog.error("PLTexture::loadTexture", e)
+            Timber.e(e)
         }
         return false
     }
@@ -185,7 +184,7 @@ class PLTexture @JvmOverloads constructor(
         try {
             recycle()
         } catch (e: Throwable) {
-            PLLog.error("PLTexture", e)
+            Timber.e(e)
         }
     }
 

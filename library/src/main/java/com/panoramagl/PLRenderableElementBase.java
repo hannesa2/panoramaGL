@@ -20,9 +20,10 @@ package com.panoramagl;
 
 import com.panoramagl.structs.PLPosition;
 import com.panoramagl.structs.PLRotation;
-import com.panoramagl.utils.PLLog;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import timber.log.Timber;
 
 public abstract class PLRenderableElementBase extends PLObject implements PLIRenderableElement {
     /**
@@ -164,7 +165,7 @@ public abstract class PLRenderableElementBase extends PLObject implements PLIRen
             }
         } catch (Throwable e) {
             mIsRendering = false;
-            PLLog.error("PLRenderableElementBase::render", e);
+            Timber.e(e);
         }
         return false;
     }

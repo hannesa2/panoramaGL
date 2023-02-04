@@ -38,6 +38,8 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import timber.log.Timber;
+
 public class PLUtils {
 
     public static IntBuffer makeIntBuffer(int[] array) {
@@ -116,7 +118,7 @@ public class PLUtils {
                 canvas.drawBitmap(bitmap, 0, 0, paint);
                 return newBitmap;
             } catch (Throwable e) {
-                PLLog.error("PLUtils::convertBitmap", e);
+                Timber.e(e);
             }
         }
         return bitmap;
@@ -137,7 +139,7 @@ public class PLUtils {
             options.inPreferredConfig = config;
             return BitmapFactory.decodeByteArray(data, 0, data.length, options);
         } catch (Throwable e) {
-            PLLog.error("PLUtils::getBitmap", e);
+            Timber.e(e);
         }
         return null;
     }
@@ -170,7 +172,7 @@ public class PLUtils {
             is.close();
             return bitmap;
         } catch (Throwable e) {
-            PLLog.error("PLUtils::getBitmap", e);
+            Timber.e(e);
         }
         return null;
     }
@@ -193,7 +195,7 @@ public class PLUtils {
             is.close();
             return bitmap;
         } catch (Throwable e) {
-            PLLog.error("PLUtils::getBitmap", e);
+            Timber.e(e);
         }
         return null;
     }
