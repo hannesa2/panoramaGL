@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="Image 1" />
+            android:text="Image 1"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/button_2"
@@ -25,12 +26,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="Image 2" />
+            android:text="Image 2"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4" />
+        android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/textVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            tools:text="Version" />
+
+        <TextView
+            android:id="@+id/textRenderer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/textVersion"
+            android:layout_alignEnd="@id/textVersion"
+            android:layout_alignRight="@id/textVersion"
+            tools:text="Renderer" />
+    </RelativeLayout>
+
 </LinearLayout>

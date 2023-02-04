@@ -15,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.panoramagl.enumerations
 
-package com.panoramagl.enumerations;
-
-public enum PLOpenGLVersion {
-    PLOpenGLVersion1_0,//This API specification is supported by Android 1.0 and higher.
-    PLOpenGLVersion1_1,//This API specification is supported by Android 1.0 and higher.
-    PLOpenGLVersion2_0,//This API specification is supported by Android 2.2 (API level 8) and higher.
-    PLOpenGLVersion3_0,// This API specification is supported by Android 4.3 (API level 18) and higher.
-    PLOpenGLVersion3_1// This API specification is supported by Android 5.0 (API level 21) and higher.
+enum class PLOpenGLVersion {
+    PLOpenGLVersion1_0,  //This API specification is supported by Android 1.0 and higher.
+    PLOpenGLVersion1_1,  //This API specification is supported by Android 1.0 and higher.
+    PLOpenGLVersion2_0,  //This API specification is supported by Android 2.2 (API level 8) and higher.
+    PLOpenGLVersion3_0,  // This API specification is supported by Android 4.3 (API level 18) and higher.
+    PLOpenGLVersion3_1 // This API specification is supported by Android 5.0 (API level 21) and higher.
 }

@@ -3,40 +3,39 @@ package com.panoramagl
 import android.content.Context
 import android.content.res.Configuration
 import android.hardware.Sensor
-import android.hardware.SensorEventListener
-import android.view.GestureDetector.OnDoubleTapListener
-import com.panoramagl.ios.NSTimer
-import com.panoramagl.ios.structs.CGPoint
-import com.panoramagl.enumerations.PLSensorialRotationType
-import com.panoramagl.structs.PLShakeData
-import com.panoramagl.transitions.PLITransition
-import com.panoramagl.enumerations.PLTouchStatus
-import com.panoramagl.ios.enumerations.UIDeviceOrientation
-import com.panoramagl.downloaders.PLIFileDownloaderManager
-import android.widget.ProgressBar
-import com.panoramagl.downloaders.PLFileDownloaderManager
-import javax.microedition.khronos.opengles.GL10
-import com.panoramagl.ios.structs.CGRect
-import com.panoramagl.ios.structs.CGSize
-import com.panoramagl.computation.PLMath
-import com.panoramagl.structs.PLRange
-import com.panoramagl.ios.UITouch
-import com.panoramagl.enumerations.PLTouchEventType
 import android.hardware.SensorEvent
-import com.panoramagl.ios.structs.UIAcceleration
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import com.panoramagl.transitions.PLTransitionListener
-import com.panoramagl.loaders.PLILoader
-import com.panoramagl.loaders.PLLoaderListener
 import android.opengl.GLSurfaceView
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.*
+import android.view.GestureDetector.OnDoubleTapListener
 import android.view.GestureDetector.SimpleOnGestureListener
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import com.panoramagl.computation.PLMath
+import com.panoramagl.downloaders.PLFileDownloaderManager
+import com.panoramagl.downloaders.PLIFileDownloaderManager
+import com.panoramagl.enumerations.PLSensorialRotationType
+import com.panoramagl.enumerations.PLTouchEventType
+import com.panoramagl.enumerations.PLTouchStatus
+import com.panoramagl.ios.NSTimer
+import com.panoramagl.ios.UITouch
+import com.panoramagl.ios.enumerations.UIDeviceOrientation
+import com.panoramagl.ios.structs.CGPoint
+import com.panoramagl.ios.structs.CGRect
+import com.panoramagl.ios.structs.CGSize
+import com.panoramagl.ios.structs.UIAcceleration
+import com.panoramagl.loaders.PLILoader
+import com.panoramagl.loaders.PLLoaderListener
+import com.panoramagl.structs.PLRange
+import com.panoramagl.structs.PLShakeData
+import com.panoramagl.transitions.PLITransition
+import com.panoramagl.transitions.PLTransitionListener
 import timber.log.Timber
-import java.util.ArrayList
+import javax.microedition.khronos.opengles.GL10
 
 @Suppress("unused")
 open class PLManager(private val context: Context) : PLIView, SensorEventListener, OnDoubleTapListener {
@@ -128,7 +127,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
-    
+
     fun onCreate() {
         try {
             gestureDetector = GestureDetector(
@@ -159,7 +158,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             Timber.e(e)
         }
     }
-    
+
     /**
      * init methods
      */
@@ -269,12 +268,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     onGLSurfaceViewCreated(mGLSurfaceView)
                 }
             } else {
-                if (mPanorama != null) {
-                    mPanorama!!.clear()
-                    mPanorama!!.releaseView()
-                    mPanorama = null
-                }
-                if (renderer != null) renderer!!.internalScene = null
+                mPanorama?.clear()
+                mPanorama?.releaseView()
+                renderer?.internalScene = null
             }
         }
     }
@@ -303,17 +299,13 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     override fun setCamera(camera: PLICamera) {
-        if (mPanorama != null)
-            mPanorama!!.camera = camera
+        mPanorama?.camera = camera
     }
 
     var animationTimer: NSTimer?
         get() = mAnimationTimer
         set(timer) {
-            if (mAnimationTimer != null) {
-                mAnimationTimer!!.invalidate()
-                mAnimationTimer = null
-            }
+            mAnimationTimer?.invalidate()
             mAnimationTimer = timer
         }
 

@@ -1,14 +1,14 @@
 package com.panoramagl.sample
 
 import android.graphics.BitmapFactory
+import android.opengl.GLES20
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.panoramagl.PLConstants
-import com.panoramagl.PLImage
-import com.panoramagl.PLManager
-import com.panoramagl.PLSphericalPanorama
+import com.panoramagl.*
 import com.panoramagl.hotspots.ActionPLHotspot
 import com.panoramagl.hotspots.HotSpotListener
 import com.panoramagl.sample.databinding.ActivityMainBinding
@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         plManager = PLManager(this).apply {
             setContentView(binding.contentView)
@@ -46,6 +45,10 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
     override fun onResume() {
         super.onResume()
         plManager.onResume()
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.textVersion.text = PLRenderer.versionGL
+            binding.textRenderer.text = PLRenderer.rendererGL
+        }, 1000)
     }
 
     override fun onPause() {
