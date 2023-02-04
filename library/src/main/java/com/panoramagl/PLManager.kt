@@ -81,11 +81,11 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mIsValidForSensorialRotation = false
     protected var sensorialRotationType: PLSensorialRotationType? = null
         private set
-    private var mSensorialRotationThresholdTimestamp: Long = 0
+    private var sensorialRotationThresholdTimestamp: Long = 0
     private var mSensorialRotationThresholdFlag = false
-    private var mSensorialRotationAccelerometerData: FloatArray? = null
-    private var mSensorialRotationRotationMatrix: FloatArray? = null
-    private var mSensorialRotationOrientationData: FloatArray? = null
+    private var sensorialRotationAccelerometerData: FloatArray? = null
+    private var sensorialRotationRotationMatrix: FloatArray? = null
+    private var sensorialRotationOrientationData: FloatArray? = null
     private var mHasFirstGyroscopePitch = false
     private var mHasFirstAccelerometerPitch = false
     private var mHasFirstMagneticHeading = false
@@ -979,11 +979,11 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             } else {
                 Timber.d("Gyroscope sensor is not available on device!")
                 if (sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size > 0 && sensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).size > 0) {
-                    mSensorialRotationThresholdTimestamp = 0
+                    sensorialRotationThresholdTimestamp = 0
                     mSensorialRotationThresholdFlag = false
-                    mSensorialRotationAccelerometerData = FloatArray(3)
-                    mSensorialRotationRotationMatrix = FloatArray(16)
-                    mSensorialRotationOrientationData = FloatArray(3)
+                    sensorialRotationAccelerometerData = FloatArray(3)
+                    sensorialRotationRotationMatrix = FloatArray(16)
+                    sensorialRotationOrientationData = FloatArray(3)
                     mHasFirstMagneticHeading = false
                     mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
                     mAccelerometerPitch = 0.0f
@@ -1028,9 +1028,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mIsValidForSensorialRotation = false
             if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeGyroscope) deactivateGyroscope() else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
                 deactivateMagnetometer()
-                mSensorialRotationOrientationData = null
-                mSensorialRotationRotationMatrix = mSensorialRotationOrientationData
-                mSensorialRotationAccelerometerData = mSensorialRotationRotationMatrix
+                sensorialRotationOrientationData = null
+                sensorialRotationRotationMatrix = sensorialRotationOrientationData
+                sensorialRotationAccelerometerData = sensorialRotationRotationMatrix
             }
             sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeUnknow
             return true
@@ -1119,7 +1119,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 mHasFirstGyroscopePitch = false
                 return true
             } else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
-                mSensorialRotationThresholdTimestamp = 0
+                sensorialRotationThresholdTimestamp = 0
                 mHasFirstMagneticHeading = false
                 mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
                 mSensorialRotationThresholdFlag = mHasFirstAccelerometerPitch
@@ -1431,7 +1431,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (mIsValidForSensorialRotation) {
             updateInitialSensorialRotation()
             if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeGyroscope) activateGyroscope() else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
-                mSensorialRotationThresholdTimestamp = System.currentTimeMillis() + 1000
+                sensorialRotationThresholdTimestamp = System.currentTimeMillis() + 1000
                 activateMagnetometer()
             }
         }
@@ -1447,15 +1447,16 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         stopAnimation()
     }
 
-    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
+
     override fun onSensorChanged(event: SensorEvent) {
         val values = event.values
         when (event.sensor.type) {
             Sensor.TYPE_ACCELEROMETER -> if (mIsRendererCreated && renderer!!.isRunning && !mIsValidForTransition) {
-                if (mSensorialRotationAccelerometerData != null) {
-                    mSensorialRotationAccelerometerData!![0] = values[0]
-                    mSensorialRotationAccelerometerData!![1] = values[1]
-                    mSensorialRotationAccelerometerData!![2] = values[2]
+                if (sensorialRotationAccelerometerData != null) {
+                    sensorialRotationAccelerometerData!![0] = values[0]
+                    sensorialRotationAccelerometerData!![1] = values[1]
+                    sensorialRotationAccelerometerData!![2] = values[2]
                 }
                 accelerometer(event, mTempAcceleration!!.setValues(values))
             }
@@ -1482,18 +1483,18 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 }
             }
             Sensor.TYPE_MAGNETIC_FIELD -> if (mIsRendererCreated && renderer!!.isRunning && !mIsValidForTransition) {
-                if (mIsValidForSensorialRotation && sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer && mSensorialRotationAccelerometerData != null) {
+                if (mIsValidForSensorialRotation && sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer && sensorialRotationAccelerometerData != null) {
                     if (mSensorialRotationThresholdFlag) {
-                        SensorManager.getRotationMatrix(mSensorialRotationRotationMatrix, null, mSensorialRotationAccelerometerData, values)
+                        SensorManager.getRotationMatrix(sensorialRotationRotationMatrix, null, sensorialRotationAccelerometerData, values)
                         SensorManager.remapCoordinateSystem(
-                            mSensorialRotationRotationMatrix,
+                            sensorialRotationRotationMatrix,
                             SensorManager.AXIS_X,
                             SensorManager.AXIS_Z,
-                            mSensorialRotationRotationMatrix
+                            sensorialRotationRotationMatrix
                         )
-                        SensorManager.getOrientation(mSensorialRotationRotationMatrix, mSensorialRotationOrientationData)
-                        var yaw = mSensorialRotationOrientationData!![0] * PLConstants.kToDegrees
-                        var pitch = -mSensorialRotationOrientationData!![1] * PLConstants.kToDegrees
+                        SensorManager.getOrientation(sensorialRotationRotationMatrix, sensorialRotationOrientationData)
+                        var yaw = sensorialRotationOrientationData!![0] * PLConstants.kToDegrees
+                        var pitch = -sensorialRotationOrientationData!![1] * PLConstants.kToDegrees
                         if (mHasFirstMagneticHeading) {
                             if (pitch >= 0.0f && pitch < 50.0f || pitch < 0.0f && pitch > -50.0f) {
                                 yaw -= mFirstMagneticHeading
@@ -1524,8 +1525,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                         }
                         doSimulatedGyroUpdate()
                     } else {
-                        if (mSensorialRotationThresholdTimestamp == 0L) mSensorialRotationThresholdTimestamp =
-                            System.currentTimeMillis() else if (System.currentTimeMillis() - mSensorialRotationThresholdTimestamp >= PLConstants.kSensorialRotationThreshold) mSensorialRotationThresholdFlag =
+                        if (sensorialRotationThresholdTimestamp == 0L) sensorialRotationThresholdTimestamp =
+                            System.currentTimeMillis() else if (System.currentTimeMillis() - sensorialRotationThresholdTimestamp >= PLConstants.kSensorialRotationThreshold) mSensorialRotationThresholdFlag =
                             true
                     }
                 }
