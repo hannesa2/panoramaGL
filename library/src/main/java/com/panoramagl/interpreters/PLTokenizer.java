@@ -38,7 +38,7 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
      * member variables
      */
 
-    private List<PLIToken> mTokens;
+    private List<PLIToken> tokens;
     private List<PLTokenData> mTokensData;
 
     /**
@@ -51,7 +51,7 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
 
     @Override
     protected void initializeValues() {
-        mTokens = new ArrayList<PLIToken>();
+        tokens = new ArrayList<PLIToken>();
         mTokensData = new ArrayList<PLTokenData>();
     }
 
@@ -61,16 +61,12 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
 
     @Override
     public List<PLIToken> getTokens() {
-        return mTokens;
+        return tokens;
     }
 
     protected List<PLTokenData> getTokensData() {
         return mTokensData;
     }
-
-    /**
-     * token methods
-     */
 
     @Override
     public void addToken(PLTokenType tokenType, String regex) {
@@ -80,7 +76,7 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
     @Override
     public void tokenize(String input) {
         String inputText = input.trim();
-        mTokens.clear();
+        tokens.clear();
         while (!inputText.equals("")) {
             boolean match = false;
             for (int i = 0, tokensDataLength = mTokensData.size(); i < tokensDataLength; i++) {
@@ -90,7 +86,7 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
                     match = true;
                     String sequence = matcher.group().trim();
                     inputText = matcher.replaceFirst("").trim();
-                    mTokens.add(new PLToken(tokenData.type, sequence));
+                    tokens.add(new PLToken(tokenData.type, sequence));
                     break;
                 }
             }
@@ -105,8 +101,8 @@ public class PLTokenizer extends PLObjectBase implements PLITokenizer {
 
     @Override
     protected void finalize() throws Throwable {
-        mTokens.clear();
-        mTokens = null;
+        tokens.clear();
+        tokens = null;
         mTokensData.clear();
         mTokensData = null;
         super.finalize();
