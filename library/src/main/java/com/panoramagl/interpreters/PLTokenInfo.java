@@ -23,6 +23,8 @@ import com.panoramagl.PLObjectBase;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
     /**
      * member variables
@@ -53,7 +55,7 @@ public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
     @Override
     protected void initializeValues() {
         mName = null;
-        mValues = new ArrayList<Object>(5);
+        mValues = new ArrayList<>(5);
     }
 
     /**
@@ -76,11 +78,9 @@ public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
     }
 
     @Override
-    public void setValues(List<Object> values) {
-        if (values != null) {
-            mValues.clear();
-            mValues.addAll(values);
-        }
+    public void setValues(@NonNull List<?> values) {
+        mValues.clear();
+        mValues.addAll(values);
     }
 
     /**
@@ -133,17 +133,14 @@ public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
     }
 
     @Override
-    public boolean addValue(Object value) {
-        if (value != null) {
-            mValues.add(value);
-            return true;
-        }
-        return false;
+    public boolean addValue(@NonNull Object value) {
+        mValues.add(value);
+        return true;
     }
 
     @Override
-    public boolean insertValue(Object value, int index) {
-        if (value != null && index >= 0 && index <= mValues.size()) {
+    public boolean insertValue(@NonNull Object value, int index) {
+        if (index >= 0 && index <= mValues.size()) {
             mValues.add(index, value);
             return true;
         }
@@ -151,8 +148,8 @@ public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
     }
 
     @Override
-    public boolean removeValue(Object value) {
-        if (value != null && mValues.contains(value)) {
+    public boolean removeValue(@NonNull Object value) {
+        if (mValues.contains(value)) {
             mValues.remove(value);
             return true;
         }
@@ -185,4 +182,5 @@ public class PLTokenInfo extends PLObjectBase implements PLITokenInfo {
         mValues = null;
         super.finalize();
     }
+
 }
