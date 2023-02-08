@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "androidx.core:core-ktx:1.9.0"
     api "com.github.AppDevNext.Logcat:LogcatCoreLib:2.12"
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
