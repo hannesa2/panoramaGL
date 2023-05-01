@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ARM64
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
@@ -17,16 +17,16 @@ jobs:
           distribution: 'adopt'
           java-version: 17
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.4
+        uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Build with Gradle
         run: ./gradlew assembleDebug
       - name: Android Emulator test
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.4
+        uses: hannesa2/action-android/emulator-run-cmd@0.1.4.10
         with:
           cmd: ./gradlew cAT --continue
-          api: 28
+          api: 31
           tag: default
-          abi: x86_64
+          abi: arm64-v8a
           cmdOptions: -noaudio -no-boot-anim -no-window
           bootTimeout: 720
       - uses: actions/upload-artifact@v3
