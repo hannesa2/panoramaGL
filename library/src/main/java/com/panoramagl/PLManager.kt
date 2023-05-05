@@ -849,12 +849,17 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     protected fun inertia() {
         if (this.isLocked || isValidForCameraAnimation || mIsValidForTransition) return
-        val m = (mEndPoint!!.y - mStartPoint!!.y) / (mEndPoint!!.x - mStartPoint!!.x)
-        val b = (mStartPoint!!.y * mEndPoint!!.x - mEndPoint!!.y * mStartPoint!!.x) / (mEndPoint!!.x - mStartPoint!!.x)
+        val dx = mEndPoint!!.x - mStartPoint!!.x
+        if(dx == 0){
+            stopInertia()
+            return
+        }
+        val m = (mEndPoint!!.y - mStartPoint!!.y) / dx
+        val b = (mStartPoint!!.y * mEndPoint!!.x - mEndPoint!!.y * mStartPoint!!.x) / dx
         val x: Float
         val y: Float
         val add: Float
-        if (Math.abs(mEndPoint!!.x - mStartPoint!!.x) >= Math.abs(mEndPoint!!.y - mStartPoint!!.y)) {
+        if (Math.abs(dx) >= Math.abs(mEndPoint!!.y - mStartPoint!!.y)) {
             add = if (mEndPoint!!.x > mStartPoint!!.x) -mInertiaStepValue else mInertiaStepValue
             x = mEndPoint!!.x + add
             if (add > 0.0f && x > mStartPoint!!.x || add <= 0.0f && x < mStartPoint!!.x) {
