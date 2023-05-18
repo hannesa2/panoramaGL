@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
             isScrollingEnabled = true
             isInertiaEnabled = true
             inertiaInterval = 1F
-            minDistanceToEnableDrawing = 1
-            minDistanceToEnableScrolling = 1
+            // minDistanceToEnableDrawing = 1
+            // minDistanceToEnableScrolling = 1
         }
         changePanorama(0)
         binding.button1.setOnClickListener { changePanorama(0) }
