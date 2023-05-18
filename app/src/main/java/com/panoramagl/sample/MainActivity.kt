@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
             isAcceleratedTouchScrollingEnabled = useAcceleratedTouchScrolling
             // to see a black screen
             isScrollingEnabled = true
-            isInertiaEnabled = true
         }
         changePanorama(0)
         binding.button1.setOnClickListener { changePanorama(0) }
