@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
             isZoomEnabled = false
             isAcceleratedTouchScrollingEnabled = useAcceleratedTouchScrolling
             // to see a black screen
-            isScrollingEnabled = true
             isInertiaEnabled = true
         }
         changePanorama(0)
