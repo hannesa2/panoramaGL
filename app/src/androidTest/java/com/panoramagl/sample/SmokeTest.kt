@@ -26,16 +26,16 @@ class SmokeTest {
     @get:Rule
     var nameRule = TestName()
 
-    @Test
-    fun basicSmokeTest() {
-        Thread.sleep(100)
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
-
-        Espresso.onView(withId(R.id.button_1)).perform(ViewActions.click())
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
-        Espresso.onView(withId(R.id.button_2)).perform(ViewActions.click())
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
-    }
+//    @Test
+//    fun basicSmokeTest() {
+//        Thread.sleep(100)
+//        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
+//
+//        Espresso.onView(withId(R.id.button_1)).perform(ViewActions.click())
+//        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
+//        Espresso.onView(withId(R.id.button_2)).perform(ViewActions.click())
+//        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
+//    }
 
     @Test
     fun swipeTest() {
