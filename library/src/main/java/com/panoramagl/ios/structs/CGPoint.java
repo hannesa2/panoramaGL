@@ -21,15 +21,8 @@ package com.panoramagl.ios.structs;
 import com.panoramagl.structs.PLIStruct;
 
 public class CGPoint implements PLIStruct<CGPoint> {
-    /**
-     * member variables
-     */
 
     public float x, y;
-
-    /**
-     * init methods
-     */
 
     public CGPoint() {
         this(0.0f, 0.0f);
@@ -57,10 +50,6 @@ public class CGPoint implements PLIStruct<CGPoint> {
         return new CGPoint(x, y);
     }
 
-    /**
-     * reset methods
-     */
-
     @Override
     public boolean isResetted() {
         return (x == 0.0f && y == 0.0f);
@@ -71,10 +60,6 @@ public class CGPoint implements PLIStruct<CGPoint> {
         x = y = 0.0f;
         return this;
     }
-
-    /**
-     * set methods
-     */
 
     @Override
     public CGPoint setValues(CGPoint point) {
@@ -89,22 +74,14 @@ public class CGPoint implements PLIStruct<CGPoint> {
         return this;
     }
 
-    /**
-     * clone methods
-     */
-
     @Override
     public CGPoint clone() {
         return new CGPoint(x, y);
     }
 
-    /**
-     * native methods
-     */
-
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof CGPoint) {
+        if (o instanceof CGPoint) {
             if (this == o)
                 return true;
             CGPoint point = (CGPoint) o;
