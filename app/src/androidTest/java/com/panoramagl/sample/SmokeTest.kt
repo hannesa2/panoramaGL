@@ -1,5 +1,6 @@
 package com.panoramagl.sample
 
+import android.util.Log
 import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso
@@ -28,9 +29,11 @@ class SmokeTest {
 
     @Test
     fun basicSmokeTest() {
+        Log.d("SmokeTest", "wait for 100 ms")
         Thread.sleep(100)
+        Log.d("SmokeTest", "waited for 100 ms")
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
-
+        Log.d("SmokeTest", "before click #1")
         onView(withId(R.id.button_1)).perform(ViewActions.click())
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
         onView(withId(R.id.button_2)).perform(ViewActions.click())
