@@ -18,7 +18,6 @@ android {
         }
         targetSdkVersion 33
     }
-
     externalNativeBuild {
         ndkBuild {
             path "src/main/jni/Android.mk"
@@ -32,8 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
     namespace 'com.panoramagl'
 }
