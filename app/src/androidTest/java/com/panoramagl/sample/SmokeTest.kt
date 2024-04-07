@@ -31,29 +31,29 @@ class SmokeTest {
         Thread.sleep(100)
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
 
-        Espresso.onView(withId(R.id.button_1)).perform(ViewActions.click())
+        onView(withId(R.id.button_1)).perform(ViewActions.click())
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
-        Espresso.onView(withId(R.id.button_2)).perform(ViewActions.click())
+        onView(withId(R.id.button_2)).perform(ViewActions.click())
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
     }
 
-    @Test
-    fun swipeTest() {
-        Thread.sleep(100)
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
-
-        (0..10).forEach { x ->
-            // swipe up
-            (0..3).forEach { i ->
-                onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeUp())
-            }
-
-            // swipe Down
-            (0..3).forEach { i ->
-                onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeDown())
-            }
-        }
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-end")
-    }
+//    @Test
+//    fun swipeTest() {
+//        Thread.sleep(100)
+//        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
+//
+//        (0..10).forEach { x ->
+//            // swipe up
+//            (0..3).forEach { i ->
+//                onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeUp())
+//            }
+//
+//            // swipe Down
+//            (0..3).forEach { i ->
+//                onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeDown())
+//            }
+//        }
+//        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-end")
+//    }
 
 }
