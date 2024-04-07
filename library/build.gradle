@@ -5,7 +5,6 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
     ndkVersion "24.0.8215888"
 
     defaultConfig {
@@ -16,6 +15,7 @@ android {
                 minSdkVersion 16
             }
         }
+        compileSdk 33
         targetSdkVersion 33
     }
 
