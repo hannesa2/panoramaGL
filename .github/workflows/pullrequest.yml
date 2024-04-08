@@ -55,7 +55,7 @@ jobs:
           distribution: 'adopt'
           java-version: 17
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.4
+        uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
