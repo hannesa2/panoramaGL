@@ -4,8 +4,6 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-
     defaultConfig {
         applicationId "com.panoramagl.sample"
         gradle.startParameter.taskNames.each {
@@ -15,6 +13,7 @@ android {
                 minSdkVersion 16
             }
         }
+        compileSdk 33
         targetSdkVersion 33
         versionCode getGitCommitCount()
         versionName getTag()
