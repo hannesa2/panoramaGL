@@ -29,7 +29,7 @@ jobs:
           abi: arm64-v8a
           cmdOptions: -noaudio -no-boot-anim -no-window
           bootTimeout: 720
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: PanoramaGL-Espresso-report
@@ -37,7 +37,7 @@ jobs:
             ./**/build/reports/androidTests/connected
       - name: Archive screenshots
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: PanoramaGL-Screenshots
           path: |
@@ -59,7 +59,7 @@ jobs:
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: PanoramaGL-Lint-report
