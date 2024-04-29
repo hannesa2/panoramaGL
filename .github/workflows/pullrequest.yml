@@ -17,11 +17,11 @@ jobs:
           distribution: 'adopt'
           java-version: 17
       - name: Install Android SDK
-        uses: hannesa2/action-android/install-sdk@0.1.4.10
+        uses: hannesa2/action-android/install-sdk@0.1.16.3
       - name: Build with Gradle
         run: ./gradlew assembleDebug
       - name: Android Emulator test
-        uses: hannesa2/action-android/emulator-run-cmd@0.1.4.10
+        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.3
         with:
           cmd: ./gradlew cAT --continue
           api: 31
@@ -55,7 +55,7 @@ jobs:
           distribution: 'adopt'
           java-version: 17
       - name: Install Android SDK
-        uses: hannesa2/action-android/install-sdk@0.1.4.10
+        uses: hannesa2/action-android/install-sdk@0.1.16.3
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
