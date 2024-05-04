@@ -15,8 +15,8 @@ android {
                 minSdkVersion 19
             }
         }
-        compileSdk 33
-        targetSdkVersion 33
+        compileSdk 34
+        targetSdkVersion 34
     }
     externalNativeBuild {
         ndkBuild {
