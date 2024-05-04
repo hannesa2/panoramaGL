@@ -27,7 +27,7 @@ jobs:
           api: 28
           tag: default
           abi: x86_64
-          cmdOptions: -noaudio -no-boot-anim -no-window
+          cmdOptions: -noaudio -no-boot-anim -no-window -metrics-to-console
           bootTimeout: 720
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
