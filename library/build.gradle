@@ -12,7 +12,7 @@ android {
             if (it.contains("cAT") || it.contains("AndroidTest")) {
                 minSdkVersion 21
             } else {
-                minSdkVersion 16
+                minSdkVersion 19
             }
         }
         compileSdk 33
