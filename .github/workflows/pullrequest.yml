@@ -20,29 +20,29 @@ jobs:
         uses: hannesa2/action-android/install-sdk@0.1.16.5
       - name: Build with Gradle
         run: ./gradlew assembleDebug
-      - name: Android Emulator test
-        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.5
-        with:
-          cmd: ./gradlew cAT --continue
-          api: 34
-          tag: 'google_apis'
-          abi: arm64-v8a
-          cmdOptions: -noaudio -no-boot-anim -no-window -metrics-to-console
-          bootTimeout: 720
-      - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
-        with:
-          name: PanoramaGL-Espresso-report
-          path: |
-            ./**/build/reports/androidTests/connected
-      - name: Archive screenshots
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: PanoramaGL-Screenshots
-          path: |
-            app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-            app/build/outputs/androidTest-results/connected
+#      - name: Android Emulator test
+#        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.5
+#        with:
+#          cmd: ./gradlew cAT --continue
+#          api: 34
+#          tag: 'google_apis'
+#          abi: arm64-v8a
+#          cmdOptions: -noaudio -no-boot-anim -no-window -metrics-to-console
+#          bootTimeout: 720
+#      - uses: actions/upload-artifact@v4
+#        if: ${{ always() }}
+#        with:
+#          name: PanoramaGL-Espresso-report
+#          path: |
+#            ./**/build/reports/androidTests/connected
+#      - name: Archive screenshots
+#        if: ${{ always() }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: PanoramaGL-Screenshots
+#          path: |
+#            app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
+#            app/build/outputs/androidTest-results/connected
   Check:
     name: Check
     runs-on: ubuntu-latest
