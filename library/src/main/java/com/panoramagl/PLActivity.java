@@ -66,6 +66,7 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import timber.log.Timber;
 
@@ -659,7 +660,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
 
     @Override
     public boolean isLocked() {
-        return (mPanorama != null ? mPanorama.isLocked() : true);
+        return (mPanorama == null || mPanorama.isLocked());
     }
 
     @Override
@@ -1653,7 +1654,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
          */
 
         @Override
-        public void didBeginAnimation(Object sender, PLICamera camera, PLCameraAnimationType type) {
+        public void didBeginAnimation(@NonNull Object sender, @NonNull PLICamera camera, PLCameraAnimationType type) {
             switch (type) {
                 case PLCameraAnimationTypeLookAt:
                     mView.setValidForCameraAnimation(true);
@@ -1667,7 +1668,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         }
 
         @Override
-        public void didEndAnimation(Object sender, PLICamera camera, PLCameraAnimationType type) {
+        public void didEndAnimation(@NonNull Object sender, @NonNull PLICamera camera, PLCameraAnimationType type) {
             switch (type) {
                 case PLCameraAnimationTypeLookAt:
                     mView.setValidForCameraAnimation(false);
@@ -1681,7 +1682,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         }
 
         @Override
-        public void didLookAt(Object sender, PLICamera camera, float pitch, float yaw, boolean animated) {
+        public void didLookAt(@NonNull Object sender, @NonNull PLICamera camera, float pitch, float yaw, boolean animated) {
             if (sender != mView)
                 mView.updateInitialSensorialRotation();
             PLViewListener listener = mView.getListener();
@@ -1690,7 +1691,7 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         }
 
         @Override
-        public void didRotate(Object sender, PLICamera camera, float pitch, float yaw, float roll) {
+        public void didRotate(@NonNull Object sender, @NonNull PLICamera camera, float pitch, float yaw, float roll) {
             if (sender != mView)
                 mView.updateInitialSensorialRotation();
             PLViewListener listener = mView.getListener();
@@ -1699,14 +1700,14 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         }
 
         @Override
-        public void didFov(Object sender, PLICamera camera, float fov, boolean animated) {
+        public void didFov(@NonNull Object sender, @NonNull PLICamera camera, float fov, boolean animated) {
             PLViewListener listener = mView.getListener();
             if (listener != null)
                 listener.onDidFovCamera(mView, sender, camera, fov, animated);
         }
 
         @Override
-        public void didReset(Object sender, PLICamera camera) {
+        public void didReset(@NonNull Object sender, @NonNull PLICamera camera) {
             if (sender != mView)
                 mView.updateInitialSensorialRotation();
             PLViewListener listener = mView.getListener();
@@ -1792,10 +1793,6 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
         return mTempSize.setValues(displayMetrics.widthPixels, displayMetrics.heightPixels);
     }
 
-    /**
-     * android: touch utility methods
-     */
-
     protected List<UITouch> getTouches(MotionEvent event) {
         return this.getTouches(event, 1);
     }
@@ -1827,17 +1824,17 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
                             this,
                             new SimpleOnGestureListener() {
                                 @Override
-                                public boolean onDoubleTap(MotionEvent event) {
+                                public boolean onDoubleTap(@NonNull MotionEvent event) {
                                     return PLActivity.this.onDoubleTap(event);
                                 }
 
                                 @Override
-                                public boolean onDoubleTapEvent(MotionEvent event) {
+                                public boolean onDoubleTapEvent(@NonNull MotionEvent event) {
                                     return PLActivity.this.onDoubleTapEvent(event);
                                 }
 
                                 @Override
-                                public boolean onSingleTapConfirmed(MotionEvent event) {
+                                public boolean onSingleTapConfirmed(@NonNull MotionEvent event) {
                                     return PLActivity.this.onSingleTapConfirmed(event);
                                 }
                             }
@@ -2107,18 +2104,18 @@ public class PLActivity extends AppCompatActivity implements PLIView, SensorEven
     }
 
     @Override
-    public boolean onDoubleTap(MotionEvent event) {
+    public boolean onDoubleTap(@NonNull MotionEvent event) {
         this.touchesBegan(this.getTouches(event, 2), event);
         return true;
     }
 
     @Override
-    public boolean onDoubleTapEvent(MotionEvent event) {
+    public boolean onDoubleTapEvent(@NonNull MotionEvent event) {
         return false;
     }
 
     @Override
-    public boolean onSingleTapConfirmed(MotionEvent event) {
+    public boolean onSingleTapConfirmed(@NonNull MotionEvent event) {
         return false;
     }
 }
