@@ -2,7 +2,6 @@ package com.panoramagl.sample
 
 import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.swipeDown
@@ -42,14 +41,14 @@ class SmokeTest {
         Thread.sleep(100)
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
 
-        (0..10).forEach { x ->
+        repeat((0..10).count()) {
             // swipe up
-            (0..3).forEach { i ->
+            repeat((0..3).count()) {
                 onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeUp())
             }
 
             // swipe Down
-            (0..3).forEach { i ->
+            repeat((0..3).count()) {
                 onView(allOf(withId(R.id.content_view), isDisplayed())).perform(swipeDown())
             }
         }
