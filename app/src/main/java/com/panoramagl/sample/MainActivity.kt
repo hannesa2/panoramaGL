@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.panoramagl.*
@@ -12,6 +13,7 @@ import com.panoramagl.hotspots.ActionPLHotspot
 import com.panoramagl.hotspots.HotSpotListener
 import com.panoramagl.sample.databinding.ActivityMainBinding
 import com.panoramagl.utils.PLUtils
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), HotSpotListener {
 
@@ -43,6 +45,53 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
         changePanorama(0)
         binding.button1.setOnClickListener { changePanorama(0) }
         binding.button2.setOnClickListener { changePanorama(1) }
+
+        binding.contentView.setOnLongClickListener {
+            val x = it.x
+            val y = it.y
+            val screenWidth = resources.displayMetrics.widthPixels
+            val screenHeight = resources.displayMetrics.heightPixels
+            val normalizedX = x / screenWidth
+            val normalizedY = y / screenHeight
+
+            Timber.d("$normalizedX/$normalizedY $screenWidth/$screenHeight")
+            addHotspotAt(normalizedX, normalizedY, screenWidth, screenHeight)
+            false
+        }
+    }
+
+    private fun addHotspotAt(normalizedX: Float, normalizedY: Float, screenWidth: Int, screenHeight: Int) {
+        // These values would ideally come from your panorama viewer or camera settings
+        val currentYaw = plManager.panorama.camera.yaw
+        val currentPitch = plManager.panorama.camera.pitch
+        val fov = plManager.panorama.camera.fov  // Current FOV considering zoom
+        val aspectRatio = screenWidth.toFloat() / screenHeight
+
+        // Convert normalized screen coordinates to changes in yaw and pitch
+        val yawChange = (normalizedX - 0.5f) * fov
+        val pitchChange = (0.5f - normalizedY) * (fov / aspectRatio)
+
+        // Calculate new yaw and pitch for the hotspot
+        val hotspotYaw = (currentYaw + yawChange) % 360
+        val hotspotPitch = currentPitch + pitchChange
+        // Ensure pitch stays within bounds [-90, 90]
+        val clampedPitch = hotspotPitch.coerceIn(-90f, 90f)
+
+        // Now, create your hotspot at this new yaw and pitch
+        createHotspot(hotspotPitch = clampedPitch, hotspotYaw = hotspotYaw)
+    }
+
+    private fun createHotspot(hotspotPitch: Float, hotspotYaw: Float) {
+        val hotspot = ActionPLHotspot(
+            this,
+            System.currentTimeMillis(),
+            PLImage(BitmapFactory.decodeResource(resources, R.raw.hotspot)),
+            hotspotPitch,
+            hotspotYaw,
+            PLConstants.kDefaultHotspotSize,
+            PLConstants.kDefaultHotspotSize
+        )
+        plManager.panorama.addHotspot(hotspot)
     }
 
     override fun onResume() {
