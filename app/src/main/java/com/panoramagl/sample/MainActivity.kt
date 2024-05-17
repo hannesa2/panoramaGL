@@ -1,7 +1,6 @@
 package com.panoramagl.sample
 
 import android.graphics.BitmapFactory
-import android.opengl.GLES20
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper

@@ -170,7 +170,6 @@ object PLConstants {
     /**
      * accelerometer constants
      */
-    const val kDefaultAccelerometerInterval: Float = (1.0f / 30.0f)
     const val kAccelerometerSensitivityMinValue: Float = 1.0f
     const val kAccelerometerSensitivityMaxValue: Float = 10.0f
     const val kDefaultAccelerometerSensitivity: Float = kAccelerometerSensitivityMaxValue

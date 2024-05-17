@@ -260,8 +260,6 @@ public class PLJSONLoader extends PLLoaderBase {
                 JSONObject accelerometer = mJSON.getJSONObject("accelerometer");
                 if (accelerometer.has("enabled"))
                     mView.setAccelerometerEnabled(accelerometer.getBoolean("enabled"));
-                if (accelerometer.has("interval"))
-                    mView.setAccelerometerInterval((float) accelerometer.getDouble("interval"));
                 if (accelerometer.has("sensitivity"))
                     mView.setAccelerometerSensitivity((float) accelerometer.getDouble("sensitivity"));
                 if (accelerometer.has("leftRightEnabled"))

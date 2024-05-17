@@ -94,7 +94,6 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     private var accelerometerEnabled = false
     private var accelerometerLeftRightEnabled = false
     private var accelerometerUpDownEnabled = false
-    private var mAccelerometerInterval = 0f
     private var mAccelerometerSensitivity = 0f
 
     private var mIsValidForSensorialRotation = false
@@ -172,7 +171,6 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         accelerometerEnabled = false
         accelerometerUpDownEnabled = true
         accelerometerLeftRightEnabled = accelerometerUpDownEnabled
-        mAccelerometerInterval = PLConstants.kDefaultAccelerometerInterval
         mAccelerometerSensitivity = PLConstants.kDefaultAccelerometerSensitivity
 
         sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeUnknow
@@ -416,18 +414,6 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
     override fun setAccelerometerUpDownEnabled(isAccelerometerUpDownEnabled: Boolean) {
         accelerometerUpDownEnabled = isAccelerometerUpDownEnabled
-    }
-
-    override fun getAccelerometerInterval(): Float {
-        return mAccelerometerInterval
-    }
-
-    override fun setAccelerometerInterval(accelerometerInterval: Float) {
-        if (accelerometerInterval > 0.0f && mAccelerometerInterval != accelerometerInterval) {
-            mAccelerometerInterval = accelerometerInterval
-            this.deactiveAccelerometer()
-            this.activateAccelerometer()
-        }
     }
 
     override fun getAccelerometerSensitivity(): Float {
@@ -946,7 +932,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         if (sensorManager != null && sensorManager!!.registerListener(
                 this,
                 sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                (mAccelerometerInterval * 1000.0f).toInt()
+                SensorManager.SENSOR_DELAY_NORMAL
             )
         ) return true
         Timber.d("Accelerometer sensor is not available on the device!")
