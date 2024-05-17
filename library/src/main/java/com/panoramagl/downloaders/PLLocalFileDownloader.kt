@@ -46,7 +46,8 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
                     val file = File(url.substring(7))
                     if (file.canRead()) `is` = FileInputStream(file)
                 }
-            } else throw PLRequestInvalidatedException(url)
+            } else
+                throw PLRequestInvalidatedException(url)
             if (this.isRunning) {
                 result = ByteArray(`is`!!.available())
                 `is`.read(result)
@@ -54,7 +55,8 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
                     listener!!.didProgressDownload(url, 100)
                     listener.didEndDownload(url, result, System.currentTimeMillis() - startTime)
                 }
-            } else throw PLRequestInvalidatedException(url)
+            } else
+                throw PLRequestInvalidatedException(url)
         } catch (e: Throwable) {
             if (this.isRunning) {
                 Timber.e(e)
