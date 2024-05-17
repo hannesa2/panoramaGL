@@ -11,53 +11,58 @@ import android.opengl.GLUtils
 import timber.log.Timber
 import kotlin.Throws
 
-class PLTexture @JvmOverloads constructor(
-    private var mImage: PLIImage,
+@Suppress("MemberVisibilityCanBePrivate")
+open class PLTexture @JvmOverloads constructor(
+    private var pliImage: PLIImage,
     private var mColorFormat: PLTextureColorFormat = PLTextureColorFormat.PLTextureColorFormatUnknown,
     private var mIsRecycledByParent: Boolean = true
 ) : PLObjectBase(), PLITexture {
-    private var mTextureId: IntArray = intArrayOf(0)
-    private var mWidth = 0
-    private var mHeight = 0
-    private var mIsValid = false
-    private var mIsRecycled = false
-    private var mGLWrapper: IGLWrapper? = null
+    private var textureId = intArrayOf(0)
+    private var width = 0
+    private var height = 0
+    private var isValid = false
+    private var isRecycled = false
+    private var glWrapper: IGLWrapper? = null
     private var mListener: PLTextureListener? = null
 
     override fun initializeValues() {
-        mHeight = 0
-        mWidth = mHeight
-        mIsValid = false
-        mIsRecycled = true
+        height = 0
+        width = height
+        isValid = false
+        isRecycled = true
         mIsRecycledByParent = true
         mColorFormat = PLTextureColorFormat.PLTextureColorFormatUnknown
-        mGLWrapper = null
+        glWrapper = null
         mListener = null
     }
 
     override fun getImage(): PLIImage {
-        return mImage
+        return pliImage
     }
 
     override fun getTextureId(gl: GL10): Int {
-        if (mIsValid) return mTextureId[0]
-        return if (loadTexture(gl)) mTextureId[0] else 0
+        if (isValid)
+            return textureId[0]
+        return if (loadTexture(gl))
+            textureId[0]
+        else
+            0
     }
 
     override fun getWidth(): Int {
-        return mWidth
+        return width
     }
 
     override fun getHeight(): Int {
-        return mHeight
+        return height
     }
 
     override fun isValid(): Boolean {
-        return mIsValid
+        return isValid
     }
 
     override fun isRecycled(): Boolean {
-        return mIsRecycled
+        return isRecycled
     }
 
     override fun isRecycledByParent(): Boolean {
@@ -91,49 +96,52 @@ class PLTexture @JvmOverloads constructor(
     protected fun convertImage(image: PLIImage, colorFormat: PLTextureColorFormat): PLIImage {
         if (colorFormat != PLTextureColorFormat.PLTextureColorFormatUnknown) {
             val newBitmap = PLUtils.convertBitmap(image.bitmap, colorFormat)
-            if (newBitmap != image.bitmap) return PLImage(newBitmap)
+            if (newBitmap != image.bitmap)
+                return PLImage(newBitmap)
         }
         return image
     }
 
     protected fun loadTexture(gl: GL10): Boolean {
         try {
-            if (!mImage.isValid) return false
+            if (!pliImage.isValid)
+                return false
             recycleTexture(gl)
-            mWidth = mImage.width
-            mHeight = mImage.height
-            if (mWidth > PLConstants.kTextureMaxSize || mHeight > PLConstants.kTextureMaxSize) {
-                Timber.e(                    
+            width = pliImage.width
+            height = pliImage.height
+            if (width > PLConstants.kTextureMaxSize || height > PLConstants.kTextureMaxSize) {
+                Timber.e(
                     "Invalid texture size. The texture max size must be %d x %d and currently is %d x %d.",
                     PLConstants.kTextureMaxSize,
                     PLConstants.kTextureMaxSize,
-                    mWidth,
-                    mHeight
+                    width,
+                    height
                 )
                 recycleImage()
                 return false
             }
             var isResizableImage = false
-            if (!PLMath.isPowerOfTwo(mWidth)) {
+            if (!PLMath.isPowerOfTwo(width)) {
                 isResizableImage = true
-                mWidth = convertSizeToPowerOfTwo(mWidth)
+                width = convertSizeToPowerOfTwo(width)
             }
-            if (!PLMath.isPowerOfTwo(mHeight)) {
+            if (!PLMath.isPowerOfTwo(height)) {
                 isResizableImage = true
-                mHeight = convertSizeToPowerOfTwo(mHeight)
+                height = convertSizeToPowerOfTwo(height)
             }
-            if (isResizableImage) mImage.scale(mWidth, mHeight)
-            gl.glGenTextures(1, mTextureId, 0)
+            if (isResizableImage)
+                pliImage.scale(width, height)
+            gl.glGenTextures(1, textureId, 0)
             var error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                Timber.e("glGetError #1 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #1 = ($error) ${GLU.gluErrorString(error)}")
                 recycleImage()
                 return false
             }
-            gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId[0])
+            gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId[0])
             error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                Timber.e("glGetError #2 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #2 = ($error) ${GLU.gluErrorString(error)}")
                 recycleImage()
                 return false
             }
@@ -142,19 +150,18 @@ class PLTexture @JvmOverloads constructor(
             gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE.toFloat()) //GL10.GL_REPEAT
             gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE.toFloat())
             gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE.toFloat()) //GL10.GL_REPLACE
-            val image = convertImage(mImage, mColorFormat)
+            val image = convertImage(pliImage, mColorFormat)
             GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, image.bitmap, 0)
-            if (image !== mImage) image.recycle()
             error = gl.glGetError()
             if (error != GL10.GL_NO_ERROR) {
-                Timber.e("glGetError #3 = (%d) %s ...", error, GLU.gluErrorString(error))
+                Timber.e("glGetError #3 = ($error) ${GLU.gluErrorString(error)}")
                 recycleImage()
                 return false
             }
             recycleImage()
-            mIsValid = true
-            mIsRecycled = false
-            if (gl is IGLWrapper) mGLWrapper = gl
+            isValid = true
+            isRecycled = false
+            if (gl is IGLWrapper) glWrapper = gl
             if (mListener != null) mListener!!.didLoad(this)
             return true
         } catch (e: Throwable) {
@@ -165,17 +172,17 @@ class PLTexture @JvmOverloads constructor(
 
     override fun recycle() {
         recycleImage()
-        recycleTexture(mGLWrapper)
-        mIsRecycled = true
+        recycleTexture(glWrapper)
+        isRecycled = true
     }
 
     protected fun recycleImage() {
-        mImage.recycle()
+        pliImage.recycle()
     }
 
     protected fun recycleTexture(gl: GL10?) {
-        if (gl != null && mTextureId[0] != 0) {
-            mGLWrapper?.glSurfaceView?.queueEvent(PLRecycleTextureRunnable(this))
+        if (gl != null && textureId[0] != 0) {
+            glWrapper?.glSurfaceView?.queueEvent(PLRecycleTextureRunnable(this))
         }
     }
 
@@ -192,10 +199,10 @@ class PLTexture @JvmOverloads constructor(
         private var mTexture: PLTexture?
         private var mGLWrapper: IGLWrapper?
         override fun run() {
-            mGLWrapper!!.glDeleteTextures(1, mTextureId, 0)
-            mTexture!!.mTextureId[0] = 0
+            mGLWrapper!!.glDeleteTextures(1, textureId, 0)
+            mTexture!!.textureId[0] = 0
             mGLWrapper = null
-            mTexture!!.mIsValid = false
+            mTexture!!.isValid = false
         }
 
         @Throws(Throwable::class)
@@ -205,7 +212,7 @@ class PLTexture @JvmOverloads constructor(
 
         init {
             mTexture = texture
-            mGLWrapper = texture.mGLWrapper
+            mGLWrapper = texture.glWrapper
         }
     }
 }

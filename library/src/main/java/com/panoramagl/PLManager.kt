@@ -61,15 +61,15 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     protected var renderer: PLIRenderer? = null
         private set
     private var mIsRendererCreated = false
-    private var mInternalCameraListener: PLInternalCameraListener? = null
+    private var internalCameraListener: PLInternalCameraListener? = null
     private var mAnimationTimer: NSTimer? = null
     private var mAnimationInterval = 0f
     private var mAnimationFrameInterval = 0
-    private var mIsAnimating = false
+    private var isAnimating = false
     private var mStartPoint: CGPoint? = null
     private var mEndPoint: CGPoint? = null
-    private var mAuxiliarStartPoint: CGPoint? = null
-    private var mAuxiliarEndPoint: CGPoint? = null
+    private var auxiliarStartPoint: CGPoint? = null
+    private var auxiliarEndPoint: CGPoint? = null
     private var mIsValidForFov = false
     private var mFovDistance = 0f
     private var mFovCounter = 0
@@ -164,14 +164,14 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     protected fun initializeValues() {
         mIsRendererCreated = false
         isValidForCameraAnimation = false
-        mInternalCameraListener = PLInternalCameraListener(this)
+        internalCameraListener = PLInternalCameraListener(this)
         mAnimationInterval = PLConstants.kDefaultAnimationTimerInterval
         mAnimationFrameInterval = PLConstants.kDefaultAnimationFrameInterval
-        mIsAnimating = false
+        isAnimating = false
         mStartPoint = CGPoint.CGPointMake(0.0f, 0.0f)
         mEndPoint = CGPoint.CGPointMake(0.0f, 0.0f)
-        mAuxiliarStartPoint = CGPoint.CGPointMake(0.0f, 0.0f)
-        mAuxiliarEndPoint = CGPoint.CGPointMake(0.0f, 0.0f)
+        auxiliarStartPoint = CGPoint.CGPointMake(0.0f, 0.0f)
+        auxiliarEndPoint = CGPoint.CGPointMake(0.0f, 0.0f)
         mIsAccelerometerEnabled = false
         mIsAccelerometerUpDownEnabled = true
         mIsAccelerometerLeftRightEnabled = mIsAccelerometerUpDownEnabled
@@ -211,7 +211,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mIsValidForScrolling = mIsValidForInertia
             mIsValidForFov = mIsValidForScrolling
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
-            mAuxiliarStartPoint!!.setValues(mAuxiliarEndPoint!!.setValues(0.0f, 0.0f))
+            auxiliarStartPoint!!.setValues(auxiliarEndPoint!!.setValues(0.0f, 0.0f))
             mFovCounter = 0
             mFovDistance = 0.0f
             if (resetCamera && mPanorama != null) mPanorama!!.camera.reset(this)
@@ -238,7 +238,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mPanorama = null
                 }
                 panorama.internalView = this
-                panorama.internalCameraListener = mInternalCameraListener
+                panorama.internalCameraListener = internalCameraListener
                 if (renderer != null) {
                     renderer?.internalScene = panorama
                     renderer?.resizeFromLayer()
@@ -327,7 +327,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     override fun isAnimating(): Boolean {
-        return mIsAnimating
+        return isAnimating
     }
 
     override fun getStartPoint(): CGPoint {
@@ -347,14 +347,14 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     protected var auxiliaryStartPoint: CGPoint?
-        get() = mAuxiliarStartPoint
+        get() = auxiliarStartPoint
         protected set(startPoint) {
-            if (startPoint != null) mAuxiliarStartPoint!!.setValues(startPoint)
+            if (startPoint != null) auxiliarStartPoint!!.setValues(startPoint)
         }
     protected var auxiliaryEndPoint: CGPoint?
-        get() = mAuxiliarEndPoint
+        get() = auxiliarEndPoint
         protected set(endPoint) {
-            if (endPoint != null) mAuxiliarEndPoint!!.setValues(endPoint)
+            if (endPoint != null) auxiliarEndPoint!!.setValues(endPoint)
         }
 
     override fun isValidForFov(): Boolean {
@@ -369,8 +369,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         return mIsAccelerometerEnabled
     }
 
-    override fun setAccelerometerEnabled(isAccelerometerEnabled: Boolean) {
-        mIsAccelerometerEnabled = isAccelerometerEnabled
+    override fun setAccelerometerEnabled(enabled: Boolean) {
+        mIsAccelerometerEnabled = enabled
     }
 
     override fun isAccelerometerLeftRightEnabled(): Boolean {
@@ -568,7 +568,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      * animation methods
      */
     override fun startAnimation(): Boolean {
-        if (!mIsAnimating) {
+        if (!isAnimating) {
             if (renderer != null) renderer!!.start()
             animationTimer = NSTimer.scheduledTimerWithTimeInterval(
                 mAnimationInterval,
@@ -576,14 +576,14 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 null,
                 true
             )
-            mIsAnimating = true
+            isAnimating = true
             return true
         }
         return false
     }
 
     override fun stopAnimation(): Boolean {
-        if (mIsAnimating) {
+        if (isAnimating) {
             stopInertia()
             animationTimer = null
             if (renderer != null) renderer!!.stop()
@@ -592,7 +592,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mIsValidForFov = false
             mIsValidForScrolling = mIsValidForFov
             mIsValidForTouch = mIsValidForScrolling
-            mIsAnimating = mIsValidForTouch
+            isAnimating = mIsValidForTouch
             return true
         }
         return false
@@ -603,15 +603,15 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      */
     protected fun calculateFov(touches: List<UITouch?>?): Boolean {
         if (touches!!.size == 2 && isZoomEnabled) {
-            mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
-            mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
+            auxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
+            auxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
             mFovCounter++
             if (mFovCounter < PLConstants.kDefaultFovMinCounter) {
                 if (mFovCounter == PLConstants.kDefaultFovMinCounter - 1) mFovDistance =
-                    PLMath.distanceBetweenPoints(mAuxiliarStartPoint, mAuxiliarEndPoint)
+                    PLMath.distanceBetweenPoints(auxiliarStartPoint, auxiliarEndPoint)
                 return false
             }
-            val distance = PLMath.distanceBetweenPoints(mAuxiliarStartPoint, mAuxiliarEndPoint)
+            val distance = PLMath.distanceBetweenPoints(auxiliarStartPoint, auxiliarEndPoint)
             val distanceDiff = distance - mFovDistance
             if (Math.abs(distanceDiff) < mPanorama!!.camera.minDistanceToEnableFov) return false
             val isZoomIn = distance > mFovDistance
@@ -644,9 +644,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     mIsValidForFov = true
                 }
                 if (eventType == PLTouchEventType.PLTouchEventTypeMoved) calculateFov(touches) else if (eventType == PLTouchEventType.PLTouchEventTypeBegan) {
-                    mAuxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
-                    mAuxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
-                    if (mListener != null) mListener!!.onDidBeginZooming(this, mAuxiliarStartPoint, mAuxiliarEndPoint)
+                    auxiliarStartPoint!!.setValues(touches[0]!!.locationInView())
+                    auxiliarEndPoint!!.setValues(touches[1]!!.locationInView())
+                    if (mListener != null) mListener!!.onDidBeginZooming(this, auxiliarStartPoint, auxiliarEndPoint)
                 }
             }
         } else if (touchCount == 1) {
@@ -920,9 +920,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 }
             }
             val size = renderer!!.size
-            mAuxiliarStartPoint!!.setValues((size.width shr 1).toFloat(), (size.height shr 1).toFloat())
-            mAuxiliarEndPoint!!.setValues(mAuxiliarStartPoint!!.x + x * factor, mAuxiliarStartPoint!!.y + y * factor)
-            mPanorama!!.camera.rotate(this, mAuxiliarStartPoint, mAuxiliarEndPoint)
+            auxiliarStartPoint!!.setValues((size.width shr 1).toFloat(), (size.height shr 1).toFloat())
+            auxiliarEndPoint!!.setValues(auxiliarStartPoint!!.x + x * factor, auxiliarStartPoint!!.y + y * factor)
+            mPanorama!!.camera.rotate(this, auxiliarStartPoint, auxiliarEndPoint)
             if (mListener != null) mListener!!.onDidAccelerate(this, acceleration, event)
         }
     }
@@ -1338,7 +1338,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         val releaseViewObjects: MutableList<PLIReleaseView?> = ArrayList()
         releaseViewObjects.add(mPanorama)
         releaseViewObjects.add(renderer)
-        releaseViewObjects.add(mInternalCameraListener)
+        releaseViewObjects.add(internalCameraListener)
         releaseViewObjects.add(mCurrentTransition)
         releaseViewObjects.addAll(mInternalTouches!!)
         releaseViewObjects.addAll(mCurrentTouches!!)
