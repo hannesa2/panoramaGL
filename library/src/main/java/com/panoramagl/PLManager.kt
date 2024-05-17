@@ -75,7 +75,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mIsAccelerometerEnabled = false
     private var mIsAccelerometerLeftRightEnabled = false
     private var mIsAccelerometerUpDownEnabled = false
-    private var mAccelerometerInterval = 0f
+    private var mAccelerometerInterval = PLConstants.kDefaultAccelerometerInterval
     private var mAccelerometerSensitivity = 0f
     private var mIsValidForSensorialRotation = false
     protected var sensorialRotationType: PLSensorialRotationType? = null
@@ -175,7 +175,6 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         mIsAccelerometerEnabled = false
         mIsAccelerometerUpDownEnabled = true
         mIsAccelerometerLeftRightEnabled = mIsAccelerometerUpDownEnabled
-        mAccelerometerInterval = PLConstants.kDefaultAccelerometerInterval
         mAccelerometerSensitivity = PLConstants.kDefaultAccelerometerSensitivity
         sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeUnknow
         mIsScrollingEnabled = false
