@@ -26,7 +26,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew assembleDebug
 #      - name: Android Emulator test
-#        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.5
+#        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.7
 #        with:
 #          cmd: ./gradlew cAT --continue
 #          api: 34
@@ -40,13 +40,14 @@ jobs:
 #          name: PanoramaGL-Espresso-report
 #          path: |
 #            ./**/build/reports/androidTests/connected
+#            ./**/build/outputs/androidTest-results/connected
 #      - name: Archive screenshots
 #        if: ${{ always() }}
 #        uses: actions/upload-artifact@v4
 #        with:
 #          name: PanoramaGL-Screenshots
 #          path: |
-#          ./**/build/reports/androidTests/connected
+#          ./**/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
 #          ./**/build/outputs/androidTest-results/connected
   Check:
     name: Check
