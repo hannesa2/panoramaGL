@@ -1,7 +1,6 @@
 package com.panoramagl
 
 import android.content.Context
-import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -251,7 +250,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     renderer?.internalListener = object : PLRendererListener {
                         override fun rendererFirstChanged(gl: GL10?, render: PLIRenderer?, width: Int, height: Int) {
                             mGLContext = gl
-                            Handler(context.mainLooper).post { onGLContextCreated(mGLContext) }
+                            Handler(context.mainLooper).post { onGLContextCreated() }
                         }
 
                         override fun rendererDestroyed(render: PLIRenderer?) {}
@@ -1427,7 +1426,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      *
      * @param gl current OpenGL context
      */
-    protected fun onGLContextCreated(gl: GL10?) = Unit
+    protected fun onGLContextCreated() = Unit
 
     fun onResume() {
         if (mIsRendererCreated && mPanorama != null) startAnimation()
