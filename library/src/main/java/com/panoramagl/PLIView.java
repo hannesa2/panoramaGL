@@ -89,10 +89,6 @@ public interface PLIView {
 
     void setAccelerometerUpDownEnabled(boolean isAccelerometerUpDownEnabled);
 
-    float getAccelerometerInterval();
-
-    void setAccelerometerInterval(float accelerometerInterval);
-
     float getAccelerometerSensitivity();
 
     void setAccelerometerSensitivity(float accelerometerSensitivity);

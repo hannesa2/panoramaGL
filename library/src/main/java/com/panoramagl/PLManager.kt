@@ -5,6 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.hardware.SensorManager.SENSOR_DELAY_NORMAL
 import android.opengl.GLSurfaceView
 import android.os.Handler
 import android.os.Looper
@@ -75,7 +76,6 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mIsAccelerometerEnabled = false
     private var mIsAccelerometerLeftRightEnabled = false
     private var mIsAccelerometerUpDownEnabled = false
-    private var mAccelerometerInterval = PLConstants.kDefaultAccelerometerInterval
     private var mAccelerometerSensitivity = 0f
     private var mIsValidForSensorialRotation = false
     protected var sensorialRotationType: PLSensorialRotationType? = null
@@ -387,18 +387,6 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     override fun setAccelerometerUpDownEnabled(isAccelerometerUpDownEnabled: Boolean) {
         mIsAccelerometerUpDownEnabled = isAccelerometerUpDownEnabled
-    }
-
-    override fun getAccelerometerInterval(): Float {
-        return mAccelerometerInterval
-    }
-
-    override fun setAccelerometerInterval(accelerometerInterval: Float) {
-        if (accelerometerInterval > 0.0f && mAccelerometerInterval != accelerometerInterval) {
-            mAccelerometerInterval = accelerometerInterval
-            deactiveAccelerometer()
-            activateAccelerometer()
-        }
     }
 
     override fun getAccelerometerSensitivity(): Float {
@@ -902,7 +890,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (sensorManager.registerListener(
                 this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                (mAccelerometerInterval * 1000.0f).toInt()
+                SENSOR_DELAY_NORMAL
             )
         ) return true
         Timber.d("Accelerometer sensor is not available on the device!")
@@ -1447,9 +1435,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     protected fun onGLContextCreated() = Unit
 
     fun onResume() {
-        if (mIsRendererCreated && mPanorama != null) startAnimation()
+        if (mIsRendererCreated && mPanorama != null)
+            startAnimation()
         activateOrientation()
-        activateAccelerometer()
         if (mIsValidForSensorialRotation) {
             updateInitialSensorialRotation()
             if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeGyroscope) activateGyroscope() else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
