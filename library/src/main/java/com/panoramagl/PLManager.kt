@@ -1,11 +1,11 @@
 package com.panoramagl
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.hardware.SensorManager.SENSOR_DELAY_NORMAL
 import android.opengl.GLSurfaceView
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +15,7 @@ import android.view.GestureDetector.OnDoubleTapListener
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.core.app.ActivityCompat
 import com.panoramagl.computation.PLMath
 import com.panoramagl.downloaders.PLFileDownloaderManager
 import com.panoramagl.downloaders.PLIFileDownloaderManager
@@ -46,6 +47,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mGLSurfaceView: GLSurfaceView? = null
     var sensorManager: SensorManager
         private set
+    var sensorDelay : Int
     private var gestureDetector: GestureDetector? = null
     var contentLayout: ViewGroup? = null
         private set
@@ -125,6 +127,10 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorDelay = if (ActivityCompat.checkSelfPermission(context,android.Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) == PackageManager.PERMISSION_GRANTED)
+            SensorManager.SENSOR_DELAY_FASTEST
+        else
+            SensorManager.SENSOR_DELAY_GAME
     }
 
     fun onCreate() {
@@ -890,7 +896,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (sensorManager.registerListener(
                 this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SENSOR_DELAY_NORMAL
+                sensorDelay
             )
         ) return true
         Timber.d("Accelerometer sensor is not available on the device!")
@@ -934,7 +940,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         return sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-            (PLConstants.kDefaultGyroscopeInterval * 1000.0f).toInt()
+            sensorDelay
         )
     }
 
@@ -949,7 +955,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         return sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-            (PLConstants.kDefaultMagnetometerInterval * 1000.0f).toInt()
+            sensorDelay
         )
     }
 
