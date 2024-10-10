@@ -7,6 +7,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.opengl.GLSurfaceView
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
@@ -37,6 +38,7 @@ import com.panoramagl.transitions.PLITransition
 import com.panoramagl.transitions.PLTransitionListener
 import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
+
 
 @Suppress("unused")
 open class PLManager(private val context: Context) : PLIView, SensorEventListener, OnDoubleTapListener {
@@ -131,6 +133,20 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             SensorManager.SENSOR_DELAY_FASTEST
         else
             SensorManager.SENSOR_DELAY_GAME
+
+        val rotation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display?.rotation
+        } else {
+            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.orientation
+        }
+
+        mCurrentDeviceOrientation = when (rotation) {
+            Surface.ROTATION_0 -> UIDeviceOrientation.UIDeviceOrientationPortrait
+            Surface.ROTATION_90 -> UIDeviceOrientation.UIDeviceOrientationLandscapeLeft
+            Surface.ROTATION_180 -> UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown
+            Surface.ROTATION_270 -> UIDeviceOrientation.UIDeviceOrientationLandscapeRight
+            else -> UIDeviceOrientation.UIDeviceOrientationPortrait
+        }
     }
 
     fun onCreate() {
@@ -195,7 +211,6 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         mShakeThreshold = PLConstants.kShakeThreshold.toFloat()
         mIsValidForTransition = false
         mTouchStatus = PLTouchStatus.PLTouchStatusNone
-        mCurrentDeviceOrientation = UIDeviceOrientation.UIDeviceOrientationPortrait
         mFileDownloaderManager = PLFileDownloaderManager()
         mIsZoomEnabled = true
         this.reset()

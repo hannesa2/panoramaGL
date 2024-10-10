@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
 
         plManager = PLManager(this).apply {
             setContentView(binding.contentView)
+
             onCreate()
             isAccelerometerEnabled = false
             isInertiaEnabled = false
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity(), HotSpotListener {
         }
         plManager.panorama = panorama
         currentIndex = index
+        plManager.startSensorialRotation()
     }
 
     override fun onHotspotClick(identifier: Long) {
