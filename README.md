@@ -6,7 +6,10 @@
 PanoramaGL library was the first open source library in the world to see panoramic views on Android. This is a gradle build adaptation, along with other changes and updates. 
 I am evolving the library to something easy to use any help is welcome.
 
-The supported features are:
+### Video
+https://github.com/user-attachments/assets/5d90deca-3b2a-4008-8368-96c209d60aa1
+
+### The supported features are:
 * OpenGL ES 1.0 and 1.1.
 * Support for spherical, cubic and cylindrical panoramic images.
 * Scrolling and continuous scrolling.
@@ -102,7 +105,7 @@ Finally add the panorama you want, for example;
 ````
 ## License PanoramaGL Android
 ```
-Copyright 2022
+Copyright 2025
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
