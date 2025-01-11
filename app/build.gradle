@@ -1,6 +1,6 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+    id "com.android.application"
+    id "kotlin-android"
 }
 
 android {
@@ -17,11 +17,11 @@ android {
             targetCompatibility JavaVersion.VERSION_17
         }
         kotlinOptions {
-            jvmTarget = '17'
+            jvmTarget = "17"
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments useTestStorageService: 'true'
+        testInstrumentationRunnerArguments useTestStorageService: "true"
     }
 
     buildFeatures {
@@ -31,25 +31,25 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    namespace 'com.panoramagl.sample'
+    namespace "com.panoramagl.sample"
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation project(':library')
+    testImplementation "junit:junit:4.13.2"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation project(":library")
     implementation "androidx.core:core-ktx:1.13.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation "com.google.android.material:material:1.12.0"
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit-ktx:1.2.1"
     androidTestUtil "androidx.test.services:test-services:1.5.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
