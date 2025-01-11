@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace "com.panoramagl.sample"
     defaultConfig {
         applicationId "com.panoramagl.sample"
         minSdk 21
@@ -38,7 +39,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    namespace "com.panoramagl.sample"
 }
 
 dependencies {

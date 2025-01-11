@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace "com.panoramagl"
     ndkVersion "24.0.8215888"
 
     defaultConfig {
@@ -31,7 +32,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    namespace "com.panoramagl"
 }
 
 dependencies {
