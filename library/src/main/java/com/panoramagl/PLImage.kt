@@ -124,7 +124,7 @@ class PLImage : PLIImage {
     }
 
     override fun crop(x: Int, y: Int, width: Int, height: Int): PLIImage {
-        val croppedBitmap = Bitmap.createBitmap(width, height, bitmap!!.config)
+        val croppedBitmap = Bitmap.createBitmap(width, height, bitmap!!.config!!)
         val canvas = Canvas(croppedBitmap)
         canvas.drawBitmap(bitmap!!, Rect(x, y, x + width, y + height), Rect(0, 0, width, height), null)
         deleteImage()
@@ -188,7 +188,7 @@ class PLImage : PLIImage {
     override fun getSubImage(x: Int, y: Int, width: Int, height: Int): Bitmap {
         val pixels = IntArray(width * height)
         bitmap!!.getPixels(pixels, 0, width, x, y, width, height)
-        return Bitmap.createBitmap(pixels, 0, width, width, height, bitmap!!.config)
+        return Bitmap.createBitmap(pixels, 0, width, width, height, bitmap!!.config!!)
     }
 
     override fun recycle() {
@@ -221,7 +221,7 @@ class PLImage : PLIImage {
         @JvmStatic
         fun crop(image: PLIImage, x: Int, y: Int, width: Int, height: Int): PLIImage {
             image.bitmap!!.let {
-                val dest = Bitmap.createBitmap(width, height, it.config)
+                val dest = Bitmap.createBitmap(width, height, it.config!!)
                 val canvas = Canvas(dest)
                 canvas.drawBitmap(it, Rect(x, y, x + width, y + height), Rect(0, 0, width, height), null)
                 return PLImage(dest, false)
