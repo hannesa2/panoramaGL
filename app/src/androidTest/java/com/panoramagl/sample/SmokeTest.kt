@@ -1,9 +1,11 @@
 package com.panoramagl.sample
 
+import android.graphics.Bitmap
 import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.captureToBitmap
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -26,11 +28,20 @@ class SmokeTest {
     fun basicSmokeTest() {
         Thread.sleep(100)
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
+        onView(isRoot())
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootStart") })
+
 
         onView(withId(R.id.button_1)).perform(ViewActions.click())
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
+        onView(isRoot())
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootB1") })
+
         onView(withId(R.id.button_2)).perform(ViewActions.click())
         takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
+        onView(isRoot())
+            .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootB2") })
+
     }
 
 //    @Test
