@@ -28,16 +28,16 @@ class SmokeTest {
     fun basicSmokeTest() {
         Thread.sleep(100)
         takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
-        onView(isRoot())
+        onView(withId(R.id.content_view))
             .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootStart") })
 
         onView(withId(R.id.button_1)).perform(ViewActions.click())
         takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
-        onView(isRoot())
+        onView(withId(R.id.content_view))
             .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootB1") })
         onView(withId(R.id.button_2)).perform(ViewActions.click())
         takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
-        onView(isRoot())
+        onView(withId(R.id.content_view))
             .perform(captureToBitmap { bitmap: Bitmap -> bitmap.writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-rootB2") })
     }
 
