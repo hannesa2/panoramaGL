@@ -1,4 +1,5 @@
 [![](https://jitpack.io/v/hannesa2/panoramagl.svg)](https://jitpack.io/#hannesa2/panoramagl)
+[<img src="https://api.gitsponsors.com/api/badge/img?id=42790543" height="20">](https://api.gitsponsors.com/api/badge/link?p=h8phu83GYeQEs3KkA1xLc/xtGFptzDehf2BOtA0ihspmv8vn3jvmxXoLbLZydOMhrTgLlMliUOTJywQYy6Jr7KFXaewAHwS4F5ftZ6GQWBr1Agyb6tBowKiImeatXYqyUM4LtJLA6kNCJCqikjUqVw==)
 
 
 # PanoramaGL Android
