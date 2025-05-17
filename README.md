@@ -7,7 +7,7 @@ PanoramaGL library was the first open source library in the world to see panoram
 I am evolving the library to something easy to use any help is welcome.
 
 ### Video
-https://github.com/user-attachments/assets/5d90deca-3b2a-4008-8368-96c209d60aa1
+![panoramaGL.gif](./readme/panoramaGL.gif)
 
 ### The supported features are:
 * OpenGL ES 1.0 and 1.1.
