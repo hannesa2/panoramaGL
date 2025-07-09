@@ -101,7 +101,7 @@ public abstract class PLRenderableElementBase extends PLObject implements PLIRen
         if (this.isYawEnabled())
             gl.glRotatef(isReverseRotation ? rotation.yaw : -rotation.yaw, 0.0f, yDirection, zDirection);
         if (this.isRollEnabled())
-            gl.glRotatef(isReverseRotation ? rotation.roll : -rotation.roll, 0.0f, yDirection, zDirection);
+            gl.glRotatef(isReverseRotation ? rotation.roll : -rotation.roll, 0.0f, zDirection, yDirection);
     }
 
     /**
