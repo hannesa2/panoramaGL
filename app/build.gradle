@@ -8,8 +8,8 @@ android {
     defaultConfig {
         applicationId "com.panoramagl.sample"
         minSdk 21
-        compileSdk 35
-        targetSdkVersion 35
+        compileSdk 36
+        targetSdkVersion 36
         versionCode getGitCommitCount()
         versionName getTag()
 
