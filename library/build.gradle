@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         minSdk 21
-        compileSdk 35
-        targetSdkVersion 35
+        compileSdk 36
+        targetSdkVersion 36
     }
     externalNativeBuild {
         ndkBuild {
