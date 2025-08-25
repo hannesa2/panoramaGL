@@ -22,5 +22,6 @@ LOCAL_MODULE    := glues
 LOCAL_SRC_FILES := com_panoramagl_opengl_GLUES.c
 LOCAL_LDLIBS    := -llog -lGLESv1_CM
 LOCAL_CFLAGS	:= -fopenmp
+LOCAL_LDFLAGS   += -Wl,-z,max-page-size=16384
 
 include $(BUILD_SHARED_LIBRARY)
