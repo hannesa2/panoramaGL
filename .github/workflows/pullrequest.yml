@@ -45,7 +45,7 @@ jobs:
           cmdOptions: -noaudio -no-boot-anim -no-window -metrics-to-console
           disableAnimations: true
           bootTimeout: 500
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ always() }}
         with:
           name: PanoramaGL-Espresso-report
@@ -54,7 +54,7 @@ jobs:
             ./**/build/outputs/androidTest-results/connected
       - name: Archive screenshots
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: PanoramaGL-Screenshots
           path: |
@@ -81,7 +81,7 @@ jobs:
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: ${{ always() }}
         with:
           name: PanoramaGL-Lint-report
