@@ -90,6 +90,15 @@ public abstract class PLRenderableElementBase extends PLObject implements PLIRen
      */
 
     protected void rotate(GL10 gl) {
+        // If this is a camera with a rotation matrix set, use that instead of Euler angles
+        if (this instanceof PLCamera) {
+            PLCamera camera = (PLCamera) this;
+            float[] rotationMatrix = camera.getRotationMatrix();
+            if (rotationMatrix != null) {
+                gl.glMultMatrixf(rotationMatrix, 0);
+                return;
+            }
+        }
         this.internalRotate(gl, this.getRotation());
     }
 

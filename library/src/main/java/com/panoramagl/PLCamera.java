@@ -44,6 +44,7 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
     private PLCameraAnimationType mAnimationType;
     private NSTimer mAnimationTimer;
     private PLCameraListener mInternalListener, mListener;
+    private float[] mRotationMatrix;
 
     /**
      * init methods
@@ -72,6 +73,7 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
         mIsAnimating = false;
         mAnimationType = PLCameraAnimationType.PLCameraAnimationTypeNone;
         mAnimationTimer = null;
+        mRotationMatrix = null;
         super.initializeValues();
         this.setReverseRotation(true);
     }
@@ -88,6 +90,7 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
     @Override
     public void reset(Object sender) {
         if (mIsNotLocked) {
+            mRotationMatrix = null;
             super.reset();
             this.internalStopAnimation(sender);
             this.setInternalFov(sender, mInitialFov, false, true, false);
@@ -407,20 +410,26 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
 
     @Override
     public void setPitch(float pitch) {
-        if (mIsNotLocked)
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
             this.setInternalPitch(pitch);
+        }
     }
 
     @Override
     public void setYaw(float yaw) {
-        if (mIsNotLocked)
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
             this.setInternalYaw(yaw);
+        }
     }
 
     @Override
     public void setRoll(float roll) {
-        if (mIsNotLocked)
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
             this.setInternalRoll(roll);
+        }
     }
 
     @Override
@@ -628,47 +637,98 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
     }
 
     /**
+     * rotation matrix methods
+     */
+
+    public boolean hasRotationMatrix() {
+        return mRotationMatrix != null;
+    }
+
+    public float[] getRotationMatrix() {
+        return mRotationMatrix;
+    }
+
+    public void setRotationMatrix(float[] matrix) {
+        if (mIsNotLocked && matrix != null && matrix.length == 16) {
+            if (mRotationMatrix == null) {
+                mRotationMatrix = new float[16];
+            }
+            System.arraycopy(matrix, 0, mRotationMatrix, 0, 16);
+        }
+    }
+
+    public void clearRotationMatrix() {
+        mRotationMatrix = null;
+    }
+
+    /**
      * lookat methods
      */
 
     @Override
     public boolean lookAt(PLRotation rotation) {
-        return (mIsNotLocked ? this.internalLookAt(null, rotation.pitch, rotation.yaw, false, true, false) : false);
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+            return this.internalLookAt(null, rotation.pitch, rotation.yaw, false, true, false);
+        }
+        return false;
     }
 
     @Override
     public boolean lookAt(Object sender, PLRotation rotation) {
-        return (mIsNotLocked ? this.internalLookAt(sender, rotation.pitch, rotation.yaw, false, true, false) : false);
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+            return this.internalLookAt(sender, rotation.pitch, rotation.yaw, false, true, false);
+        }
+        return false;
     }
 
     @Override
     public boolean lookAt(PLRotation rotation, boolean animated) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         return this.lookAt(null, rotation.pitch, rotation.yaw, animated);
     }
 
     @Override
     public boolean lookAt(Object sender, PLRotation rotation, boolean animated) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         return this.lookAt(sender, rotation.pitch, rotation.yaw, animated);
     }
 
     @Override
     public boolean lookAt(float pitch, float yaw) {
-        return (mIsNotLocked ? this.internalLookAt(null, pitch, yaw, false, true, false) : false);
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+            return this.internalLookAt(null, pitch, yaw, false, true, false);
+        }
+        return false;
     }
 
     @Override
     public boolean lookAt(Object sender, float pitch, float yaw) {
-        return (mIsNotLocked ? this.internalLookAt(sender, pitch, yaw, false, true, false) : false);
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+            return this.internalLookAt(sender, pitch, yaw, false, true, false);
+        }
+        return false;
     }
 
     @Override
     public boolean lookAt(float pitch, float yaw, boolean animated) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         return this.lookAt(null, pitch, yaw, animated);
     }
 
     @Override
     public boolean lookAt(Object sender, float pitch, float yaw, boolean animated) {
         if (mIsNotLocked) {
+            mRotationMatrix = null;
             if (animated) {
                 if (!mIsAnimating && this.isPitchEnabled() && this.isYawEnabled()) {
                     this.internalStartAnimation
@@ -732,12 +792,16 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
 
     @Override
     public boolean lookAtAndFov(float pitch, float yaw, float fov, boolean animated) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         return this.lookAtAndFov(null, pitch, yaw, fov, animated);
     }
 
     @Override
     public boolean lookAtAndFov(Object sender, float pitch, float yaw, float fov, boolean animated) {
         if (mIsNotLocked) {
+            mRotationMatrix = null;
             if (animated) {
                 if (!mIsAnimating && this.isPitchEnabled() && this.isYawEnabled() && mIsFovEnabled) {
                     this.internalStartAnimation
@@ -803,12 +867,16 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
 
     @Override
     public void rotate(float pitch, float yaw) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         this.rotate(null, pitch, yaw);
     }
 
     @Override
     public void rotate(Object sender, float pitch, float yaw) {
         if (mIsNotLocked) {
+            mRotationMatrix = null;
             super.rotate(pitch, yaw);
             pitch = this.getPitch();
             yaw = this.getYaw();
@@ -822,12 +890,16 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
 
     @Override
     public void rotate(float pitch, float yaw, float roll) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         this.rotate(null, pitch, yaw, roll);
     }
 
     @Override
     public void rotate(Object sender, float pitch, float yaw, float roll) {
         if (mIsNotLocked) {
+            mRotationMatrix = null;
             super.rotate(pitch, yaw, roll);
             pitch = this.getPitch();
             yaw = this.getYaw();
@@ -841,6 +913,9 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
 
     @Override
     public void rotate(CGPoint startPoint, CGPoint endPoint) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null;
+        }
         this.rotate(null, startPoint, endPoint);
     }
 
@@ -850,6 +925,7 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
             float yOffset = endPoint.y - startPoint.y, xOffset = startPoint.x - endPoint.x;
             boolean didRotatePitch = (yOffset != 0.0f), didRotateYaw = (xOffset != 0.0f);
             if (didRotatePitch || didRotateYaw) {
+                mRotationMatrix = null;
                 float rotationSensitivity = mFov / PLConstants.kFovBaseline * mRotationSensitivityByDisplayPPI;
                 if (didRotatePitch)
                     this.setPitch(this.getPitch() + ((yOffset / PLConstants.kMaxDisplaySize * rotationSensitivity)));
@@ -930,6 +1006,7 @@ public class PLCamera extends PLRenderableElementBase implements PLICamera {
         mInitialLookAt = mLookAtRotation = null;
         mFovRange = null;
         mInternalListener = mListener = null;
+        mRotationMatrix = null;
         super.finalize();
     }
 
