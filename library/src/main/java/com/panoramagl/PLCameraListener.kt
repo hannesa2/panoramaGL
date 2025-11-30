@@ -20,10 +20,10 @@ package com.panoramagl
 import com.panoramagl.enumerations.PLCameraAnimationType
 
 interface PLCameraListener {
-    fun didBeginAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType)
-    fun didEndAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType)
-    fun didLookAt(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, animated: Boolean)
-    fun didRotate(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, roll: Float)
-    fun didFov(sender: Any, camera: PLICamera, fov: Float, animated: Boolean)
-    fun didReset(sender: Any, camera: PLICamera)
+    fun didBeginAnimation(sender: Any?, camera: PLICamera, type: PLCameraAnimationType)
+    fun didEndAnimation(sender: Any?, camera: PLICamera, type: PLCameraAnimationType)
+    fun didLookAt(sender: Any?, camera: PLICamera, pitch: Float, yaw: Float, animated: Boolean)
+    fun didRotate(sender: Any?, camera: PLICamera, pitch: Float, yaw: Float, roll: Float)
+    fun didFov(sender: Any?, camera: PLICamera, fov: Float, animated: Boolean)
+    fun didReset(sender: Any?, camera: PLICamera)
 }

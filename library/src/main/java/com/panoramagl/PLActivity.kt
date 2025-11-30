@@ -1440,7 +1440,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         /**
          * PLCameraListener methods
          */
-        override fun didBeginAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType) {
+        override fun didBeginAnimation(sender: Any?, camera: PLICamera, type: PLCameraAnimationType) {
             when (type) {
                 PLCameraAnimationType.PLCameraAnimationTypeLookAt -> view!!.isValidForCameraAnimation = true
                 else -> {}
@@ -1449,7 +1449,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
             listener.onDidBeginCameraAnimation(view, sender, camera, type)
         }
 
-        override fun didEndAnimation(sender: Any, camera: PLICamera, type: PLCameraAnimationType) {
+        override fun didEndAnimation(sender: Any?, camera: PLICamera, type: PLCameraAnimationType) {
             when (type) {
                 PLCameraAnimationType.PLCameraAnimationTypeLookAt -> view!!.isValidForCameraAnimation = false
                 else -> {}
@@ -1458,24 +1458,24 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
             listener.onDidEndCameraAnimation(view, sender, camera, type)
         }
 
-        override fun didLookAt(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, animated: Boolean) {
+        override fun didLookAt(sender: Any?, camera: PLICamera, pitch: Float, yaw: Float, animated: Boolean) {
             if (sender !== view) view!!.updateInitialSensorialRotation()
             val listener = view!!.listener
             listener.onDidLookAtCamera(view, sender, camera, pitch, yaw, animated)
         }
 
-        override fun didRotate(sender: Any, camera: PLICamera, pitch: Float, yaw: Float, roll: Float) {
+        override fun didRotate(sender: Any?, camera: PLICamera, pitch: Float, yaw: Float, roll: Float) {
             if (sender !== view) view!!.updateInitialSensorialRotation()
             val listener = view!!.listener
             listener.onDidRotateCamera(view, sender, camera, pitch, yaw, roll)
         }
 
-        override fun didFov(sender: Any, camera: PLICamera, fov: Float, animated: Boolean) {
+        override fun didFov(sender: Any?, camera: PLICamera, fov: Float, animated: Boolean) {
             val listener = view!!.listener
             listener.onDidFovCamera(view, sender, camera, fov, animated)
         }
 
-        override fun didReset(sender: Any, camera: PLICamera) {
+        override fun didReset(sender: Any?, camera: PLICamera) {
             if (sender !== view) view!!.updateInitialSensorialRotation()
             val listener = view!!.listener
             listener.onDidResetCamera(view, sender, camera)
