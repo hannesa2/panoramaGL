@@ -1,5 +1,6 @@
 package com.panoramagl.sample
 
+import android.graphics.Bitmap
 import androidx.test.core.app.takeScreenshot
 import androidx.test.core.graphics.writeToTestStorage
 import androidx.test.espresso.Espresso.onView
@@ -25,15 +26,14 @@ class SmokeTest {
     @Test
     fun basicSmokeTest() {
         Thread.sleep(100)
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
-
+        takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
         onView(withId(R.id.button_1)).perform(ViewActions.click())
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
+        takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
         onView(withId(R.id.button_2)).perform(ViewActions.click())
-        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
+        takeScreenshot().crop().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
     }
 
-//    @Test
+    //    @Test
 //    fun swipeTest() {
 //        Thread.sleep(100)
 //        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
@@ -52,4 +52,9 @@ class SmokeTest {
 //        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-end")
 //    }
 
+    fun Bitmap.crop() = Bitmap.createBitmap(this, 0, NOTIFY_AREA_HEIGHT, this.width, this.height - NOTIFY_AREA_HEIGHT)
+
+    companion object {
+        const val NOTIFY_AREA_HEIGHT = 20 // TODO ask system about this value
+    }
 }
