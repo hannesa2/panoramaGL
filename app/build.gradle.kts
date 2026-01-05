@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation(project(":library"))
     implementation("androidx.core:core-ktx:1.17.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.3.0")
     implementation("com.google.android.material:material:1.13.0")
 
     testImplementation("junit:junit:4.13.2")
