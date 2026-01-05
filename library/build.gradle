@@ -32,6 +32,9 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+    publishing {
+        singleVariant("release") {}
+    }
 }
 
 dependencies {
