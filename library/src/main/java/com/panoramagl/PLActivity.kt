@@ -195,7 +195,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
         mTouchStatus = PLTouchStatus.PLTouchStatusNone
 
-        mCurrentDeviceOrientation = UIDeviceOrientation.UIDeviceOrientationPortrait
+        mCurrentDeviceOrientation = UIDeviceOrientation.Portrait
 
         mFileDownloaderManager = PLFileDownloaderManager()
 
@@ -959,12 +959,12 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 mAccelerometerSensitivity * (if (mPanorama!!.camera.isReverseRotation) -PLConstants.kAccelerometerMultiplyFactor else PLConstants.kAccelerometerMultiplyFactor)
 
             when (this.currentDeviceOrientation) {
-                UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> if (accelerometerLeftRightEnabled) x =
+                UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> if (accelerometerLeftRightEnabled) x =
                     acceleration.x
 
-                UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> if (accelerometerLeftRightEnabled) x = -acceleration.y
-                UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> if (accelerometerLeftRightEnabled) x = acceleration.y
-                UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> if (accelerometerLeftRightEnabled) x = -acceleration.x
+                UIDeviceOrientation.LandscapeLeft -> if (accelerometerLeftRightEnabled) x = -acceleration.y
+                UIDeviceOrientation.LandscapeRight -> if (accelerometerLeftRightEnabled) x = acceleration.y
+                UIDeviceOrientation.PortraitUpsideDown -> if (accelerometerLeftRightEnabled) x = -acceleration.x
                 else -> {}
             }
             val size = renderer!!.size
@@ -1091,20 +1091,20 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     protected fun updateGyroscopeRotationByOrientation(currentOrientation: UIDeviceOrientation?, newOrientation: UIDeviceOrientation?) {
         val tempRotation: Float
         when (currentOrientation) {
-            UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> when (newOrientation) {
-                UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> {
+            UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> when (newOrientation) {
+                UIDeviceOrientation.LandscapeLeft -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = mGyroscopeRotationY
                     mGyroscopeRotationY = -tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> {
+                UIDeviceOrientation.LandscapeRight -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = -mGyroscopeRotationY
                     mGyroscopeRotationY = tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> {
+                UIDeviceOrientation.PortraitUpsideDown -> {
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
@@ -1112,20 +1112,20 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 else -> {}
             }
 
-            UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> when (newOrientation) {
-                UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> {
+            UIDeviceOrientation.LandscapeLeft -> when (newOrientation) {
+                UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = -mGyroscopeRotationY
                     mGyroscopeRotationY = tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> {
+                UIDeviceOrientation.PortraitUpsideDown -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = mGyroscopeRotationY
                     mGyroscopeRotationY = -tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> {
+                UIDeviceOrientation.LandscapeRight -> {
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
@@ -1133,20 +1133,20 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 else -> {}
             }
 
-            UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> when (newOrientation) {
-                UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> {
+            UIDeviceOrientation.LandscapeRight -> when (newOrientation) {
+                UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = mGyroscopeRotationY
                     mGyroscopeRotationY = -tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> {
+                UIDeviceOrientation.PortraitUpsideDown -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = -mGyroscopeRotationY
                     mGyroscopeRotationY = tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> {
+                UIDeviceOrientation.LandscapeLeft -> {
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
@@ -1154,20 +1154,20 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 else -> {}
             }
 
-            UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> when (newOrientation) {
-                UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> {
+            UIDeviceOrientation.PortraitUpsideDown -> when (newOrientation) {
+                UIDeviceOrientation.LandscapeLeft -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = -mGyroscopeRotationY
                     mGyroscopeRotationY = tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> {
+                UIDeviceOrientation.LandscapeRight -> {
                     tempRotation = mGyroscopeRotationX
                     mGyroscopeRotationX = mGyroscopeRotationY
                     mGyroscopeRotationY = -tempRotation
                 }
 
-                UIDeviceOrientation.UIDeviceOrientationPortrait -> {
+                UIDeviceOrientation.Portrait -> {
                     mGyroscopeRotationX = -mGyroscopeRotationX
                     mGyroscopeRotationY = -mGyroscopeRotationY
                 }
@@ -1680,13 +1680,13 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 var newOrientation = mCurrentDeviceOrientation
                 when (this.resources.configuration.orientation) {
                     Configuration.ORIENTATION_PORTRAIT -> when (this.windowManager.defaultDisplay.orientation) {
-                        Surface.ROTATION_0, Surface.ROTATION_90 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationPortrait
-                        Surface.ROTATION_180, Surface.ROTATION_270 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown
+                        Surface.ROTATION_0, Surface.ROTATION_90 -> newOrientation = UIDeviceOrientation.Portrait
+                        Surface.ROTATION_180, Surface.ROTATION_270 -> newOrientation = UIDeviceOrientation.PortraitUpsideDown
                     }
 
                     Configuration.ORIENTATION_LANDSCAPE -> when (this.windowManager.defaultDisplay.orientation) {
-                        Surface.ROTATION_0, Surface.ROTATION_90 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationLandscapeLeft
-                        Surface.ROTATION_180, Surface.ROTATION_270 -> newOrientation = UIDeviceOrientation.UIDeviceOrientationLandscapeRight
+                        Surface.ROTATION_0, Surface.ROTATION_90 -> newOrientation = UIDeviceOrientation.LandscapeLeft
+                        Surface.ROTATION_180, Surface.ROTATION_270 -> newOrientation = UIDeviceOrientation.LandscapeRight
                     }
                 }
                 if (mCurrentDeviceOrientation != newOrientation) {
@@ -1756,22 +1756,22 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                         mGyroscopeRotationX += values[0] * timeDiff
                         mGyroscopeRotationY += values[1] * timeDiff
                         when (mCurrentDeviceOrientation) {
-                            UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> this.doGyroUpdate(
+                            UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> this.doGyroUpdate(
                                 mGyroscopeRotationX * PLConstants.kToDegrees,
                                 -mGyroscopeRotationY * PLConstants.kToDegrees
                             )
 
-                            UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> this.doGyroUpdate(
+                            UIDeviceOrientation.LandscapeLeft -> this.doGyroUpdate(
                                 -mGyroscopeRotationY * PLConstants.kToDegrees,
                                 -mGyroscopeRotationX * PLConstants.kToDegrees
                             )
 
-                            UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> this.doGyroUpdate(
+                            UIDeviceOrientation.LandscapeRight -> this.doGyroUpdate(
                                 mGyroscopeRotationY * PLConstants.kToDegrees,
                                 mGyroscopeRotationX * PLConstants.kToDegrees
                             )
 
-                            UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> this.doGyroUpdate(
+                            UIDeviceOrientation.PortraitUpsideDown -> this.doGyroUpdate(
                                 -mGyroscopeRotationX * PLConstants.kToDegrees,
                                 mGyroscopeRotationY * PLConstants.kToDegrees
                             )
@@ -1782,22 +1782,22 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                 } else {
                     val cameraRotation = mPanorama!!.camera.lookAtRotation
                     when (mCurrentDeviceOrientation) {
-                        UIDeviceOrientation.UIDeviceOrientationUnknown, UIDeviceOrientation.UIDeviceOrientationPortrait -> {
+                        UIDeviceOrientation.Unknown, UIDeviceOrientation.Portrait -> {
                             mGyroscopeRotationX = cameraRotation!!.pitch * PLConstants.kToRadians
                             mGyroscopeRotationY = -cameraRotation.yaw * PLConstants.kToRadians
                         }
 
-                        UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> {
+                        UIDeviceOrientation.LandscapeLeft -> {
                             mGyroscopeRotationX = -cameraRotation!!.yaw * PLConstants.kToRadians
                             mGyroscopeRotationY = -cameraRotation.pitch * PLConstants.kToRadians
                         }
 
-                        UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> {
+                        UIDeviceOrientation.LandscapeRight -> {
                             mGyroscopeRotationX = cameraRotation!!.yaw * PLConstants.kToRadians
                             mGyroscopeRotationY = cameraRotation.pitch * PLConstants.kToRadians
                         }
 
-                        UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> {
+                        UIDeviceOrientation.PortraitUpsideDown -> {
                             mGyroscopeRotationX = -cameraRotation!!.pitch * PLConstants.kToRadians
                             mGyroscopeRotationY = cameraRotation.yaw * PLConstants.kToRadians
                         }

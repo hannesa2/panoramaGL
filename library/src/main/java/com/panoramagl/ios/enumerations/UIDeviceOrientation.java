@@ -19,15 +19,15 @@
 package com.panoramagl.ios.enumerations;
 
 public enum UIDeviceOrientation {
-    UIDeviceOrientationUnknown,
-    UIDeviceOrientationPortrait,
-    UIDeviceOrientationPortraitUpsideDown,
-    UIDeviceOrientationLandscapeLeft,
-    UIDeviceOrientationLandscapeRight,
-    UIDeviceOrientationFaceUp,
-    UIDeviceOrientationFaceDown;
+    Unknown,
+    Portrait,
+    PortraitUpsideDown,
+    LandscapeLeft,
+    LandscapeRight,
+    FaceUp,
+    FaceDown;
 
     public static boolean UIInterfaceOrientationIsPortrait(UIDeviceOrientation orientation) {
-        return (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown);
+        return (orientation == Portrait || orientation == PortraitUpsideDown);
     }
 }
