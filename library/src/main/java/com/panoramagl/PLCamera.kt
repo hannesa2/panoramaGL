@@ -267,9 +267,11 @@ class PLCamera : PLRenderableElementBase, PLICamera {
             mAnimationTimer = timer
         }
 
-    override fun setVisible(isVisible: Boolean) {
-        if (mIsNotLocked) super.setVisible(isVisible)
-    }
+    override var isVisible: Boolean
+        get() = super.isVisible
+        set(value) {
+            super.isVisible = value
+        }
 
     override var x: Float
         get() = super.x
