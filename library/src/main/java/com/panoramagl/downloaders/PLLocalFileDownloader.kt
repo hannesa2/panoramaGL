@@ -37,7 +37,7 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
         val startTime = System.currentTimeMillis()
         try {
             if (this.isRunning) {
-                if (hasListener) listener!!.didBeginDownload(url, startTime)
+                if (hasListener) listener.didBeginDownload(url, startTime)
                 if (url.startsWith("res://")) {
                     val sepPos = url.lastIndexOf("/")
                     val resourceId = context.resources.getIdentifier(url.substring(sepPos + 1), url.substring(6, sepPos), context.packageName)
@@ -52,7 +52,7 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
                 result = ByteArray(`is`!!.available())
                 `is`.read(result)
                 if (hasListener) {
-                    listener!!.didProgressDownload(url, 100)
+                    listener.didProgressDownload(url, 100)
                     listener.didEndDownload(url, result, System.currentTimeMillis() - startTime)
                 }
             } else
@@ -60,7 +60,7 @@ class PLLocalFileDownloader(private var context: Context, url: String?, listener
         } catch (e: Throwable) {
             if (this.isRunning) {
                 Timber.e(e)
-                if (hasListener) listener!!.didErrorDownload(url, e.toString(), -1, result)
+                if (hasListener) listener.didErrorDownload(url, e.toString(), -1, result)
             }
         } finally {
             if (`is` != null) {

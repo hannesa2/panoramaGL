@@ -9,6 +9,6 @@ class PLHTTPFileDownloader : PLFileDownloaderBase {
     constructor(url: String, listener: PLFileDownloaderListener?) : super(url, listener)
 
     override fun downloadFile(): ByteArray = OkHttpClient().newCall(Request.Builder().url(url).build())
-        .execute().body!!.bytes()
+        .execute().body.bytes()
 
 }
