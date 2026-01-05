@@ -145,7 +145,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             SensorManager.SENSOR_DELAY_GAME
 
         val rotation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            context.display?.rotation
+            context.display.rotation
         } else {
             (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.orientation
         }
@@ -292,7 +292,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                             }
                         }
                     }
-                    mGLSurfaceView = PLSurfaceView(getContext(), renderer!!)
+                    mGLSurfaceView = PLSurfaceView(context, renderer!!)
                     mPanorama = panorama
                     onGLSurfaceViewCreated(mGLSurfaceView)
                 }
@@ -379,13 +379,15 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     protected var auxiliaryStartPoint: CGPoint?
         get() = auxiliarStartPoint
-        protected set(startPoint) {
-            if (startPoint != null) auxiliarStartPoint!!.setValues(startPoint)
+        set(startPoint) {
+            if (startPoint != null)
+                auxiliarStartPoint?.setValues(startPoint)
         }
     protected var auxiliaryEndPoint: CGPoint?
         get() = auxiliarEndPoint
-        protected set(endPoint) {
-            if (endPoint != null) auxiliarEndPoint!!.setValues(endPoint)
+        set(endPoint) {
+            if (endPoint != null)
+                auxiliarEndPoint?.setValues(endPoint)
         }
 
     override fun isValidForFov(): Boolean {
