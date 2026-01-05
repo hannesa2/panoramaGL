@@ -11,9 +11,14 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
-import android.view.*
+import android.view.GestureDetector
 import android.view.GestureDetector.OnDoubleTapListener
 import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MotionEvent
+import android.view.Surface
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
@@ -36,6 +41,7 @@ import com.panoramagl.structs.PLRange
 import com.panoramagl.structs.PLShakeData
 import com.panoramagl.transitions.PLITransition
 import com.panoramagl.transitions.PLTransitionListener
+import com.panoramagl.utils.ifNotNull
 import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
 
@@ -49,7 +55,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     private var mGLSurfaceView: GLSurfaceView? = null
     var sensorManager: SensorManager
         private set
-    var sensorDelay : Int
+    var sensorDelay: Int
     private var gestureDetector: GestureDetector? = null
     var contentLayout: ViewGroup? = null
         private set
@@ -129,7 +135,11 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
 
     init {
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensorDelay = if (ActivityCompat.checkSelfPermission(context,android.Manifest.permission.HIGH_SAMPLING_RATE_SENSORS) == PackageManager.PERMISSION_GRANTED)
+        sensorDelay = if (ActivityCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.HIGH_SAMPLING_RATE_SENSORS
+            ) == PackageManager.PERMISSION_GRANTED
+        )
             SensorManager.SENSOR_DELAY_FASTEST
         else
             SensorManager.SENSOR_DELAY_GAME
@@ -578,7 +588,10 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      */
     protected fun drawView(): Boolean {
         if (mIsRendererCreated && renderer!!.isRunning && mPanorama != null) {
-            if (!mIsValidForFov) mPanorama!!.camera.rotate(this, mStartPoint, mEndPoint)
+            if (!mIsValidForFov)
+                ifNotNull(mStartPoint, mEndPoint) { startPoint, endPoint ->
+                    mPanorama!!.camera.rotate(this, startPoint, endPoint)
+                }
             mGLSurfaceView!!.requestRender()
             return true
         }
@@ -937,14 +950,15 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                 UIDeviceOrientation.UIDeviceOrientationLandscapeLeft -> if (mIsAccelerometerLeftRightEnabled) x = -acceleration.y
                 UIDeviceOrientation.UIDeviceOrientationLandscapeRight -> if (mIsAccelerometerLeftRightEnabled) x = acceleration.y
                 UIDeviceOrientation.UIDeviceOrientationPortraitUpsideDown -> if (mIsAccelerometerLeftRightEnabled) x = -acceleration.x
-                else -> {
-                }
+                else -> Unit
             }
             val size = renderer!!.size
-            auxiliarStartPoint!!.setValues((size.width shr 1).toFloat(), (size.height shr 1).toFloat())
-            auxiliarEndPoint!!.setValues(auxiliarStartPoint!!.x + x * factor, auxiliarStartPoint!!.y + y * factor)
-            mPanorama!!.camera.rotate(this, auxiliarStartPoint, auxiliarEndPoint)
-            if (mListener != null) mListener!!.onDidAccelerate(this, acceleration, event)
+            auxiliarStartPoint?.setValues((size.width shr 1).toFloat(), (size.height shr 1).toFloat())
+            auxiliarEndPoint?.setValues(auxiliarStartPoint!!.x + x * factor, auxiliarStartPoint!!.y + y * factor)
+            ifNotNull(auxiliarStartPoint, auxiliarEndPoint) { auxiliarStartPoint, auxiliarEndPoint ->
+                mPanorama!!.camera.rotate(this, auxiliarStartPoint, auxiliarEndPoint)
+            }
+            mListener?.onDidAccelerate(this, acceleration, event)
         }
     }
 

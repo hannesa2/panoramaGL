@@ -57,6 +57,7 @@ import com.panoramagl.structs.PLRange.Companion.PLRangeMake
 import com.panoramagl.structs.PLShakeData
 import com.panoramagl.transitions.PLITransition
 import com.panoramagl.transitions.PLTransitionListener
+import com.panoramagl.utils.ifNotNull
 import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
 import kotlin.math.abs
@@ -584,7 +585,10 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
      */
     protected fun drawView(): Boolean {
         if (isRendererCreated && renderer!!.isRunning && mPanorama != null) {
-            if (!mIsValidForFov) mPanorama!!.camera.rotate(this, mStartPoint, mEndPoint)
+            if (!mIsValidForFov)
+                ifNotNull(mStartPoint, mEndPoint) { startPoint, endPoint ->
+                    mPanorama!!.camera.rotate(this, startPoint, endPoint)
+                }
             mGLSurfaceView!!.requestRender()
             return true
         }
@@ -966,8 +970,9 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
             val size = renderer!!.size
             mAuxiliarStartPoint!!.setValues((size.width shr 1).toFloat(), (size.height shr 1).toFloat())
             mAuxiliarEndPoint!!.setValues(mAuxiliarStartPoint!!.x + x * factor, mAuxiliarStartPoint!!.y + y * factor)
-            mPanorama!!.camera.rotate(this, mAuxiliarStartPoint, mAuxiliarEndPoint)
-
+            ifNotNull(mAuxiliarStartPoint, mAuxiliarEndPoint) { auxiliarStartPoint, auxiliarEndPoint ->
+                mPanorama!!.camera.rotate(this, auxiliarStartPoint, auxiliarEndPoint)
+            }
             if (mListener != null) mListener!!.onDidAccelerate(this, acceleration, event)
         }
     }
