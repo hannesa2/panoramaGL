@@ -117,10 +117,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
             if (mIsNotLocked) mInitialFov = PLMath.normalizeFov(initialFov, mFovRange)
         }
 
-    protected fun setInternalInitialFov(initialFov: Float) {
-        mInitialFov = PLMath.normalizeFov(initialFov, mFovRange)
-    }
-
     override var fov: Float
         get() = mFov
         set(fov) {
@@ -166,13 +162,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
         }
     }
 
-    protected fun setInternalFovRange(min: Float, max: Float) {
-        mFovRange!!.setValues(
-            (if (min < PLConstants.kFovMinValue) PLConstants.kFovMinValue else min),
-            (if (max > PLConstants.kFovMaxValue) PLConstants.kFovMaxValue else max)
-        )
-    }
-
     override var fovMin: Float
         get() = mFovRange!!.min
         set(min) {
@@ -198,10 +187,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
         set(distance) {
             if (mIsNotLocked && distance > 0) mMinDistanceToEnableFov = distance
         }
-
-    protected fun setInternalMinDistanceToEnableFov(distance: Int) {
-        mMinDistanceToEnableFov = distance
-    }
 
     override var rotationSensitivity: Float
         get() = mRotationSensitivity
@@ -236,10 +221,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
             if (mIsNotLocked && zoomLevels > 0) mZoomLevels = zoomLevels
         }
 
-    protected fun setInternalZoomLevels(zoomLevels: Int) {
-        mZoomLevels = zoomLevels
-    }
-
     override var initialLookAt: PLRotation?
         get() = mInitialLookAt
         set(rotation) {
@@ -260,19 +241,11 @@ class PLCamera : PLRenderableElementBase, PLICamera {
             if (mIsNotLocked) mInitialLookAt!!.pitch = this.getRotationAngleNormalized(pitch, this.pitchRange)
         }
 
-    protected fun setInternalInitialPitch(pitch: Float) {
-        mInitialLookAt!!.pitch = this.getRotationAngleNormalized(pitch, this.pitchRange)
-    }
-
     override var initialYaw: Float
         get() = mInitialLookAt!!.yaw
         set(yaw) {
             if (mIsNotLocked) mInitialLookAt!!.yaw = this.getRotationAngleNormalized(yaw, this.yawRange)
         }
-
-    protected fun setInternalInitialYaw(yaw: Float) {
-        mInitialLookAt!!.yaw = this.getRotationAngleNormalized(yaw, this.yawRange)
-    }
 
     override val lookAtRotation: PLRotation?
         get() {
@@ -286,7 +259,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
 
     protected var animationTimer: NSTimer?
         get() = mAnimationTimer
-        protected set(timer) {
+        set(timer) {
             if (mAnimationTimer != null) {
                 mAnimationTimer!!.invalidate()
                 mAnimationTimer = null
@@ -296,10 +269,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
 
     override fun setVisible(isVisible: Boolean) {
         if (mIsNotLocked) super.setVisible(isVisible)
-    }
-
-    protected fun setInternalVisible(isVisible: Boolean) {
-        super.setVisible(isVisible)
     }
 
     override var x: Float
@@ -423,7 +392,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
                                 },
                                 arrayOf<Any>(
                                     this,
-                                    PLFovAnimatedData.Companion.PLFovAnimatedDataMake(sender, this, newFov, PLConstants.kCameraFovAnimationMaxStep)
+                                    PLFovAnimatedData.PLFovAnimatedDataMake(sender, this, newFov, PLConstants.kCameraFovAnimationMaxStep)
                                 ),
                                 true
                             ),
@@ -577,7 +546,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
                             },
                             arrayOf<Any>(
                                 this,
-                                PLLookAtAnimatedData.Companion.PLLookAtAnimatedDataMake(
+                                PLLookAtAnimatedData.PLLookAtAnimatedDataMake(
                                     sender,
                                     this,
                                     pitch,
@@ -658,7 +627,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
                             },
                             arrayOf<Any>(
                                 this,
-                                PLLookAtAndFovAnimatedData.Companion.PLLookAtAndFovAnimatedDataMake(
+                                PLLookAtAndFovAnimatedData.PLLookAtAndFovAnimatedDataMake(
                                     sender,
                                     this,
                                     pitch,
@@ -782,29 +751,17 @@ class PLCamera : PLRenderableElementBase, PLICamera {
         }
     }
 
-    /**
-     * clear methods
-     */
-    override fun internalClear() {
-    }
+    override fun internalClear() = Unit
 
-    /**
-     * render methods
-     */
-    override fun beginRender(gl: GL10, renderer: PLIRenderer?) {
+    override fun beginRender(gl: GL10, renderer: PLIRenderer) {
         this.rotate(gl)
         this.translate(gl)
     }
 
-    override fun internalRender(gl: GL10?, renderer: PLIRenderer?) {
-    }
+    override fun internalRender(gl: GL10, renderer: PLIRenderer) = Unit
 
-    override fun endRender(gl: GL10?, renderer: PLIRenderer?) {
-    }
+    override fun endRender(gl: GL10, renderer: PLIRenderer) = Unit
 
-    /**
-     * clone methods
-     */
     override fun clonePropertiesOf(`object`: PLIObject): Boolean {
         if (mIsNotLocked && super.clonePropertiesOf(`object`)) {
             if (`object` is PLICamera) {
@@ -846,15 +803,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     /**
      * internal classes declaration
      */
-    protected open class PLAnimatedDataBase
-    /**
-     * init methods
-     */(
-        /**
-         * member variables
-         */
-        var sender: Any?
-    ) {
+    protected open class PLAnimatedDataBase(var sender: Any?) {
         var currentStep: Int = 0
         var maxStep: Int = 0
 
@@ -868,10 +817,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     }
 
     protected class PLFovAnimatedData(sender: Any?, camera: PLCamera, fov: Float, defaultMaxStep: Int) : PLAnimatedDataBase(sender) {
-        /**
-         * member variables
-         */
-        var currentFov: Float
+        var currentFov: Float = camera.fov
         var maxFov: Float
         var fovStep: Float
 
@@ -879,7 +825,6 @@ class PLCamera : PLRenderableElementBase, PLICamera {
          * init methods
          */
         init {
-            currentFov = camera.fov
             maxFov = PLMath.normalizeFov(fov, camera.fovRange)
             val fovDiff = maxFov - currentFov
             val maxDiff = PLConstants.kFovMaxValue - abs(fovDiff)
