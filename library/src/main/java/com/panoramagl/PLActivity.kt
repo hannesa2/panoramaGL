@@ -37,6 +37,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.panoramagl.computation.PLMath
 import com.panoramagl.downloaders.PLFileDownloaderManager
 import com.panoramagl.downloaders.PLIFileDownloaderManager
@@ -140,7 +142,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     private var mIsValidForTransition = false
     private var currentTransition: PLITransition? = null
 
-    private var mIsValidForTouch = false
+    var mIsValidForTouch = false
     private var mTouchStatus: PLTouchStatus? = null
 
     private var mCurrentDeviceOrientation: UIDeviceOrientation? = null
@@ -171,7 +173,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
         accelerometerEnabled = false
         accelerometerUpDownEnabled = true
-        accelerometerLeftRightEnabled = accelerometerUpDownEnabled
+        accelerometerLeftRightEnabled = true
         mAccelerometerSensitivity = PLConstants.kDefaultAccelerometerSensitivity
 
         sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeUnknow
@@ -218,9 +220,9 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         if (!mIsValidForTransition) {
             this.stopInertia()
             mIsValidForTouch = false
-            mIsValidForInertia = mIsValidForTouch
-            mIsValidForScrolling = mIsValidForInertia
-            mIsValidForFov = mIsValidForScrolling
+            mIsValidForInertia = false
+            mIsValidForScrolling = false
+            mIsValidForFov = false
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
             mAuxiliarStartPoint!!.setValues(mAuxiliarEndPoint!!.setValues(0.0f, 0.0f))
             mFovCounter = 0
@@ -324,7 +326,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
     protected var animationTimer: NSTimer?
         get() = mAnimationTimer
-        protected set(timer) {
+        set(timer) {
             if (mAnimationTimer != null) {
                 mAnimationTimer!!.invalidate()
                 mAnimationTimer = null
@@ -373,14 +375,14 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
     protected var auxiliarStartPoint: CGPoint?
         get() = mAuxiliarStartPoint
-        protected set(startPoint) {
+        set(startPoint) {
             if (startPoint != null)
                 mAuxiliarStartPoint!!.setValues(startPoint)
         }
 
     protected var auxiliarEndPoint: CGPoint?
         get() = mAuxiliarEndPoint
-        protected set(endPoint) {
+        set(endPoint) {
             if (endPoint != null)
                 mAuxiliarEndPoint!!.setValues(endPoint)
         }
@@ -532,16 +534,12 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         return currentTransition!!
     }
 
-    protected fun setCurrentTransition(transition: PLITransition?) {
-        currentTransition = transition
-    }
-
     override fun isValidForTouch(): Boolean {
         return mIsValidForTouch
     }
 
-    protected fun setValidForTouch(isValidForTouch: Boolean) {
-        mIsValidForTouch = isValidForTouch
+    protected fun setCurrentTransition(transition: PLITransition?) {
+        currentTransition = transition
     }
 
     override fun getTouchStatus(): PLTouchStatus {
@@ -617,13 +615,13 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         if (isAnimating) {
             this.stopInertia()
             this.animationTimer = null
-            if (renderer != null) renderer!!.stop()
-            if (currentTransition != null) currentTransition!!.stop()
-            if (mPanorama != null) mPanorama!!.camera.stopAnimation(this)
+            renderer?.stop()
+            currentTransition?.stop()
+            mPanorama?.camera?.stopAnimation(this)
             mIsValidForFov = false
-            mIsValidForScrolling = mIsValidForFov
-            mIsValidForTouch = mIsValidForScrolling
-            isAnimating = mIsValidForTouch
+            mIsValidForScrolling = false
+            mIsValidForTouch = false
+            isAnimating = false
             return true
         }
         return false
@@ -808,7 +806,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
         if (mIsValidForFov) {
             mIsValidForTouch = false
-            mIsValidForFov = mIsValidForTouch
+            mIsValidForFov = false
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
             if (listenerExists) mListener!!.onDidEndZooming(this)
         } else {
@@ -921,7 +919,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
             if (mListener != null) mListener!!.onDidEndInertia(this, mStartPoint, mEndPoint)
             this.updateInitialSensorialRotation()
             mIsValidForTouch = false
-            mIsValidForScrolling = mIsValidForTouch
+            mIsValidForScrolling = false
             if (mListener != null) mListener!!.onDidEndScrolling(this, mStartPoint, mEndPoint)
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
             return true
@@ -1028,7 +1026,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
                     mSensorialRotationRotationMatrix = FloatArray(16)
                     mSensorialRotationOrientationData = FloatArray(3)
                     mHasFirstMagneticHeading = false
-                    mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
+                    mHasFirstAccelerometerPitch = false
                     mAccelerometerPitch = 0.0f
                     mLastAccelerometerPitch = mAccelerometerPitch
                     mFirstAccelerometerPitch = mLastAccelerometerPitch
@@ -1187,8 +1185,8 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
             } else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
                 mSensorialRotationThresholdTimestamp = 0
                 mHasFirstMagneticHeading = false
-                mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
-                mSensorialRotationThresholdFlag = mHasFirstAccelerometerPitch
+                mHasFirstAccelerometerPitch = false
+                mSensorialRotationThresholdFlag = false
                 return true
             }
         }
@@ -1211,14 +1209,15 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     }
 
     protected fun deactiveOrientation() {
-        if (sensorManager != null) sensorManager!!.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION))
+        sensorManager?.unregisterListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION))
     }
 
     /**
      * shake methods
      */
     protected fun resetWithShake(acceleration: UIAcceleration?): Boolean {
-        if (!mIsShakeResetEnabled || !mIsResetEnabled || this.isLocked || validForCameraAnimation || mIsValidForTransition) return false
+        if (!mIsShakeResetEnabled || !mIsResetEnabled || this.isLocked || validForCameraAnimation || mIsValidForTransition)
+            return false
 
         var result = false
         val currentTime = System.currentTimeMillis()
@@ -1256,8 +1255,8 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
 
         this.stopInertia()
         mIsValidForFov = false
-        mIsValidForScrolling = mIsValidForFov
-        mIsValidForTouch = mIsValidForScrolling
+        mIsValidForScrolling = false
+        mIsValidForTouch = false
         mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
 
         currentTransition = transition
@@ -1302,7 +1301,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
      * progress-bar methods
      */
     override fun showProgressBar(): Boolean {
-        if (progressBar != null && progressBar!!.visibility == View.GONE) {
+        if (progressBar != null && progressBar!!.isGone) {
             progressBar!!.visibility = View.VISIBLE
             return true
         }
@@ -1310,7 +1309,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     }
 
     override fun hideProgressBar(): Boolean {
-        if (progressBar != null && progressBar!!.visibility == View.VISIBLE) {
+        if (progressBar != null && progressBar!!.isVisible) {
             progressBar!!.visibility = View.GONE
             return true
         }
@@ -1433,13 +1432,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
         }
     }
 
-    protected inner class PLInternalCameraListener
-    /**
-     * init methods
-     */(
-        /**
-         * member variables
-         */
+    protected class PLInternalCameraListener(
         private var view: PLActivity?
     ) : PLCameraListener, PLIReleaseView {
         /**
@@ -1601,7 +1594,7 @@ open class PLActivity : AppCompatActivity(), PLIView, SensorEventListener, Gestu
     protected fun onGLSurfaceViewCreated(glSurfaceView: GLSurfaceView?): View {
         for (i in 0 until kMaxTouches) internalTouches!!.add(UITouch(glSurfaceView, CGPoint(0.0f, 0.0f)))
         contentLayout = RelativeLayout(this)
-        contentLayout!!.setLayoutParams(RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT))
+        contentLayout!!.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT)
         contentLayout!!.addView(
             glSurfaceView,
             RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT)

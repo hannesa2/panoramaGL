@@ -8,7 +8,6 @@ import com.panoramagl.opengl.GLWrapper
 import com.panoramagl.opengl.IGLWrapper
 import com.panoramagl.opengl.matrix.MatrixTrackingGL
 import com.panoramagl.utils.PLOpenGLSupport
-import com.panoramagl.utils.PLOpenGLSupport.getOpenGLVersion
 import timber.log.Timber
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -65,7 +64,7 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
                 Timber.e("Invalid framebuffer id returned!")
             gl11ep.glGenRenderbuffersOES(1, colorRenderBuffer, 0)
             if (colorRenderBuffer[0] <= 0)
-                Timber.e("Invalid renderbuffer id returned!")
+                Timber.e("Invalid render buffer id returned!")
             gl11ep.glBindFramebufferOES(GL11ExtensionPack.GL_FRAMEBUFFER_OES, defaultFramebuffer[0])
             gl11ep.glBindRenderbufferOES(GL11ExtensionPack.GL_RENDERBUFFER_OES, colorRenderBuffer[0])
         }
@@ -191,7 +190,9 @@ open class PLRenderer(view: PLIView, scene: PLIScene) : PLObjectBase(), PLIRende
     }
 
     override fun renderNTimes(gl: GL10?, times: Int) {
-        for (i in 0 until times) render(gl)
+        repeat((0 until times).count()) {
+            render(gl)
+        }
     }
 
     override fun start(): Boolean {

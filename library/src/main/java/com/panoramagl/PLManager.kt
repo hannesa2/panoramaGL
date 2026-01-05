@@ -44,6 +44,8 @@ import com.panoramagl.transitions.PLTransitionListener
 import com.panoramagl.utils.ifNotNull
 import timber.log.Timber
 import javax.microedition.khronos.opengles.GL10
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 
 
 @Suppress("unused")
@@ -71,7 +73,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     protected var renderer: PLIRenderer? = null
         private set
     private var mIsRendererCreated = false
-    private var internalCameraListener: PLInternalCameraListener? = null
+    private lateinit var internalCameraListener: PLInternalCameraListener
     private var mAnimationTimer: NSTimer? = null
     private var mAnimationInterval = 0f
     private var mAnimationFrameInterval = 0
@@ -206,7 +208,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         auxiliarEndPoint = CGPoint.CGPointMake(0.0f, 0.0f)
         mIsAccelerometerEnabled = false
         mIsAccelerometerUpDownEnabled = true
-        mIsAccelerometerLeftRightEnabled = mIsAccelerometerUpDownEnabled
+        mIsAccelerometerLeftRightEnabled = true
         mAccelerometerSensitivity = PLConstants.kDefaultAccelerometerSensitivity
         sensorialRotationType = PLSensorialRotationType.PLSensorialRotationTypeUnknow
         mIsScrollingEnabled = false
@@ -238,14 +240,15 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (!mIsValidForTransition) {
             stopInertia()
             mIsValidForTouch = false
-            mIsValidForInertia = mIsValidForTouch
-            mIsValidForScrolling = mIsValidForInertia
-            mIsValidForFov = mIsValidForScrolling
-            mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
-            auxiliarStartPoint!!.setValues(auxiliarEndPoint!!.setValues(0.0f, 0.0f))
+            mIsValidForInertia = false
+            mIsValidForScrolling = false
+            mIsValidForFov = false
+            mStartPoint?.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
+            auxiliarStartPoint?.setValues(auxiliarEndPoint!!.setValues(0.0f, 0.0f))
             mFovCounter = 0
             mFovDistance = 0.0f
-            if (resetCamera && mPanorama != null) mPanorama!!.camera.reset(this)
+            if (resetCamera && mPanorama != null)
+                mPanorama?.camera?.reset(this)
             updateInitialSensorialRotation()
             return true
         }
@@ -263,11 +266,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         if (!mIsValidForTransition) {
             stopAnimation()
             if (panorama != null) {
-                if (mPanorama != null) {
-                    mPanorama!!.clear()
-                    mPanorama!!.releaseView()
-                    mPanorama = null
-                }
+                mPanorama?.clear()
+                mPanorama?.releaseView()
+                mPanorama = null
                 panorama.internalView = this
                 panorama.internalCameraListener = internalCameraListener
                 if (renderer != null) {
@@ -626,9 +627,9 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             if (mCurrentTransition != null) mCurrentTransition!!.stop()
             if (mPanorama != null) mPanorama!!.camera.stopAnimation(this)
             mIsValidForFov = false
-            mIsValidForScrolling = mIsValidForFov
-            mIsValidForTouch = mIsValidForScrolling
-            isAnimating = mIsValidForTouch
+            mIsValidForScrolling = false
+            mIsValidForTouch = false
+            isAnimating = false
             return true
         }
         return false
@@ -792,7 +793,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         mTouchStatus = PLTouchStatus.PLTouchStatusEnded
         if (mIsValidForFov) {
             mIsValidForTouch = false
-            mIsValidForFov = mIsValidForTouch
+            mIsValidForFov = false
             mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
             mListener?.onDidEndZooming(this)
         } else {
@@ -911,7 +912,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             mListener?.onDidEndInertia(this, mStartPoint, mEndPoint)
             updateInitialSensorialRotation()
             mIsValidForTouch = false
-            mIsValidForScrolling = mIsValidForTouch
+            mIsValidForScrolling = false
             mListener?.onDidEndScrolling(this, mStartPoint, mEndPoint)
             mStartPoint?.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
             return true
@@ -1019,7 +1020,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
                     sensorialRotationRotationMatrix = FloatArray(16)
                     sensorialRotationOrientationData = FloatArray(3)
                     mHasFirstMagneticHeading = false
-                    mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
+                    mHasFirstAccelerometerPitch = false
                     mAccelerometerPitch = 0.0f
                     mLastAccelerometerPitch = mAccelerometerPitch
                     mFirstAccelerometerPitch = mLastAccelerometerPitch
@@ -1172,8 +1173,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
             } else if (sensorialRotationType == PLSensorialRotationType.PLSensorialRotationTypeAccelerometerAndMagnetometer) {
                 sensorialRotationThresholdTimestamp = 0
                 mHasFirstMagneticHeading = false
-                mHasFirstAccelerometerPitch = mHasFirstMagneticHeading
-                mSensorialRotationThresholdFlag = mHasFirstAccelerometerPitch
+                mHasFirstAccelerometerPitch = false
+                mSensorialRotationThresholdFlag = false
                 return true
             }
         }
@@ -1234,11 +1235,11 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         mIsValidForTransition = true
         stopInertia()
         mIsValidForFov = false
-        mIsValidForScrolling = mIsValidForFov
-        mIsValidForTouch = mIsValidForScrolling
-        mStartPoint!!.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
+        mIsValidForScrolling = false
+        mIsValidForTouch = false
+        mStartPoint?.setValues(mEndPoint!!.setValues(0.0f, 0.0f))
         mCurrentTransition = transition
-        mCurrentTransition!!.internalListener = object : PLTransitionListener {
+        mCurrentTransition?.internalListener = object : PLTransitionListener {
             override fun isRemovableListener(): Boolean {
                 return true
             }
@@ -1279,7 +1280,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
      * progress-bar methods
      */
     override fun showProgressBar(): Boolean {
-        if (progressBar != null && progressBar!!.visibility == View.GONE) {
+        if (progressBar != null && progressBar!!.isGone) {
             progressBar!!.visibility = View.VISIBLE
             return true
         }
@@ -1287,7 +1288,7 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
     }
 
     override fun hideProgressBar(): Boolean {
-        if (progressBar != null && progressBar!!.visibility == View.VISIBLE) {
+        if (progressBar != null && progressBar!!.isVisible) {
             progressBar!!.visibility = View.GONE
             return true
         }
