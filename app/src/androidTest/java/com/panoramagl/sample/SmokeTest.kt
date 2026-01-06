@@ -26,11 +26,11 @@ class SmokeTest {
     @Test
     fun basicSmokeTest() {
         Thread.sleep(100)
-        takeScreenshot().cropWithoutNotifactionArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
+        takeScreenshot().cropWithoutNotificationArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
         onView(withId(R.id.button_1)).perform(ViewActions.click())
-        takeScreenshot().cropWithoutNotifactionArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
+        takeScreenshot().cropWithoutNotificationArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
         onView(withId(R.id.button_2)).perform(ViewActions.click())
-        takeScreenshot().cropWithoutNotifactionArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
+        takeScreenshot().cropWithoutNotificationArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button2")
     }
 
     //    @Test
@@ -52,7 +52,7 @@ class SmokeTest {
 //        takeScreenshot().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-end")
 //    }
 
-    fun Bitmap.cropWithoutNotifactionArea() = Bitmap.createBitmap(this, 0, NOTIFY_AREA_HEIGHT, this.width, this.height - NOTIFY_AREA_HEIGHT)
+    fun Bitmap.cropWithoutNotificationArea() = Bitmap.createBitmap(this, 0, NOTIFY_AREA_HEIGHT, this.width, this.height - NOTIFY_AREA_HEIGHT)
 
     companion object {
         const val NOTIFY_AREA_HEIGHT = 20 // TODO ask system about this value
