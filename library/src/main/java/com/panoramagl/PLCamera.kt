@@ -55,6 +55,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     private var mAnimationTimer: NSTimer? = null
     override var internalListener: PLCameraListener? = null
     private var mListener: PLCameraListener? = null
+    private var mRotationMatrix: FloatArray? = null
 
     constructor() : super()
 
@@ -309,7 +310,10 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     override var roll: Float
         get() = super.roll
         set(value) {
-            if (mIsNotLocked) this.setInternalRoll(value)
+            if (mIsNotLocked) {
+                mRotationMatrix = null
+                this.setInternalRoll(value)
+            }
         }
 
     override var listener: PLCameraListener?
@@ -492,38 +496,88 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     }
 
     /**
+     * rotation matrix methods
+     */
+    override fun hasRotationMatrix(): Boolean {
+        return mRotationMatrix != null
+    }
+
+    override fun getRotationMatrix(): FloatArray? {
+        return mRotationMatrix
+    }
+
+    override fun setRotationMatrix(matrix: FloatArray?) {
+        if (mIsNotLocked && matrix != null && matrix.size == 16) {
+            if (mRotationMatrix == null) {
+                mRotationMatrix = FloatArray(16)
+            }
+            System.arraycopy(matrix, 0, mRotationMatrix, 0, 16)
+        }
+    }
+
+    override fun clearRotationMatrix() {
+        mRotationMatrix = null
+    }
+
+    /**
      * lookat methods
      */
     override fun lookAt(rotation: PLRotation): Boolean {
-        return (if (mIsNotLocked) this.internalLookAt(Unit, rotation.pitch, rotation.yaw, false, true, false) else false)
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+            return this.internalLookAt(Unit, rotation.pitch, rotation.yaw, false, true, false)
+        }
+        return false
     }
 
     override fun lookAt(sender: Any, rotation: PLRotation): Boolean {
-        return (if (mIsNotLocked) this.internalLookAt(sender, rotation.pitch, rotation.yaw, false, true, false) else false)
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+            return this.internalLookAt(sender, rotation.pitch, rotation.yaw, false, true, false)
+        }
+        return false
     }
 
     override fun lookAt(rotation: PLRotation, animated: Boolean): Boolean {
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+        }
         return this.lookAt(Unit, rotation.pitch, rotation.yaw, animated)
     }
 
     override fun lookAt(sender: Any, rotation: PLRotation, animated: Boolean): Boolean {
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+        }
         return this.lookAt(sender, rotation.pitch, rotation.yaw, animated)
     }
 
     override fun lookAt(pitch: Float, yaw: Float): Boolean {
-        return (if (mIsNotLocked) this.internalLookAt(Unit, pitch, yaw, false, true, false) else false)
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+            return this.internalLookAt(Unit, pitch, yaw, false, true, false)
+        }
+        return false
     }
 
     override fun lookAt(sender: Any, pitch: Float, yaw: Float): Boolean {
-        return (if (mIsNotLocked) this.internalLookAt(sender, pitch, yaw, false, true, false) else false)
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+            return this.internalLookAt(sender, pitch, yaw, false, true, false)
+        }
+        return false
     }
 
     override fun lookAt(pitch: Float, yaw: Float, animated: Boolean): Boolean {
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+        }
         return this.lookAt(Unit, pitch, yaw, animated)
     }
 
     override fun lookAt(sender: Any, pitch: Float, yaw: Float, animated: Boolean): Boolean {
         if (mIsNotLocked) {
+            mRotationMatrix = null
             if (animated) {
                 if (!this.isAnimating && this.isPitchEnabled && this.isYawEnabled) {
                     this.internalStartAnimation(
@@ -597,11 +651,15 @@ class PLCamera : PLRenderableElementBase, PLICamera {
      * lookat and fov combined methods
      */
     override fun lookAtAndFov(pitch: Float, yaw: Float, fov: Float, animated: Boolean): Boolean {
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+        }
         return this.lookAtAndFov(Unit, pitch, yaw, fov, animated)
     }
 
     override fun lookAtAndFov(sender: Any, pitch: Float, yaw: Float, fov: Float, animated: Boolean): Boolean {
         if (mIsNotLocked) {
+            mRotationMatrix = null
             if (animated) {
                 if (!this.isAnimating && this.isPitchEnabled && this.isYawEnabled && mIsFovEnabled) {
                     this.internalStartAnimation(
@@ -717,6 +775,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
         var yaw = yaw
         var roll = roll
         if (mIsNotLocked) {
+            mRotationMatrix = null
             super.rotate(pitch, yaw, roll)
             pitch = this.pitch
             yaw = this.yaw
@@ -727,6 +786,9 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     }
 
     override fun rotate(startPoint: CGPoint, endPoint: CGPoint) {
+        if (mIsNotLocked) {
+            mRotationMatrix = null
+        }
         this.rotate(Unit, startPoint, endPoint)
     }
 
@@ -737,6 +799,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
             val didRotatePitch = (yOffset != 0.0f)
             val didRotateYaw = (xOffset != 0.0f)
             if (didRotatePitch || didRotateYaw) {
+                mRotationMatrix = null
                 val rotationSensitivity = mFov / PLConstants.kFovBaseline * this.rotationSensitivityByDisplayPPI
                 if (didRotatePitch) this.pitch += ((yOffset / PLConstants.kMaxDisplaySize * rotationSensitivity))
                 if (didRotateYaw) this.yaw += ((xOffset / PLConstants.kMaxDisplaySize * rotationSensitivity))
@@ -752,6 +815,14 @@ class PLCamera : PLRenderableElementBase, PLICamera {
     }
 
     override fun internalClear() = Unit
+
+    override fun rotate(gl: GL10) {
+        if (mRotationMatrix != null) {
+            gl.glMultMatrixf(mRotationMatrix, 0)
+        } else {
+            super.rotate(gl)
+        }
+    }
 
     override fun beginRender(gl: GL10, renderer: PLIRenderer) {
         this.rotate(gl)
@@ -796,6 +867,7 @@ class PLCamera : PLRenderableElementBase, PLICamera {
         mFovRange = null
         mListener = null
         this.internalListener = mListener
+        mRotationMatrix = null
         super.finalize()
     }
 

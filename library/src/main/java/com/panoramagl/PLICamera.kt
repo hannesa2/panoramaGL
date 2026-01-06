@@ -59,6 +59,14 @@ interface PLICamera : PLIRenderableElement {
     fun zoomOut(sender: Any, animated: Boolean): Boolean
 
     /**
+     * rotation matrix methods
+     */
+    fun hasRotationMatrix(): Boolean
+    fun getRotationMatrix(): FloatArray?
+    fun setRotationMatrix(matrix: FloatArray?)
+    fun clearRotationMatrix()
+
+    /**
      * lookat methods
      */
     fun lookAt(rotation: PLRotation): Boolean
