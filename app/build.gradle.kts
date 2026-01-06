@@ -1,6 +1,7 @@
 import info.git.versionHelper.getGitCommitCount
 import info.git.versionHelper.getLatestGitHash
 import info.git.versionHelper.getVersionText
+import info.git.versionHelper.println
 
 plugins {
     id("com.android.application")
@@ -15,7 +16,8 @@ android {
         compileSdk = 36
         targetSdkVersion(36)
         versionCode = getGitCommitCount()
-        versionName = "${getVersionText()}.$versionCode-${getLatestGitHash()}"
+        versionName = "${getVersionText()}.$versionCode"
+        println { "versionName=${versionName.green.bold} versionCode=${versionCode.green.bold}" }
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
