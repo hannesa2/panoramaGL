@@ -8,10 +8,13 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import info.hannes.timber.DebugFormatTree
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
+import timber.log.Timber
 
 
 @RunWith(AndroidJUnit4::class)
@@ -23,9 +26,14 @@ class SmokeTest {
     @get:Rule
     var nameRule = TestName()
 
+    @Before
+    fun setUp() {
+        Timber.plant(DebugFormatTree())
+    }
+
     @Test
     fun basicSmokeTest() {
-        Thread.sleep(100)
+        Thread.sleep(300)
         takeScreenshot().cropWithoutNotificationArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-start")
         onView(withId(R.id.button_1)).perform(ViewActions.click())
         takeScreenshot().cropWithoutNotificationArea().writeToTestStorage("${javaClass.simpleName}_${nameRule.methodName}-button1")
