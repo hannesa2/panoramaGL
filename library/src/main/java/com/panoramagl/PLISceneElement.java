@@ -23,9 +23,6 @@ import com.panoramagl.enumerations.PLSceneElementTouchStatus;
 import java.util.List;
 
 public interface PLISceneElement extends PLIRenderableElement {
-    /**
-     * property methods
-     */
 
     long getIdentifier();
 
