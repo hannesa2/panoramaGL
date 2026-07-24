@@ -5,7 +5,6 @@ import info.git.versionHelper.println
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
 }
 
 android {

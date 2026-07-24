@@ -833,19 +833,19 @@ class PLCamera : PLRenderableElementBase, PLICamera {
 
     override fun endRender(gl: GL10, renderer: PLIRenderer) = Unit
 
-    override fun clonePropertiesOf(pLIObject: PLIObject): Boolean {
-        if (mIsNotLocked && super.clonePropertiesOf(pLIObject)) {
-            if (pLIObject is PLICamera) {
-                this.fovRange = pLIObject.fovRange
-                this.fovSensitivity = pLIObject.fovSensitivity
-                this.minDistanceToEnableFov = pLIObject.minDistanceToEnableFov
-                this.initialFov = pLIObject.initialFov
-                this.isFovEnabled = pLIObject.isFovEnabled
-                this.setInternalFov(Unit, pLIObject.fov, true, false, false)
-                this.rotationSensitivity = pLIObject.rotationSensitivity
-                this.zoomLevels = pLIObject.zoomLevels
-                this.initialLookAt = pLIObject.initialLookAt
-                this.listener = pLIObject.listener
+    override fun clonePropertiesOf(`object`: PLIObject): Boolean {
+        if (mIsNotLocked && super.clonePropertiesOf(`object`)) {
+            if (`object` is PLICamera) {
+                this.fovRange = `object`.fovRange
+                this.fovSensitivity = `object`.fovSensitivity
+                this.minDistanceToEnableFov = `object`.minDistanceToEnableFov
+                this.initialFov = `object`.initialFov
+                this.isFovEnabled = `object`.isFovEnabled
+                this.setInternalFov(Unit, `object`.fov, true, false, false)
+                this.rotationSensitivity = `object`.rotationSensitivity
+                this.zoomLevels = `object`.zoomLevels
+                this.initialLookAt = `object`.initialLookAt
+                this.listener = `object`.listener
             }
             return true
         }
