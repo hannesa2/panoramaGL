@@ -1382,8 +1382,8 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         releaseViewObjects.add(renderer)
         releaseViewObjects.add(internalCameraListener)
         releaseViewObjects.add(mCurrentTransition)
-        releaseViewObjects.addAll(mInternalTouches!!)
-        releaseViewObjects.addAll(mCurrentTouches!!)
+        releaseViewObjects.addAll(mInternalTouches)
+        releaseViewObjects.addAll(mCurrentTouches)
         for (releaseViewObject in releaseViewObjects) releaseViewObject?.releaseView()
         releaseViewObjects.clear()
     }
@@ -1414,18 +1414,18 @@ open class PLManager(private val context: Context) : PLIView, SensorEventListene
         return this.getTouches(event, 1)
     }
 
-    fun getTouches(event: MotionEvent, tapCount: Int): List<UITouch?>? {
+    fun getTouches(event: MotionEvent, tapCount: Int): List<UITouch?> {
         mGLSurfaceView!!.getLocationOnScreen(mLocation)
         val top = mLocation[1]
         val left = mLocation[0]
-        mCurrentTouches!!.clear()
+        mCurrentTouches.clear()
         var i = 0
         val length = Math.min(event.pointerCount, kMaxTouches)
         while (i < length) {
-            val touch = mInternalTouches!![i]
-            touch!!.setPosition(event.getX(i) - left, event.getY(i) - top)
+            val touch = mInternalTouches[i]
+            touch.setPosition(event.getX(i) - left, event.getY(i) - top)
             touch.tapCount = tapCount
-            mCurrentTouches!!.add(touch)
+            mCurrentTouches.add(touch)
             i++
         }
         return mCurrentTouches
