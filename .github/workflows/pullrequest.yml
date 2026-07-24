@@ -83,7 +83,7 @@ jobs:
           SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
         run: |
           ls -ls app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
-          cp app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator-5554\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
+          cp app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
           ./screenShotScript/screenShotCompare.sh
       - name: Archive screenshots diffs
         if: ${{ always() }}
