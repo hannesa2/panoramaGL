@@ -73,7 +73,7 @@ void gluesCallErrorCallback(JNIEnv *env, jclass sclass, jobject qobj)
 		jmethodID methodID = (*env)->GetStaticMethodID(env, sclass, "gluQuadricError", "(Lcom/panoramagl/opengl/GLUquadric;I)V");
 		if (methodID)
 		{
-			(*env)->CallStaticVoidMethod(env, sclass, methodID, (jvalue*)qobj, (jvalue*)(jint)gluesErrorCode);
+			(*env)->CallStaticVoidMethod(env, sclass, methodID, qobj, gluesErrorCode);
 		}
 		gluesErrorCode = GLUES_ERROR_CODE;
 	}
