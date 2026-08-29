@@ -191,8 +191,8 @@ public class PLHotspot extends PLSceneElementBase implements PLIHotspot {
     }
 
     @Override
-    public void setAlpha(float alpha) {
-        this.setInternalAlpha(Math.min(alpha, this.getDefaultAlpha()));
+    public void setAlpha(float value) {
+        super.setAlpha(Math.min(value, this.getDefaultAlpha()));
     }
 
     @Override
