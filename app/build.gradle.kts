@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.panoramagl.sample"
         minSdk = 23
-        compileSdk = 36
+        compileSdk = 37
         versionCode = getGitCommitCount()
         versionName = "${getVersionText()}.$versionCode"
         println { "versionName=${versionName.green.bold} versionCode=${versionCode.green.bold}" }
