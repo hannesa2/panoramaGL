@@ -79,8 +79,6 @@ jobs:
         env:
           CLASSIC_TOKEN: ${{ secrets.CLASSIC_TOKEN }}
           emulatorApi: ${{ matrix.emulatorApi }}
-          SCREENSHOT_USER: ${{ secrets.SCREENSHOT_USER }}
-          SCREENSHOT_PASSWORD: ${{ secrets.SCREENSHOT_PASSWORD }}
         run: |
           ls -ls app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected
           cp app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator\(AVD\)\ -\ ${{ matrix.emulatorApi }}/* screenshotsToCompare${{ matrix.emulatorApi }}
