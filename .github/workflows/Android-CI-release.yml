@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
-      - uses: gradle/actions/wrapper-validation@v6.4.0
+      - uses: gradle/actions/wrapper-validation@v6.4.1
       - name: Find Tag
         id: tagger
         uses: jimschubert/query-tag-action@v2.3
